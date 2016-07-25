@@ -1,0 +1,26 @@
+<div class="row lomake">
+    <button ng-click="debug()">Paina mua</button>
+    <!-- Search bar -->
+    <form class="form-inline">
+        <h2>Mitä haluaisit tehdä?</h2>
+        <input type="text" class="form-control" ng-model='what' 
+               ng-change="query()" placeholder="etsi tekemisiä" autofocus>
+        <input type="text" class="form-control" ng-model="nick"
+               placeholder="kirjoita nikkisi">
+        <button class="btn btn-primary" ng-click="addNew()"> + </button>
+    </form>
+    <div>
+        <ul>
+            <li ng-repeat="wanna in userList">{{wanna.name}}</li>
+        </ul>
+    </div>
+    <!--Suggestion list comes here-->
+    <div id="searchbar" ng-show="what" class="list group">
+        <button type="button" class="list-group-item" 
+                ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity'" 
+                ng-click="wannaClicked(wanna)"
+                ng-class="wanna.clicked ? 'list-group-item-success' : ''">
+            {{wanna.name}} <span class="label label-default label-pill pull-xs-right">{{wanna.popularity}}</span>
+        </button>
+    </div>
+</div>
