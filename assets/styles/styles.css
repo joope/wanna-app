@@ -4,3 +4,19 @@
 .clicked {
     background-color: #99ff99;
 }
+
+.body{
+    background-color: #66ccff;
+}
+#searchbar {
+    padding-top: 10px;
+    max-width: 500px;
+}
+
+.lomake {
+    background-color: white;
+    text-align: center;
+    margin: auto;
+    max-width: 500px;
+    padding-top: 100px;
+}

@@ -33,9 +33,9 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': 'HomepageController.index',
-  'GET /signup': {view: 'signup'},
-  'GET /login': 'UserController.login',
-  'GET /auth/google': 'UserController.new'
+  
+  '/logout': 'AuthController.logout',
+  '/auth' : 'AuthController.getAuth'
 
   /***************************************************************************
   *                                                                          *

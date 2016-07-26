@@ -14,6 +14,12 @@
   </head>
 
   <body ng-app="WannaApp">
+    <nav>
+        <a href="#/">Etusivu</a>
+        <a href="#/profile">user.name</a>
+        <a href="#/login">Kirjaudu</a>
+        <a href="#/signup">Liity</a>
+    </nav>
     <%- body %>
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
@@ -22,7 +28,10 @@
     <script src="/js/dependencies/angular-route.js"></script>
     <script src="/js/dependencies/bootstrap.min.js"></script>
     <script src="/js/app/Wanna.js"></script>
+    <script src="/js/app/controllers/LoginController.js"></script>
     <script src="/js/app/controllers/SearchController.js"></script>
+    <script src="/js/app/controllers/SignupController.js"></script>
+    <script src="/js/app/services/WannaService.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

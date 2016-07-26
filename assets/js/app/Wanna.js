@@ -6,8 +6,11 @@ WannaApp.config(function($routeProvider){
         controller: 'SearchController',
         templateUrl: 'templates/search.html'
     }).when('/login', {
-        controller: 'UserController',
-        templateUrl: 'app/views/login.html'
+        controller: 'LoginController',
+        templateUrl: 'templates/login.html'
+    }).when('/signup', {
+        controller: 'SignupController',
+        templateUrl: 'templates/signup.html'
     }).otherwise({
         redirectTo: '/'
     });

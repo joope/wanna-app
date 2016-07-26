@@ -11,12 +11,14 @@ module.exports = {
   attributes: {
     username : {
         type : 'string',
+        size: "32",
+        minLength: 3,
         required: true,
-        size: "32"
+        unique: true
     },
     password : {
         type : 'string',
-        required: true,
+        //required: true,
         minLength: 7
     },
     toJSON: function() {
@@ -26,8 +28,8 @@ module.exports = {
     },
     email: {
         type: 'email',
-        required: true,
-        unique: true
+        //required: true,
+        //unique: true
     },
     wannas : {
         collection: "Wanna",
@@ -38,19 +40,6 @@ module.exports = {
         via: "users",
         dominant: true
     }
-  },
-  beforeCreate: function(user, cb) {
-        bcrypt.genSalt(8, function(err, salt) {
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if (err) {
-                    console.log(err);
-                    cb(err);
-                } else {
-                    user.password = hash;
-                    cb();
-                }
-            });
-        });
-    }
+  }
 };
 

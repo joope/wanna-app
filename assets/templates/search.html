@@ -1,25 +1,39 @@
+<p>moi {{userID}}</p>
 <div class="row lomake">
     <button ng-click="debug()">Paina mua</button>
+    <!-- Select nickname -->
+    <div ng-hide='nickValid'>
+        <h1>Valitse käyttäjätunnus</h1>
+        <form name="userForm" class="form-inline">
+            <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
+                   required ng-minlength='3'>
+            <button class="btn btn-primary" ng-click="newNick(nick)" 
+                   ng-disabled="!userForm.$valid">Jatka
+            </button>
+        </form>
+    </div>
+    
     <!-- Search bar -->
     <form class="form-inline">
         <h2>Mitä haluaisit tehdä?</h2>
         <input type="text" class="form-control" ng-model='what' 
                ng-change="query()" placeholder="etsi tekemisiä" autofocus>
-        <input type="text" class="form-control" ng-model="nick"
-               placeholder="kirjoita nikkisi">
-        <button class="btn btn-primary" ng-click="addNew()"> + </button>
+        <button class="btn btn-primary " ng-click="addNew()"> Lisää </button>
     </form>
+    <!--User selections-->
     <div>
         <ul>
-            <li ng-repeat="wanna in userList">{{wanna.name}}</li>
+            <button ng-repeat="wanna in userList">{{wanna.name}}</button>
         </ul>
     </div>
-    <!--Suggestion list comes here-->
+    
+    <!--List of suggestions-->
     <div id="searchbar" ng-show="what" class="list group">
         <button type="button" class="list-group-item" 
-                ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity'" 
+                ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:15" 
                 ng-click="wannaClicked(wanna)"
-                ng-class="wanna.clicked ? 'list-group-item-success' : ''">
+                ng-class="wanna.clicked ? 'list-group-item-success' : ''"
+                title='käyttäjät: {{getWannaUsers(wanna)}}'>
             {{wanna.name}} <span class="label label-default label-pill pull-xs-right">{{wanna.popularity}}</span>
         </button>
     </div>
