@@ -19,9 +19,9 @@
     
     <div class='animate-show' ng-show='userLoggedIn'>
         <!-- Search bar -->
-        <h2>Mitä haluaisit tehdä?</h2>
+        <h1>Mitä haluaisit tehdä?</h1>
         <div>
-        <form name="wannaForm" class="form-inline">
+        <form name="wannaForm" class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" ng-model='what' 
                        placeholder="etsi tekemisiä" required autofocus>
@@ -41,7 +41,7 @@
         <!--List of suggestions-->
         <div id="searchbar" ng-show="what" class="list group">
             <button type="button" class="list-group-item" 
-                    ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:15" 
+                    ng-repeat="wanna in wannaList | filter:{name: what} | orderBy:'-popularity' | limitTo:15" 
                     ng-click="wannaClicked(wanna)"
                     ng-class="checkUsers(wanna) ? 'list-group-item-info' : ''"
                     title='{{getWannaUsers(wanna)}}'>

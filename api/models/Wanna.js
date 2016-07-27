@@ -25,6 +25,9 @@ module.exports = {
       wannados: {
           collection: "Wannado",
           via: "wanna"
+      },
+      poll: {
+          model: "poll"
       }
   }
 };

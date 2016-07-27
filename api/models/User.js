@@ -39,6 +39,9 @@ module.exports = {
         collection: "Wannado",
         via: "users",
         dominant: true
+    },
+    poll: {
+        model: "poll"
     }
   }
 };
