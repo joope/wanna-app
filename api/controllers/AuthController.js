@@ -43,7 +43,7 @@ module.exports = {
 
     },
     logout: function(req, res) {
-        req.session = null;
+        req.session.destroy();
         res.redirect('/');
     }
 };

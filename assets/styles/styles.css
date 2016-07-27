@@ -4,26 +4,77 @@
 .clicked {
     background-color: #99ff99;
 }
+.nav-link-right{
+    float: right;
+    padding-left: 1em;
+}
 ul{
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
+}
+.input {
+    width: 100%;
+}
+form {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.stripe-1 {
+  background: repeating-linear-gradient(
+    45deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+    );
+}
+
+.animate-show {
+  opacity: 1;
+}
+
+.animate-show.ng-hide-remove {
+  transition: all ease-out 0.5s;
+}
+
+.animate-show.ng-hide {
+  opacity: 0;
 }
 
 .tag {
     border-radius: 5px;
-    background-color: white;
-    border-color: #66ccff;
+    background-color: #4ac6ea;
+    border-color: #b1e5ff;
     border-width: 1px;
     border-style: solid;
+    color: #fdffdc;
     margin-left: 2px;
+    margin-bottom: 2px;
 }
 
-.body{
-    background-color: #66ccff;
+body{
+    background-color: #90e3ff;
 }
 #searchbar {
     padding-top: 0px;
     max-width: 500px;
+}
+#results {
+    background-color: white;
+    margin: auto;
+    max-width: 500px;
+}
+
+.borders {
+    border-radius: 10px;
+    border-color: #e8e8e8;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.nopadding {
+    padding: 0px;
 }
 
 .lomake {
@@ -31,5 +82,5 @@ ul{
     text-align: center;
     margin: auto;
     max-width: 500px;
-    padding-top: 100px;
+    margin-top: 100px;
 }

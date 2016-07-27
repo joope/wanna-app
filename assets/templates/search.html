@@ -1,26 +1,36 @@
 <p>moi {{userLoggedIn}} {{userID}}</p>
-<div class="row lomake">
+<div class="row lomake borders">
 <!--    <button ng-click="debug()">Paina mua</button>-->
     <!-- Select nickname -->
-    <div ng-hide='userLoggedIn'>
+    <div class='animate-show'  ng-hide='userLoggedIn'>
         <h1>Valitse käyttäjätunnus</h1>
-        <form name="userForm" class="form-inline">
-            <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
-                   required ng-minlength='3'>
-            <button class="btn btn-primary" ng-click="newNick(nick)" 
-                   ng-disabled="!userForm.$valid">Jatka
-            </button>
+        <form name="userForm" class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
+                       required ng-minlength='3'>
+                <span class="input-group-btn">
+                    <button class="btn btn-info" ng-click="newNick(nick)" 
+                           ng-disabled="!userForm.$valid">Jatka
+                    </button>
+                </span>
+            </div>
         </form>
     </div>
     
-    <div ng-show="userLoggedIn">
+    <div class='animate-show' ng-show='userLoggedIn'>
         <!-- Search bar -->
+        <h2>Mitä haluaisit tehdä?</h2>
+        <div>
         <form name="wannaForm" class="form-inline">
-            <h2>Mitä haluaisit tehdä?</h2>
-            <input type="text" class="form-control" ng-model='what' 
-                   placeholder="etsi tekemisiä" required autofocus>
-            <button class="btn btn-primary " ng-click="addNew()"
-                    ng-disabled="!wannaForm.$valid"> Lisää </button>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model='what' 
+                       placeholder="etsi tekemisiä" required autofocus>
+                <span class="input-group-btn">
+                    <button class="btn btn-info " ng-click="addNew()"
+                            ng-disabled="!wannaForm.$valid"> + 
+                    </button>
+                </span>
+            </div>
         </form>
         <!--User selections-->
         <div>
@@ -33,10 +43,11 @@
             <button type="button" class="list-group-item" 
                     ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:15" 
                     ng-click="wannaClicked(wanna)"
-                    ng-class="checkUsers(wanna) ? 'list-group-item-success' : ''"
+                    ng-class="checkUsers(wanna) ? 'list-group-item-info' : ''"
                     title='{{getWannaUsers(wanna)}}'>
-                {{wanna.name}} <span class="label label-default label-pill pull-xs-right">{{wanna.popularity}}</span>
+                {{wanna.name}} <span class="badge">{{wanna.popularity}}</span>
             </button>
+        </div>
         </div>
     </div>
 </div>

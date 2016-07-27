@@ -1,0 +1,12 @@
+<div id="results" class='borders'>
+    <h2 class="text-center">Tulokset</h2>
+    <ul class="list-group">
+        <li class="list-group-item" 
+            ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:50" 
+            ng-class="checkUsers(wanna) ? 'list-group-item-success' : ''"
+            title='{{getWannaUsers(wanna)}}'>
+            {{wanna.name}} 
+            <span class="badge">{{wanna.popularity}}</span>
+        </li>
+    </ul>
+</div>
