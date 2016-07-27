@@ -1,4 +1,10 @@
 WannaApp.service('Api', function($http){
+    this.login = function(){
+        return $http.post('/login');
+    }
+    this.register = function(username){
+        return $http.post('/register', {username: username});
+    }
     this.getWannas = function(){
         return $http.get('/wanna');
     }

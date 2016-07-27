@@ -13,17 +13,37 @@ module.exports = {
         shortcuts: false,
         rest: false
     },
-    getAuth: function(req, res){
-        var session = req.session;
-            if (req.isSocket) {
-            var handshake = req.socket.manager.handshaken[req.socket.id];
-            if (handshake) {
-                session = handshake.session;
-            }
+    login: function(req, res){
+        if(req.session.userID){
+            User.findOne({id: req.session.userID}, function(err, user){
+                if(err) return res.json({error: 'error logging in'});
+                if (!user) return res.json({error: 'new user'});
+                return res.json({
+                    userID: user.id, 
+                    username: user.username
+                });
+            });
+        } else {
+            return res.json({newUser: true});
         }
     },
+    register: function(req, res){
+        User.findOne({username: req.body.username}, function(err, user){
+            if(err) return res.negotiate(err);
+            if (user) return res.json({error: 'username taken!'});
+            User.create({username: req.body.username}).exec(function(err, user){
+                if(user){
+                    req.session.userID = user.id;
+                    return res.json(user);
+                } else{
+                    return res.json({error: "virhe luotaessa käyttäjää"});
+                }
+            })
+        })
+
+    },
     logout: function(req, res) {
-        req.logout();
+        req.session = null;
         res.redirect('/');
     }
 };

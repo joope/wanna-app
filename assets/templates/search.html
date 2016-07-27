@@ -1,8 +1,8 @@
-<p>moi {{userID}}</p>
+<p>moi {{userLoggedIn}} {{userID}}</p>
 <div class="row lomake">
-    <button ng-click="debug()">Paina mua</button>
+<!--    <button ng-click="debug()">Paina mua</button>-->
     <!-- Select nickname -->
-    <div ng-hide='nickValid'>
+    <div ng-hide='userLoggedIn'>
         <h1>Valitse käyttäjätunnus</h1>
         <form name="userForm" class="form-inline">
             <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
@@ -13,28 +13,30 @@
         </form>
     </div>
     
-    <!-- Search bar -->
-    <form class="form-inline">
-        <h2>Mitä haluaisit tehdä?</h2>
-        <input type="text" class="form-control" ng-model='what' 
-               ng-change="query()" placeholder="etsi tekemisiä" autofocus>
-        <button class="btn btn-primary " ng-click="addNew()"> Lisää </button>
-    </form>
-    <!--User selections-->
-    <div>
-        <ul>
-            <button ng-repeat="wanna in userList">{{wanna.name}}</button>
-        </ul>
-    </div>
-    
-    <!--List of suggestions-->
-    <div id="searchbar" ng-show="what" class="list group">
-        <button type="button" class="list-group-item" 
-                ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:15" 
-                ng-click="wannaClicked(wanna)"
-                ng-class="wanna.clicked ? 'list-group-item-success' : ''"
-                title='käyttäjät: {{getWannaUsers(wanna)}}'>
-            {{wanna.name}} <span class="label label-default label-pill pull-xs-right">{{wanna.popularity}}</span>
-        </button>
+    <div ng-show="userLoggedIn">
+        <!-- Search bar -->
+        <form name="wannaForm" class="form-inline">
+            <h2>Mitä haluaisit tehdä?</h2>
+            <input type="text" class="form-control" ng-model='what' 
+                   placeholder="etsi tekemisiä" required autofocus>
+            <button class="btn btn-primary " ng-click="addNew()"
+                    ng-disabled="!wannaForm.$valid"> Lisää </button>
+        </form>
+        <!--User selections-->
+        <div>
+            <ul>
+                <button class="tag" ng-repeat="wanna in userList">{{wanna.name}}</button>
+            </ul>
+        </div>
+        <!--List of suggestions-->
+        <div id="searchbar" ng-show="what" class="list group">
+            <button type="button" class="list-group-item" 
+                    ng-repeat="wanna in wannaList | filter:what | orderBy:'-popularity' | limitTo:15" 
+                    ng-click="wannaClicked(wanna)"
+                    ng-class="checkUsers(wanna) ? 'list-group-item-success' : ''"
+                    title='{{getWannaUsers(wanna)}}'>
+                {{wanna.name}} <span class="label label-default label-pill pull-xs-right">{{wanna.popularity}}</span>
+            </button>
+        </div>
     </div>
 </div>

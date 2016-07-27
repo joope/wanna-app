@@ -34,17 +34,15 @@ module.exports.policies = {
   * and its actions                                                          *
   *                                                                          *
   ***************************************************************************/
-WannaController: {
-
-        // Apply the `false` policy as the default for all of RabbitController's actions
-        // (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-//    '*': isAuthenticated,
-
-    //For the action `nurture`, apply the 'isRabbitMother' policy
-    //(this overrides `false` above)
-//    create	: 'isAuthenticated',
-//    update      : 'isAuthenticated'
-    // Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-    // before letting any users feed our rabbits
-}
+    WannaController: {
+        '*': 'isAuthenticated',
+        'find': true
+    },
+    UserController: {
+        '*': 'isAuthenticated',
+        'create': true
+    },
+    WannadoController: {
+        '*': 'isAuthenticated'
+    }
 };

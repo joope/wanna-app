@@ -34,8 +34,9 @@ module.exports.routes = {
 
   '/': 'HomepageController.index',
   
-  '/logout': 'AuthController.logout',
-  '/auth' : 'AuthController.getAuth'
+  '/login': 'AuthController.login',
+  '/register': 'AuthController.register',
+  '/logout' : 'AuthController.logout'
 
   /***************************************************************************
   *                                                                          *

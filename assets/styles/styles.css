@@ -4,12 +4,25 @@
 .clicked {
     background-color: #99ff99;
 }
+ul{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tag {
+    border-radius: 5px;
+    background-color: white;
+    border-color: #66ccff;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 2px;
+}
 
 .body{
     background-color: #66ccff;
 }
 #searchbar {
-    padding-top: 10px;
+    padding-top: 0px;
     max-width: 500px;
 }
 
