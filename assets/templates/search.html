@@ -1,4 +1,5 @@
 <p>moi {{userLoggedIn}} {{userID}}</p>
+<button ng-click="debug()">debug</button>
 <div class="row lomake borders">
 <!--    <button ng-click="debug()">Paina mua</button>-->
     <!-- Select nickname -->
@@ -15,16 +16,17 @@
                 </span>
             </div>
         </form>
+        <p class="error">{{error}}</p>
     </div>
     
     <div class='animate-show' ng-show='userLoggedIn'>
         <!-- Search bar -->
-        <h1>Mitä haluaisit tehdä?</h1>
+        <h1>Mitä haluut tehdä?</h1>
         <div>
         <form name="wannaForm" class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" ng-model='what' 
-                       placeholder="etsi tekemisiä" required autofocus>
+                       placeholder="ehdotukset tänne" required autofocus>
                 <span class="input-group-btn">
                     <button class="btn btn-info " ng-click="addNew()"
                             ng-disabled="!wannaForm.$valid"> + 
@@ -34,8 +36,10 @@
         </form>
         <!--User selections-->
         <div>
-            <ul>
-                <button class="tag" ng-repeat="wanna in userList">{{wanna.name}}</button>
+            <ul id="tags">
+                <li class="tag" ng-repeat="wanna in userList">{{wanna.name}}
+                    <button class="btn-link btn_remove" ng-click="removeWanna(wanna)">X</button>
+                </li>
             </ul>
         </div>
         <!--List of suggestions-->

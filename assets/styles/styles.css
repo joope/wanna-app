@@ -11,13 +11,53 @@
 ul{
     margin-top: 5px;
     margin-bottom: 3px;
+    padding-left: 0px;
+    list-style: none;
 }
+
+ul#tags li {
+    display:inline-block;
+    margin-left: 5px;
+    padding-left: 7px;
+}
+.btn_remove {
+/*    color: #A00000;*/
+    padding: 2px;
+    border: none;
+}
+
 .input {
     width: 100%;
 }
 form {
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.otsikko {
+    background-color: #414141 !important;
+    color: white !important;
+}
+
+.btn_add{
+    padding-bottom: 0px;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-top: 0px;
+    margin: 0;
+    float: right;
+}
+
+.events {
+    padding-top: 0px;
+}
+
+.nopadding {
+    padding: 0px;
+}
+
+.date {
+    padding-right: 10px;
 }
 
 .stripe-1 {
@@ -42,7 +82,11 @@ form {
   opacity: 0;
 }
 
+
+
 .tag {
+    padding-left: 5px;
+    padding-right: 5px;
     border-radius: 5px;
     background-color: #4ac6ea;
     border-color: #b1e5ff;

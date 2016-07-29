@@ -1,0 +1,28 @@
+<h1>Events</h1>
+<button ng-click="debug()">debug</button>
+<div id='events'>
+    <div class="panel panel-default" ng-repeat='wanna in wannaList'>
+        <!-- Default panel contents -->
+        <div class="panel-heading otsikko">
+            {{wanna.name}}
+            <span>
+                <button ng-click="newEvent(wanna)" class='btn btn-success btn_add'> lisää eventti
+                </button>
+            </span>
+
+        </div>
+        <!-- List group -->
+            <div class="list group row">
+                <button type="button" class="list-group-item" 
+                        ng-repeat="event in events| orderBy:'-date' | limitTo:15" 
+                        ng-class="checkUsers(event) ? 'list-group-item-info' : ''"
+                        ng-click="eventClicked(event)"
+                        title='{{getEventUsers(event)}}'>
+                    {{event.place}} 
+                    <span class="badge">{{event.users.length}}/{{event.maxSize}}</span>
+                    <span class="pull-right date">{{event.date| date:'dd.MM.yyyy @ HH:mm'}}</span>
+                    
+                </button>
+        </div>
+    </div>
+</div>

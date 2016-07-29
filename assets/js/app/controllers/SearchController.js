@@ -90,11 +90,30 @@ WannaApp.controller('SearchController', function($scope, $rootScope, Api){
         
         Api.register(nick).success(function(res){
             console.log(res);
-            $rootScope.userID = res.id;
-            $rootScope.userLoggedIn = res.username;
+            if(!res.error){
+                $scope.error = "";
+                $rootScope.userID = res.id;
+                $rootScope.userLoggedIn = res.username;
+            } else{
+                $scope.error = res.error;
+            }
         }).error(function(data, status){
             console.log("couldn't save nickname");
         });
+    }
+    
+    $scope.removeWanna = function(wanna){
+        $scope.userList.splice($scope.userList.indexOf(wanna), 1);
+        Api.updateWanna(wanna, {popularity: (wanna.popularity - 1)}).success(function(res){
+            console.log(res);
+            Api.removeUserFromWanna($rootScope.userID, wanna.id).success(function(res){
+                console.log("removed user from wanna" + res);
+                }).error(function () {
+                    console.log("couldn't remove user from wanna");
+                });
+            }).error(function(err){
+                console.log(err);
+            });
     }
         
     
@@ -103,37 +122,29 @@ WannaApp.controller('SearchController', function($scope, $rootScope, Api){
         
         if(!wanna.clicked){
             wanna.popularity += 1;
-            $scope.userList.push(wanna);
             wanna.clicked = true;
-            
-            io.socket.put('/wanna/' + wanna.id, {
-                popularity: wanna.popularity
-            },function(res, jwres){
-                console.log(res);
+            Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function(res){
+                Api.addUserToWanna($rootScope.userID, wanna.id).success(function(res){
+                    console.log("added user to wanna");
+                    $scope.userList.push(wanna);
+                }).error(function(){
+                    console.log("couldn't add user to wanna");
+                });
             });
-            
-            //calculate popularity server side using new user count!
-            
-            Api.addUserToWanna($rootScope.userID, wanna.id).success(function(){
-                console.log("added user to wanna");
-            }).error(function(){
-                console.log("couldn't add user to wanna");
-            });
-        } else{
+
+        } else{            
             wanna.popularity -= 1;
-            $scope.userList.splice($scope.userList.indexOf(wanna), 1);
             wanna.clicked = false;
-            
-            io.socket.put('/wanna/' + wanna.id, {
-                popularity: wanna.popularity
-            },function(res, jwres){
+            Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function(res){
                 console.log(res);
-            });
-            
-            Api.removeUserFromWanna($rootScope.userID, wanna.id).success(function(){
-                console.log("removed user from wanna");
-            }).error(function(){
-                console.log("couldn't remove user from wanna");
+                Api.removeUserFromWanna($rootScope.userID, wanna.id).success(function(res){
+                    console.log("removed user from wanna" + res);
+                        $scope.userList.splice($scope.userList.indexOf(wanna), 1);
+                    }).error(function () {
+                        console.log("couldn't remove user from wanna");
+                    });
+            }).error(function(err){
+                console.log(err);
             });
             
         }

@@ -13,6 +13,25 @@ WannaApp.service('Api', function($http){
         return $http.get('/user/' + userID + '/wannas');
     }
     
+    this.getEvents = function(){
+        return $http.get('/event');
+    }
+    this.getWannaEvents = function(wannaID){
+        return $http.get('/event/' + wannaID + '/events');
+    }
+    
+    this.newEvent = function(event){
+        return $http.post('/event', event);
+    }
+    
+    this.addEventToWanna = function(event, wannaID){
+        return $http.post('/wanna/' + wannaID + '/events', event);
+    }
+    
+    this.updateWanna = function(wanna, json){
+        return $http.put('/wanna/' + wanna.id, json);
+    }
+    
     this.addWanna = function(wanna){
         return $http.post('/wanna', wanna);
     }
@@ -25,8 +44,16 @@ WannaApp.service('Api', function($http){
         return $http.post('/wanna/' + wannaID + '/users/' + userID);
     }
     
+    this.addUserToEvent = function(userID, eventID){
+        return $http.post('/event/' + eventID + '/users/' + userID);
+    }
+    
     this.removeUserFromWanna = function(userID, wannaID){
         return $http.delete('/wanna/' + wannaID + '/users/' + userID);
+    }
+    
+    this.removeUserFromEvent = function(userID, eventID){
+        return $http.delete('/event/' + eventID + '/users/' + userID);
     }
     
 })

@@ -27,21 +27,19 @@ module.exports = {
         return obj;
     },
     email: {
-        type: 'email',
+        type: 'email'
         //required: true,
         //unique: true
     },
     wannas : {
         collection: "Wanna",
-        via: "users"
-    },
-    wannados: {
-        collection: "Wannado",
         via: "users",
         dominant: true
     },
-    poll: {
-        model: "poll"
+    events: {
+        collection: "Event",
+        via: "users",
+        dominant: true
     }
   }
 };

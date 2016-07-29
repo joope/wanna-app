@@ -14,11 +14,7 @@ module.exports = {
             required: true
       },
       wannas: {
-            collection: "User",
-            via: "poll"
-      },
-      users: {
-            collection: "User",
+            collection: "Wanna",
             via: "poll"
       }
   }

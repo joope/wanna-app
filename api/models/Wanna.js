@@ -22,8 +22,8 @@ module.exports = {
           collection: "User",
           via: "wannas"
       },
-      wannados: {
-          collection: "Wannado",
+      events: {
+          collection: "Event",
           via: "wanna"
       },
       poll: {

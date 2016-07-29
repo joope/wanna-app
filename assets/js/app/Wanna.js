@@ -28,6 +28,17 @@ WannaApp.config(function($routeProvider){
     }).when('/signup', {
         controller: 'SignupController',
         templateUrl: 'templates/signup.html'
+    }).when('/events', {
+        controller: 'EventsController',
+        templateUrl: 'templates/events.html',
+        resolve: {
+        userLoggedIn: function($rootScope, Api){
+          return Api.login().success(function(user){
+            $rootScope.userLoggedIn = user.username;
+            $rootScope.userID = user.userID;
+          });
+        }
+      }
     }).otherwise({
         redirectTo: '/'
     });
