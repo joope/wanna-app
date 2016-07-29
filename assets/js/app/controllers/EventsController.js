@@ -2,6 +2,7 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
     $scope.wannaList;
     $scope.events;
     $scope.user;
+    $scope.date = new Date();
 
     $scope.debug = function () {
         console.log($scope.wannaList);
@@ -9,15 +10,15 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
         console.log($scope.user);
     }
 
-//    Api.getUserWannas($rootScope.userID).success(function (res) {
-//        $scope.wannaList = res;
-//    });
-    
-    io.socket.get('/user/' + $rootScope.userID, function(body, response) {
-        $scope.wannaList = body.wannas;
-        $scope.user = body;
-        $scope.$apply();
+    Api.getUserWannas($rootScope.userID).success(function (res) {
+        $scope.wannaList = res;
     });
+    
+//    io.socket.get('/user/' + $rootScope.userID, function(body, response) {
+//        $scope.wannaList = body.wannas;
+//        $scope.user = body;
+//        $scope.$apply();
+//    });
 
     io.socket.get('/event', function (body, response) {
         $scope.events = body;
@@ -26,21 +27,24 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
 
     io.socket.on('event', function listUpdate(update) {
         console.log('Events updated: ', update);
-        Api.getWannaEvents($rootScope.userID).success(function (res) {
+        Api.getEvents().success(function(res){
             $scope.events = res;
-        });
+        })
+//        Api.getWannaEvents($rootScope.userID).success(function (res) {
+//            $scope.events = res;
+//        });
     });
 
-    $scope.newEvent = function (event, wanna) {
-        console.log("luodaan event " + wanna.id);
+    $scope.newEvent = function (wannaID, place, date, min, max) {
+        console.log("luodaan event " + place, date, min, max);
         Api.addEventToWanna({
-            "wanna": wanna.id,
-            "date": "2016-09-01T00:00:00.000Z",
-            "place": "suvelan ostari",
+            "wanna": wannaID,
+            "date": date,
+            "place": place,
             "ready": false,
-            "maxSize": 12,
-            "minSize": 2
-        }, wanna.id);
+            "maxSize": min,
+            "minSize": max
+        }, wannaID);
     }
 
     $scope.getEventUsers = function (event) {

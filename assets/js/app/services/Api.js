@@ -17,7 +17,7 @@ WannaApp.service('Api', function($http){
         return $http.get('/event');
     }
     this.getWannaEvents = function(wannaID){
-        return $http.get('/event/' + wannaID + '/events');
+        return $http.get('/wanna/' + wannaID + '/events');
     }
     
     this.newEvent = function(event){

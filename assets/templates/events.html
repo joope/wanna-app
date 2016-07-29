@@ -6,23 +6,35 @@
         <div class="panel-heading otsikko">
             {{wanna.name}}
             <span>
-                <button ng-click="newEvent(wanna)" class='btn btn-success btn_add'> lisää eventti
+                <button ng-click="wanna.isToggled = !wanna.isToggled" class='btn btn-success btn_add'> +
                 </button>
             </span>
-
+        </div>
+        <div class="" ng-show="wanna.isToggled">
+            <form name="{{wanna.id}}" class="">
+                <div class="row">
+                <input type="text" class="col-xs-12 col-md-3" placeholder="paikka" ng-model="paikka">
+                <input type="date" class="col-xs-4 col-md-3" ng-model="pvm">
+                <input type="number" class="col-xs-4 col-md-3" placeholder="min-osallistujat" ng-model="min">
+                <input type="number" class="col-xs-4 col-md-3" placeholder="max-osallistujat" ng-model="max">
+                </div>
+            </form>
+            <button class="btn btn-success btn-block"
+                ng-click="newEvent(wanna.id, paikka, pvm, min, max)">Lisää tapahtuma
+            </button>
         </div>
         <!-- List group -->
-            <div class="list group row">
-                <button type="button" class="list-group-item" 
-                        ng-repeat="event in events| orderBy:'-date' | limitTo:15" 
-                        ng-class="checkUsers(event) ? 'list-group-item-info' : ''"
-                        ng-click="eventClicked(event)"
-                        title='{{getEventUsers(event)}}'>
-                    {{event.place}} 
-                    <span class="badge">{{event.users.length}}/{{event.maxSize}}</span>
-                    <span class="pull-right date">{{event.date| date:'dd.MM.yyyy @ HH:mm'}}</span>
-                    
-                </button>
+        <div class="list group row">
+            <button type="button" class="list-group-item" 
+                    ng-repeat="event in events| orderBy:'-date' | limitTo:15" 
+                    ng-class="checkUsers(event) ? 'list-group-item-info' : ''"
+                    ng-click="eventClicked(event)"
+                    title='{{getEventUsers(event)}}'>
+                {{event.place}} 
+                <span class="badge">{{event.users.length}}/{{event.maxSize}}</span>
+                <span class="pull-right date">{{event.date| date:'dd.MM.yyyy @ HH:mm'}}</span>
+
+            </button>
         </div>
     </div>
 </div>
