@@ -28,6 +28,10 @@ module.exports = {
           type: "boolean",
           defaultsTo : false
       },
+	  currentSize: {
+		  type: "integer",
+		  defaultsTo: 1
+	  },
       maxSize: {
           type: "integer",
           defaultsTo: 12

@@ -1,38 +1,50 @@
 <h1>Events</h1>
 <button ng-click="debug()">debug</button>
-<div id='events'>
-    <div class="panel panel-default" ng-repeat='wanna in wannaList'>
-        <!-- Default panel contents -->
-        <div class="panel-heading otsikko">
-            {{wanna.name}}
-            <span>
-                <button ng-click="wanna.isToggled = !wanna.isToggled" class='btn btn-success btn_add'> +
-                </button>
-            </span>
+<div class='events form'>
+    <div class="paneeli" ng-repeat='wanna in wannaList' 
+	ng-init="wanna.isToggled = true">
+	        <!-- List group -->
+		<div class="clearfix otsikko">
+			<span>
+				<button ng-click="wanna.toggleForm = !wanna.toggleForm" class='btn btn-success btn_add'> lisää
+				</button>
+			</span>	
+		<div class="nimi">
+		{{wanna.name}}
+		</diV>
+
         </div>
-        <div class="" ng-show="wanna.isToggled">
-            <form name="{{wanna.id}}" class="">
-                <div class="row">
-                <input type="text" class="col-xs-12 col-md-3" placeholder="paikka" ng-model="paikka">
-                <input type="date" class="col-xs-4 col-md-3" ng-model="pvm">
-                <input type="number" class="col-xs-4 col-md-3" placeholder="min-osallistujat" ng-model="min">
-                <input type="number" class="col-xs-4 col-md-3" placeholder="max-osallistujat" ng-model="max">
-                </div>
-            </form>
-            <button class="btn btn-success btn-block"
-                ng-click="newEvent(wanna.id, paikka, pvm, min, max)">Lisää tapahtuma
-            </button>
-        </div>
-        <!-- List group -->
-        <div class="list group row">
+        <div class="list group" ng-show="wanna.isToggled">			
+			<!-- Event adding form -->
+			<div class="" ng-show="wanna.toggleForm">
+				<form name="{{wanna.id}}" class="">
+					<div class="row addEvent">
+					<input type="text" class="col-xs-12 col-md-3" placeholder="paikka" ng-model="paikka">
+					<input type="date" class="col-xs-4 col-md-3" ng-model="pvm">
+					<input type="number" class="col-xs-4 col-md-3" placeholder="min-osallistujat" ng-model="min">
+					<input type="number" class="col-xs-4 col-md-3" placeholder="max-osallistujat" ng-model="max">
+					</div>
+				</form>
+				<button class="btn btn-success btn-block"
+					ng-click="newEvent(wanna.id, paikka, pvm, min, max)">Lisää tapahtuma
+				</button>
+			</div>
+			
+			<!-- no events found message -->
+			<button ng-show="!wanna.events && !wanna.toggleForm && wanna.searched" ng-click="wanna.toggleForm = true" 
+			type="button" class="list-group-item list-group-item-warning">
+				Ei löydetty tapahtumia, lisää klikkamalla tästä
+			</button>
+			
+			<!-- list of events here -->
             <button type="button" class="list-group-item" 
-                    ng-repeat="event in events| orderBy:'-date' | limitTo:15" 
+                    ng-repeat="event in wanna.events | orderBy:'date' | limitTo:15" 
                     ng-class="checkUsers(event) ? 'list-group-item-info' : ''"
                     ng-click="eventClicked(event)"
                     title='{{getEventUsers(event)}}'>
                 {{event.place}} 
-                <span class="badge">{{event.users.length}}/{{event.maxSize}}</span>
-                <span class="pull-right date">{{event.date| date:'dd.MM.yyyy @ HH:mm'}}</span>
+                <span class="badge">{{event.users.length}}/{{event.maxSize}} </span>
+                <span class="pull-right date">{{event.date| date:'dd.MM'}}</span>
 
             </button>
         </div>

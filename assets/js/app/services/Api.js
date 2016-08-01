@@ -12,7 +12,10 @@ WannaApp.service('Api', function($http){
     this.getUserWannas = function(userID){
         return $http.get('/user/' + userID + '/wannas');
     }
-    
+    this.getUserEvents = function(){
+		return $http.get('/user/getEvents');
+	}
+	
     this.getEvents = function(){
         return $http.get('/event');
     }

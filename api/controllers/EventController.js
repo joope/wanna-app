@@ -6,6 +6,10 @@
  */
 
 module.exports = {
-	
+	getUserEvents: function(req, res){
+		var json;
+		User.query('SELECT * FROM event');
+		return res.json(json);
+	}
 };
 
