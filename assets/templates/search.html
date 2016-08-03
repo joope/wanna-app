@@ -1,5 +1,6 @@
-<p>moi {{userLoggedIn}} {{userID}}</p>
-<button ng-click="debug()">debug</button>
+<p>1.) lisää kiinnostuksen kohteita </p>
+<p>2.) liity tapahtumiin tai luo tapahtumia </p>
+<p>3.) jos on tarpeeksi osallistuja niin tapahtuma lukitaan ja se näkyy vihreällä omassa listassa</p>
 <div class="row lomake borders">
 <!--    <button ng-click="debug()">Paina mua</button>-->
     <!-- Select nickname -->
@@ -21,12 +22,12 @@
     
     <div class='animate-show' ng-show='userLoggedIn'>
         <!-- Search bar -->
-        <h1>Mitä haluut tehdä?</h1>
+        <h1 class="searchHeader">Mitä haluaisit tehdä?</h1>
         <div>
         <form name="wannaForm" class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" ng-model='what' 
-                       placeholder="ehdotukset tänne" required autofocus>
+                       placeholder="pelaa cs, ottaa es" required autofocus>
                 <span class="input-group-btn">
                     <button class="btn btn-info " ng-click="addNew()"
                             ng-disabled="!wannaForm.$valid"> + 

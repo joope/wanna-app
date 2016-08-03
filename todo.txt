@@ -1,0 +1,12 @@
+TODO
+
+-tarkista servulla, onko eventti tullut täyteen
+jos on, laitetaan käyttäjille ilmoitus!
+-aja tarkistuskomento jokaisen muokkauksen jälkeen?
+-poista mahdollisuus muokata "valmista" tapahtumaa
+
+!! miten triggeröidä socket.emit tämän jälkeen !!
+
+kirjautuminen:
+google-kirjautuminen
+-vaatii osoitteen

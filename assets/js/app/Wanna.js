@@ -39,7 +39,19 @@ WannaApp.config(function($routeProvider){
           });
         }
       }
-    }).otherwise({
+    }).when('/calendar', {
+		controller: 'CalendarController',
+		templateUrl: 'templates/calendar.html',         
+		resolve: {
+        userLoggedIn: function($rootScope, Api){
+          return Api.login().success(function(user){
+            $rootScope.userLoggedIn = user.username;
+            $rootScope.userID = user.userID;
+          });
+        }
+		}
+	})
+	.otherwise({
         redirectTo: '/'
     });
 });

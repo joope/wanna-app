@@ -1,0 +1,27 @@
+<div class='events form borders'>
+	<h1 class="text-center paaotsikko">Kalenteri</h1>
+        <div class="list group">			
+			
+			<!-- list of events here -->
+            <div type="button" class="list-group-item" 
+                    ng-repeat="event in events | orderBy:'date' | limitTo:50" 
+                    ng-class="event.ready ? 'list-group-item-success' : ''"
+                    ng-click="eventClicked(event)"
+					ng-if="!oldEvent(event)"
+                    title='{{getEventUsers(event)}}'>
+				<h4 class="list-group-item-heading">{{event.wanna.name}}
+					<span>
+					<button class="btn-link btn_remove" ng-if="!event.ready" ng-click="eventClicked(event)">x</button>
+					</span>
+					<span class="badge pull-right"
+					ng-class="{'badge-info': event.users.length > 1 && !event.ready, 'badge-success': event.ready}">
+					{{event.users.length}}/{{event.minSize}} 
+					</span>
+				</h4>
+				<p class="list-group-item-text">{{event.place}}
+				<span class="pull-right date">{{event.date| date:'EEEE d.M @ H.mm'}}</span>
+				</p>
+
+            </div>
+        </div>
+</div>

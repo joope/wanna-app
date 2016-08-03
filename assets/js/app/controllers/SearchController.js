@@ -1,8 +1,7 @@
 WannaApp.controller('SearchController', function($scope, $rootScope, Api){
     
-    $scope.wannaList;
+    $scope.wannaList = [];
     $scope.userList = [];
-    //var id = localStorage.getItem('userID');
     
     io.socket.get('/wanna', function(body, response) {
         $scope.wannaList = body;
@@ -73,13 +72,13 @@ WannaApp.controller('SearchController', function($scope, $rootScope, Api){
     $scope.addNew = function(){
         
         var uus = {
-            name: $scope.what,
+            name: $scope.what.toLowerCase(),
             popularity: 1,
             users: [$rootScope.userID]
         }
+        $scope.what = "";
         Api.addWanna(uus).success(function(res){
-            $scope.userList.push(res);
-            $scope.what = "";
+			$scope.userList.push(res);
         }).error(function(res){
             $scope.error = "Ei voitu lisätä wannaa :(";
         });
@@ -119,27 +118,29 @@ WannaApp.controller('SearchController', function($scope, $rootScope, Api){
     
     $scope.wannaClicked = function(wanna){
         console.log("Klikattiin wannaa: " + wanna.name);
-        
+		
         if(!wanna.clicked){
             wanna.popularity += 1;
             wanna.clicked = true;
+			$scope.userList.push(wanna);
+			
             Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function(res){
                 Api.addUserToWanna($rootScope.userID, wanna.id).success(function(res){
                     console.log("added user to wanna");
-                    $scope.userList.push(wanna);
                 }).error(function(){
                     console.log("couldn't add user to wanna");
                 });
             });
 
-        } else{            
+        } else{			
             wanna.popularity -= 1;
             wanna.clicked = false;
+			$scope.userList.splice($scope.userList.indexOf(wanna), 1);
+			
             Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function(res){
                 console.log(res);
                 Api.removeUserFromWanna($rootScope.userID, wanna.id).success(function(res){
                     console.log("removed user from wanna" + res);
-                        $scope.userList.splice($scope.userList.indexOf(wanna), 1);
                     }).error(function () {
                         console.log("couldn't remove user from wanna");
                     });
