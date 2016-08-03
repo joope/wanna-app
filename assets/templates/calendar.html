@@ -6,7 +6,6 @@
             <div type="button" class="list-group-item" 
                     ng-repeat="event in events | orderBy:'date' | limitTo:50" 
                     ng-class="event.ready ? 'list-group-item-success' : ''"
-                    ng-click="eventClicked(event)"
 					ng-if="!oldEvent(event)"
                     title='{{getEventUsers(event)}}'>
 				<h4 class="list-group-item-heading">{{event.wanna.name}}

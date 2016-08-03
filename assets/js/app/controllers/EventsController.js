@@ -89,13 +89,13 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
         console.log("luodaan event");
 		var datetime = new Date($scope.date.getFullYear(), $scope.date.getMonth(), $scope.date.getDate(), 
                $scope.time.getHours(), $scope.time.getMinutes(), $scope.time.getSeconds());
-	if ($scope.oldEvent({date: datetime})){
-		$scope.error = "älä haikaile liikaa menneisyyteen";
-	}// else if($scope.minSize < $scope.maxSize){
-		// $scope.error = "minimimäärä ei voi olla suurempi kuin maksimimäärä osallistujissa";
-	// } else if(!$scope.minSize || !$scope.maxSize || !$scope.place){
-		// $scope.error = "jotain oleellista puuttuu";
-	// }
+		if ($scope.oldEvent({date: datetime})){
+			$scope.error = "älä haikaile liikaa menneisyyteen";
+		} else if($scope.minSize < $scope.maxSize){
+		    $scope.error = "minimimäärä ei voi olla suurempi kuin maksimimäärä osallistujissa";
+		}// else if(!$scope.minSize || !$scope.maxSize || !$scope.place){
+			// $scope.error = "jotain oleellista puuttuu";
+		// }
 	
 	else {
 		Api.addEventToWanna({

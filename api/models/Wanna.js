@@ -12,7 +12,7 @@ module.exports = {
           type : "string",
           required: true,
           unique: true,
-          size: "32"
+		  maxLength: 30,
       },
       popularity: {
           type: "integer",

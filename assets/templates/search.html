@@ -9,7 +9,7 @@
         <form name="userForm" class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
-                       required ng-minlength='3'>
+                       required ng-minlength='3' maxlength="20">
                 <span class="input-group-btn">
                     <button class="btn btn-info" ng-click="newNick(nick)" 
                            ng-disabled="!userForm.$valid">Jatka
@@ -26,7 +26,7 @@
         <div>
         <form name="wannaForm" class="form-group">
             <div class="input-group">
-                <input type="text" class="form-control" ng-model='what' 
+                <input type="text" class="form-control" ng-model='what' maxlength="25"
                        placeholder="pelaa cs, ottaa es" required autofocus>
                 <span class="input-group-btn">
                     <button class="btn btn-info " ng-click="addNew()"
