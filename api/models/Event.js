@@ -6,40 +6,48 @@
  */
 
 module.exports = {
-
-  attributes: {
-      wanna: {
-          model: "Wanna",
-          required: true
-      },
-      date: {
-          type: "date",
-          required: true
-      },
-      place: {
-          type: "string",
-          required: true
-      },
-      users: {
-          collection: "User",
-          via: "events"
-      },
-      ready: {
-          type: "boolean",
-          defaultsTo : false
-      },
-	  currentSize: {
-		  type: "integer",
-		  defaultsTo: 1
-	  },
-      maxSize: {
-          type: "integer",
-          defaultsTo: 12
-      },
-      minSize : {
-          type: "integer",
-          defaultsTo: 2
-      }
-  }
+    attributes: {
+        wanna: {
+            model: "Wanna"
+//            required: true
+        },
+        name: {
+            type: "string",
+            required: true,
+            maxLength: 32
+        },
+        date: {
+            type: "date",
+            required: true
+        },
+        place: {
+            type: "string",
+            required: true
+        },
+        users: {
+            collection: "User",
+            via: "events"
+        },
+        ready: {
+            type: "boolean",
+            defaultsTo: false
+        },
+        currentSize: {
+            type: "integer",
+            defaultsTo: 1
+        },
+        maxSize: {
+            type: "integer",
+            defaultsTo: 12
+        },
+        minSize: {
+            type: "integer",
+            defaultsTo: 2
+        },
+        info: {
+            type: "string",
+            maxLength: 128
+        }
+    }
 };
 

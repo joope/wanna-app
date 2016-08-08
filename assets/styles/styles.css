@@ -11,6 +11,19 @@
 .paaotsikko {
 	color: #f5f5f5;
 }
+
+.valikko {
+    position: relative;
+    display: inline-block;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    width: 100%;
+}
+.valikko-item {
+/*    position: absolute;
+    display: block;*/
+    background-color: #ececec;
+}
+
 ul{
     margin-top: 5px;
     margin-bottom: 3px;
@@ -88,6 +101,7 @@ form {
 
 .date {
     padding-right: 10px;
+    font-size: 12px;
 }
 
 .stripe-1 {
@@ -100,6 +114,8 @@ form {
     );
 }
 
+.animate-event {}
+
 .animate-show {
   opacity: 1;
 }
@@ -111,8 +127,6 @@ form {
 .animate-show.ng-hide {
   opacity: 0;
 }
-
-
 
 .tag {
     padding-left: 5px;
@@ -133,6 +147,7 @@ body{
 #searchbar {
     padding-top: 0px;
     max-width: 600px;
+    text-align: left;
 }
 #results {
     /* background-color: white; */
@@ -164,6 +179,31 @@ body{
     background-color: white;
     text-align: center;
     margin: auto;
-    max-width: 500px;
+    max-width: 600px;
     /* margin-top: 100px; */
+}
+
+.btn_join {
+    min-width: 5em;
+}
+
+.event_wrapper {
+/*    border: 1px solid gray;
+    border-radius: 6px;*/
+}
+
+.event_info {
+/*    border-top: 1px solid black;*/
+    padding-top: 10px;
+    text-align: right;
+}
+
+.menuikoni {
+    float: right;
+    margin-left: 10px;
+}
+.date-change {
+    text-align: center;
+    background-color: #63a4f1;
+    color: white;
 }

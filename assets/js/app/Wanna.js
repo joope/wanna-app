@@ -1,4 +1,4 @@
-var WannaApp = angular.module('WannaApp', ['ngRoute', 'ngAnimate']);
+var WannaApp = angular.module('WannaApp', ['ngRoute', 'ngAnimate', 'autocomplete']);
 
 WannaApp.config(function($routeProvider){
   $routeProvider

@@ -1,32 +1,32 @@
 <div class='events form borders'>
-<h1 class="text-center paaotsikko">Tapahtumat</h1>
+    <h1 class="text-center paaotsikko">Tapahtumat</h1>
     <div class="paneeli" ng-repeat='wanna in wannaList' 
-	ng-init="wanna.isToggled = true">
-	        <!-- List group -->
-		<div class="clearfix otsikko">
-			<span>
-				<button ng-click="toggleForm(wanna)" class='btn btn-success btn_add' 
-				data-toggle="modal" data-target="#modal">
-				lisää
-				</button>
-			</span>	
-		<div class="nimi" ng-click="wanna.isToggled = !wanna.isToggled">
-		{{wanna.name}}
-		</div>
+         ng-init="wanna.isToggled = true">
+        <!-- List group -->
+        <div class="clearfix otsikko">
+            <span>
+                <button ng-click="toggleForm(wanna)" class='btn btn-success btn_add' 
+                        data-toggle="modal" data-target="#modal">
+                    lisää
+                </button>
+            </span>	
+            <div class="nimi" ng-click="wanna.isToggled = !wanna.isToggled">
+                {{wanna.name}}
+            </div>
 
         </div>
         <div class="list group" ng-show="wanna.isToggled">			
-			
-			<!-- no events found message -->
-			<button ng-show="!wanna.events && !wanna.toggleForm && wanna.searched" ng-click="toggleForm(wanna)" 
-			data-toggle="modal" data-target="#modal" type="button" class="list-group-item list-group-item-warning">
-				Ei uusia tapahtumia, lisää klikkamalla tästä
-			</button>
-			
-			<!-- list of events here -->
+
+            <!-- no events found message -->
+            <button ng-show="!wanna.events && !wanna.toggleForm && wanna.searched" ng-click="toggleForm(wanna)" 
+                    data-toggle="modal" data-target="#modal" type="button" class="list-group-item list-group-item-warning">
+                Ei uusia tapahtumia, lisää klikkamalla tästä
+            </button>
+
+            <!-- list of events here -->
             <button type="button" class="list-group-item" 
-                    ng-repeat="event in wanna.events | orderBy:'date' | limitTo:15" 
-					ng-if="!oldEvent(event)"
+                    ng-repeat="event in wanna.events| orderBy:'date' | limitTo:15" 
+                    ng-if="!oldEvent(event)"
                     ng-class="checkUsers(event) ? 'list-group-item-info' : ''"
                     ng-click="eventClicked(event)"
                     title='{{getEventUsers(event)}}'>
@@ -41,49 +41,51 @@
 
 <!-- modal form for adding events -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="newEventForm">
-  <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title text-center" id="exampleModalLabel">{{header}}</h4>
-	  </div>
-	  <div class="modal-body">
-		<form name="eventFrom">
-		  <div class="form-group">
-			<label for="modal-name" class="control-label">Missä:</label>
-			<input type="text" class="form-control" id="modal-place" ng-model="place" maxlength="30" required>
-		  </div>
-		  <div class="form-inline">
-			<div class="form-group">
-				<label for="modal-name" class="control-label">Milloin:</label>
-				<input type="date" class="form-control" ng-model="date" required>
-			</div>
-			<div class="form-group">
-				<label for="modal-name" class="control-label">Klo:</label>
-				<input type="time" class="form-control" ng-model="time" required>
-			</div>
-		  </div>
-		  <div class="form-inline">
-			<div class="form-group">
-				<label for="modal-min" class="control-label">min-osallistujamäärä:</label>
-				<input type="number" class="form-control" placeholder="min-osallistujat" 
-				min="2" max="50" ng-model="minSize">
-			</div>
-			<div class="form-group">
-				<label for="modal-min" class="control-label">max-osallistujamäärä: </label>
-				<input type="number" class="form-control" placeholder="max-osallistujat" 
-				min="2" max="100" ng-model="maxSize">
-			</div>
-		  </div>
-<!-- 		  <div class="form-group">
-			<label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
-			<textarea class="form-control" id="modal-information" ng-model="info"></textarea>
-		  </div> -->
-		</form>
-	  </div>
-	  <div class="modal-footer">
-		<button type="button" class="btn btn-primary" ng-click="newEvent()" ng-disabled="minSize > maxSize || !place || !date" data-dismiss="modal">Lisää tapahtuma</button>
-	  </div>
-	</div>
-  </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="exampleModalLabel">{{header}}</h4>
+            </div>
+            <div class="modal-body">
+                <form name="eventFrom">
+                    <div class="form-group">
+                        <label for="modal-name" class="control-label">Missä:</label>
+                        <input type="text" class="form-control" id="modal-place" ng-model="place" maxlength="30" required>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="modal-name" class="control-label">Milloin:</label>
+                            <input type="date" class="form-control" ng-model="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-name" class="control-label">Klo:</label>
+                            <input type="time" class="form-control" ng-model="time" required>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="modal-min" class="control-label">min-osallistujamäärä:</label>
+                            <input type="number" class="form-control" placeholder="min-osallistujat" 
+                                   min="2" max="50" ng-model="minSize">
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-min" class="control-label">max-osallistujamäärä: </label>
+                            <input type="number" class="form-control" placeholder="max-osallistujat" 
+                                   min="2" max="100" ng-model="maxSize">
+                        </div>
+                        <input type="radio" name="yksityinen" value="false" ng-model="private"> yksityinen <br>
+                        <input type="radio" name="julkinen" value="true" ng-model="public" checked> julkinen 
+                    </div>
+                    <!-- 		  <div class="form-group">
+                                            <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
+                                            <textarea class="form-control" id="modal-information" ng-model="info"></textarea>
+                                      </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="newEvent()" ng-disabled="minSize > maxSize || !place || !date" data-dismiss="modal">Lisää tapahtuma</button>
+            </div>
+        </div>
+    </div>
 </div>

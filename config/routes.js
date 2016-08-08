@@ -38,7 +38,8 @@ module.exports.routes = {
   '/register': 'AuthController.register',
   '/logout' : 'AuthController.logout',
   '/event/join': 'EventController.join',
-  '/event/leave': 'EventController.leave'
+  '/event/leave': 'EventController.leave',
+  '/event/getNew': 'EventController.getNew'
 
   /***************************************************************************
   *                                                                          *

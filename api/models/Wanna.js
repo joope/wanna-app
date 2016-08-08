@@ -6,29 +6,25 @@
  */
 
 module.exports = {
-
-  attributes: {
-      name: {
-          type : "string",
-          required: true,
-          unique: true,
-		  maxLength: 30,
-      },
-      popularity: {
-          type: "integer",
-          required: true
-      },
-      users : {
-          collection: "User",
-          via: "wannas"
-      },
-      events: {
-          collection: "Event",
-          via: "wanna"
-      },
-      poll: {
-          model: "poll"
-      }
-  }
+    attributes: {
+        name: {
+            type: "string",
+            required: true,
+            unique: true,
+            maxLength: 30
+        },
+        popularity: {
+            type: "integer",
+            defaultsTo: 1
+        },
+        users: {
+            collection: "User",
+            via: "wannas"
+        },
+        events: {
+            collection: "Event",
+            via: "wanna"
+        }
+    }
 };
 

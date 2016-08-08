@@ -13,7 +13,7 @@ module.exports = {
         type : 'string',
         size: "32",
         minLength: 2,
-		maxLength: 30,
+	maxLength: 30,
         required: true,
         unique: true
     },
