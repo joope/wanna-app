@@ -9,7 +9,7 @@
     padding-left: 1em;
 }
 .paaotsikko {
-	color: #f5f5f5;
+    color: #f5f5f5;
 }
 
 .valikko {
@@ -19,8 +19,8 @@
     width: 100%;
 }
 .valikko-item {
-/*    position: absolute;
-    display: block;*/
+    /*    position: absolute;
+        display: block;*/
     background-color: #ececec;
 }
 
@@ -37,7 +37,7 @@ ul#tags li {
     padding-left: 7px;
 }
 .btn_remove {
-/*    color: #A00000;*/
+    /*    color: #A00000;*/
     padding: 2px;
     border: none;
 }
@@ -55,10 +55,13 @@ form {
 }
 
 .otsikko {
-    background-color: #414141 !important;
-    color: white !important;
+    text-align: center!important;
+    background-color: #63a4f1!important;
+    color: white!important;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 .nimi {
     font-size: 18px;
@@ -68,7 +71,7 @@ form {
 }
 
 .searchHeader {
-	color: #333;
+    color: #333;
 }
 
 .btn_add{
@@ -105,27 +108,27 @@ form {
 }
 
 .stripe-1 {
-  background: repeating-linear-gradient(
-    45deg,
-    #606dbc,
-    #606dbc 10px,
-    #465298 10px,
-    #465298 20px
-    );
+    background: repeating-linear-gradient(
+        45deg,
+        #606dbc,
+        #606dbc 10px,
+        #465298 10px,
+        #465298 20px
+        );
 }
 
 .animate-event {}
 
 .animate-show {
-  opacity: 1;
+    opacity: 1;
 }
 
 .animate-show.ng-hide-remove {
-  transition: all ease-out 0.5s;
+    transition: all ease-out 0.5s;
 }
 
 .animate-show.ng-hide {
-  opacity: 0;
+    opacity: 0;
 }
 
 .tag {
@@ -184,26 +187,44 @@ body{
 }
 
 .btn_join {
-    min-width: 5em;
+    min-width: 8em;
 }
 
-.event_wrapper {
-/*    border: 1px solid gray;
-    border-radius: 6px;*/
+.event_wrapper a:hover {
+    background-color: #c4ff97!important;
+}
+.info-wrapper{
+    border-bottom-left-radius: 10px!important;
+    border-bottom-right-radius: 10px!important;
+    background-color: white;
 }
 
 .event_info {
-/*    border-top: 1px solid black;*/
+    /*    border-top: 1px solid black;*/
     padding-top: 10px;
-    text-align: right;
+    text-align: center;
 }
 
 .menuikoni {
     float: right;
     margin-left: 10px;
 }
-.date-change {
-    text-align: center;
-    background-color: #63a4f1;
-    color: white;
+
+.sporttimenu {
+    color: #fff!important;
+    background-color: #0275D8!important;
+    border: none!important;
+}
+.sporttimenu a {
+    color: #fff!important;
+}
+.navbar-toggle{
+    color: #fff!important;
+}
+.navbar-inverse .navbar-toggle{
+    border-color: #3ecbf9!important;
+}
+
+.topmargin {
+    margin-top: 50px;
 }

@@ -39,7 +39,9 @@ module.exports.routes = {
   '/logout' : 'AuthController.logout',
   '/event/join': 'EventController.join',
   '/event/leave': 'EventController.leave',
-  '/event/getNew': 'EventController.getNew'
+  '/event/getNew': 'EventController.getNew',
+  '/event/createWithWanna': 'EventController.createWithWanna',
+  '/event/getEventsByName': 'EventController.getEventsByName'
 
   /***************************************************************************
   *                                                                          *

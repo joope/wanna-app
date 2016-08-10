@@ -14,12 +14,25 @@
   </head>
 
   <body ng-app="WannaApp" ng-cloak>
-    <nav>
-        <a href="#/">Etusivu</a>
-<!--        <a class='nav-link-right' href="#/view">Halutuimmat</a>-->
-<!--        <a class='nav-link-right' href="/logout">Logout</a>-->
-		<a class='nav-link-right' href="#/calendar">Omat</a>
-<!--		<a class='nav-link-right' href="#/events">Tapahtumat</a>-->
+      <div class="topmargin"></div>
+    <nav class="navbar navbar-inverse sporttimenu navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/">WannApp</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/calendar">Kalenteri</a></li>
+            <li><a href="#/events">Suositukset</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
     </nav>
     <%- body %>
     <!--SCRIPTS-->
@@ -38,6 +51,7 @@
     <script src="/js/app/controllers/SignupController.js"></script>
     <script src="/js/app/controllers/ViewController.js"></script>
     <script src="/js/app/services/Api.js"></script>
+    <script src="/js/app/services/Utlis.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

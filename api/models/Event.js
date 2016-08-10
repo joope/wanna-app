@@ -1,7 +1,7 @@
 /**
  * Wannado.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: model for events, includes: all the stuff you need for having events
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
@@ -24,6 +24,9 @@ module.exports = {
             type: "string",
             required: true
         },
+        creator: {
+            model: "User"
+        },
         users: {
             collection: "User",
             via: "events"
@@ -38,11 +41,11 @@ module.exports = {
         },
         maxSize: {
             type: "integer",
-            defaultsTo: 12
+            defaultsTo: 16
         },
         minSize: {
             type: "integer",
-            defaultsTo: 2
+            defaultsTo: 4
         },
         info: {
             type: "string",

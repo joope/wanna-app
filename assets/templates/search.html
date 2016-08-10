@@ -1,5 +1,4 @@
 <div class="row lomake borders">
-    <button ng-click="debug()">Paina mua</button>
     <!-- Select nickname -->
     <div class='animate-show'  ng-hide='userLoggedIn'>
         <h1>Valitse käyttäjätunnus</h1>
@@ -37,14 +36,15 @@
             <div id="searchbar" ng-show="search" class="list group">
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:15)">
                     
-                    <!--date change bar-->
-                    <div ng-show="dateChanged(event.date) || results.length === 1" class="date-change">
+                    <!--date header bar-->
+                    <div ng-show="dateChanged(event.date) || results.length === 1" class="otsikko">
                         {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
                     </div>
                     
+                    <!--event name and basic info-->
                     <a href="#/" type="button" class="list-group-item" 
                        ng-click="eventClicked(event)">
-                        <h4 class="list-group-item-heading">{{event.wanna.name}}
+                        <h4 class="list-group-item-heading">{{event.name}}
 <!--                            <strong class=pull-right">{{event.date| date:'H:mm'}}</strong>-->
 <!--                            <button type="button" class="btn btn-xs menuikoni">
                                 <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
@@ -61,14 +61,17 @@
                         </p>
                     </a>
                     <!--info wrapper for event-->
-                    <div ng-show="event.clicked" class="list-group-item list-group-item-info animate-show">
+                    <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
                         <p class="list-group-item-text">
                             <strong>Lisätietoja:</strong> {{event.info}}
+                        </p>
+                        <p class="list-group-item-text">
+                            <strong>Osallistujat:</strong> {{event.userList}}
                         </p>
                         <div class="event_info">
                             <button class="btn btn-success btn_join" type="button" ng-if="!event.joined" ng-click="join(event)" >liity
                             </button>
-                            <button class="btn btn-warning btn_join" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
+                            <button class="btn btn-warning btn_join" ng-disabled="event.ready" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
                             </button>
                         </div>
                     </div>
@@ -125,8 +128,8 @@
                                    min="2" max="100" ng-model="maxSize">
                         </div>
                     </div>
-                    <input type="radio" name="yksityinen" value="false" ng-model="private"> yksityinen <br>
-                    <input type="radio" name="julkinen" value="true" ng-model="public" checked> julkinen 
+                    <input type="radio" name="yksityinen" value="true" ng-model="private"> yksityinen <br>
+                    <input type="radio" name="julkinen" value="false" ng-model="private"> julkinen 
 
                     <div class="form-group">
                         <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>

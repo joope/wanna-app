@@ -1,26 +1,45 @@
-<div class='events form borders'>
+<div class='events form'>
     <h1 class="text-center paaotsikko">Kalenteri</h1>
-    <div class="list group">			
+    <!--search results-->
+    <div id="searchbar" class="list group">
+        <div class="event_wrapper"  ng-repeat="event in results = (events| orderBy:'date' | limitTo:30)">
 
-        <!-- list of events here -->
-        <div type="button" class="list-group-item" 
-             ng-repeat="event in events| orderBy:'date' | limitTo:50" 
-             ng-class="event.ready ? 'list-group-item-success' : ''"
-             ng-if="!oldEvent(event)"
-             title='{{getEventUsers(event)}}'>
-            <h4 class="list-group-item-heading">{{event.wanna.name}}
-                <span>
-                    <button class="btn-link btn_remove" ng-if="!event.ready" ng-click="eventClicked(event)">x</button>
-                </span>
-                <span class="badge pull-right"
-                      ng-class="{'badge-info': event.users.length > 1 && !event.ready, 'badge-success': event.ready}">
-                    {{event.users.length}}/{{event.minSize}} 
-                </span>
-            </h4>
-            <p class="list-group-item-text">{{event.place}}
-                <span class="pull-right date">{{event.date| date:'EEEE d.M @ H.mm'}}</span>
-            </p>
+            <!--date header bar-->
+            <div ng-show="dateChanged(event.date) || results.length === 1" class="otsikko">
+                {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
+            </div>
 
+            <!--event name and basic info-->
+            <a href="#/calendar" type="button" class="list-group-item" 
+               ng-click="eventClicked(event)">
+                <h4 class="list-group-item-heading">{{event.name}}                            
+                    <span class="badge pull-right"
+                          ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
+                        {{event.currentSize}}/{{event.minSize}} 
+                    </span>
+                </h4>
+                <p class="list-group-item-text">{{event.place}}
+                    <span class="pull-right"><strong>{{event.date| date:'H:mm'}}</strong></span>
+                </p>
+            </a>
+            <!--info wrapper for event-->
+            <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
+                <p class="list-group-item-text">
+                    <strong>Lisätietoja:</strong> {{event.info}}
+                </p>
+                <p class="list-group-item-text">
+                    <strong>Osallistujat:</strong> {{event.userList}}
+                </p>
+                <div class="event_info">
+                    <button class="btn btn-success btn_join" type="button" ng-if="!event.joined" ng-click="join(event)" >liity
+                    </button>
+                    <button class="btn btn-warning btn_join" ng-disabled="event.ready" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
+                    </button>
+                </div>
+            </div>
         </div>
+        <button ng-show="events.length === 0" type="button" class="list-group-item list-group-item-danger">
+            Ei löydetty tapahtumia, liity tai lisää tapahtumia etusivulta
+        </button>
     </div>
 </div>

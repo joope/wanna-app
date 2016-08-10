@@ -11,6 +11,7 @@ module.exports = {
             type: "string",
             required: true,
             unique: true,
+            primaryKey: true,
             maxLength: 30
         },
         popularity: {

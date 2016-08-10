@@ -20,7 +20,7 @@ WannaApp.service('Api', function ($http) {
     }
 
     this.getEvents = function () {
-        return $http.get('/event');
+        return $http.get('/event/');
     }
     
     this.getEvent = function(eventID){
@@ -29,9 +29,12 @@ WannaApp.service('Api', function ($http) {
     this.getWannaEvents = function (wannaID) {
         return $http.get('/wanna/' + wannaID + '/events');
     }
+    this.getEventsByName = function(name) {
+        return $http.post('/event/getEventsByName', {'name': name});
+    }
 
     this.newEvent = function (event) {
-        return $http.post('/event', event);
+        return $http.post('/event/createWithWanna', event);
     }
 
     this.addEventToWanna = function (event, wannaID) {
@@ -54,7 +57,7 @@ WannaApp.service('Api', function ($http) {
         return $http.post('/wanna/' + wannaID + '/users/' + userID);
     }
 
-    this.addUserToEvent = function (userID, eventID) {
+    this.addUserToEvent = function (eventID) {
         return $http.post('/event/join', {'eventID': eventID});
     }
 
@@ -62,7 +65,7 @@ WannaApp.service('Api', function ($http) {
         return $http.delete('/wanna/' + wannaID + '/users/' + userID);
     }
 
-    this.removeUserFromEvent = function (userID, eventID) {
+    this.removeUserFromEvent = function (eventID) {
         return $http.post('/event/leave', {'eventID': eventID});
     }
 

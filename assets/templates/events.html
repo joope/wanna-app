@@ -1,4 +1,4 @@
-<div class='events form borders'>
+<div class='events form'>
     <h1 class="text-center paaotsikko">Tapahtumat</h1>
     <div class="paneeli" ng-repeat='wanna in wannaList' 
          ng-init="wanna.isToggled = true">
@@ -31,7 +31,7 @@
                     ng-click="eventClicked(event)"
                     title='{{getEventUsers(event)}}'>
                 {{event.place}} 
-                <span class="badge">{{event.users.length}}/{{event.minSize}} </span>
+                <span class="badge">{{event.currentSize}}/{{event.minSize}} </span>
                 <span class="pull-right date">{{event.date| date:'EEE d.MM klo HH:mm'}}</span>
 
             </button>

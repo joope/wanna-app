@@ -6,6 +6,7 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
 
     $scope.date = new Date();
     $scope.prevDate;
+    $scope.private = false;
 
     Api.getNewEvents(new Date()).success(function (res) {
         $scope.eventList = res;
@@ -37,9 +38,8 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         $scope.time.setSeconds(0);
         $scope.time.setMilliseconds(0);
     }
-
-    $scope.selectWanna = function (wanna) {
-        $scope.wannaID = wanna.id;
+    
+    $scope.selectWanna = function(wanna){
         $scope.what = wanna.name;
     }
 
@@ -51,10 +51,13 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         })
     });
 
-    $scope.getWannaUsers = function (wanna) {
+    $scope.listUsers = function (event) {
         var list = [];
-        for (u in wanna.users) {
-            list.push(wanna.users[u].username);
+        if (!event.users || event.users.length === 0) {
+            return "ei osallistujia :(";
+        }
+        for (u in event.users) {
+            list.push(event.users[u].username);
         }
         return list.join();
     };
@@ -67,53 +70,46 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
 
     $scope.newEvent = function () {
         var event = {
-            "name": $scope.what,
+            "wanna": $scope.what.toLowerCase(),
+            "name": $scope.what.toLowerCase(),
             "date": $scope.date,
             "place": $scope.place,
             "ready": false,
             "maxSize": $scope.maxSize,
             "minSize": $scope.minSize,
-            "info": $scope.info,
-            "users": [$rootScope.userID]
+            "info": $scope.info
         };
         console.log(event);
-        if (!$scope.wannaID) {
-            Api.addWanna({name: $scope.what}).success(function (res) {
-                event.wanna = res.id;
-                Api.addEventToWanna(event, res.id).success(function () {
-                    Api.getNewEvents(new Date()).success(function (res) {
-                        $scope.eventList = res;
-                    })
-                });
+        Api.newEvent(event).success(function () {
+            Api.getNewEvents(new Date()).success(function (res) {
+                $scope.eventList = res;
             })
-        } else {
-            Api.newEvent(event).success(function () {
-                Api.getNewEvents(new Date()).success(function (res) {
-                    $scope.eventList = res;
-                })
-            })
-        }
+        })
+
     }
 
     $scope.eventClicked = function (event) {
-        Api.getEvent(event.id).success(function (res) {
-            if ($scope.checkUsers(res)) {
-                event.joined = true;
-                $scope.$applyAsync();
-            }
-        })
+        if (!event.clicked) {
+            Api.getEvent(event.id).success(function (res) {
+                event.userList = $scope.listUsers(res);
+                if ($scope.checkUsers(res)) {
+                    event.joined = true;
+                    $scope.$applyAsync();
+                }
+            })
+        }
         event.clicked = !event.clicked;
     }
 
     $scope.join = function (event) {
         if (!event.joined) {
-            Api.addUserToEvent($rootScope.userID, event.id).success(function () {
-                console.log("joined event " + event.id);
+            Api.addUserToEvent(event.id).success(function (res) {
+                event.currentSize = event.currentSize + 1;
             });
             event.joined = true;
         } else {
-            Api.removeUserFromEvent($rootScope.userID, event.id).success(function () {
-                console.log("left event " + event.id);
+            Api.removeUserFromEvent(event.id).success(function (res) {
+                event.currentSize = event.currentSize - 1;
             });
             event.joined = false;
         }
@@ -136,11 +132,10 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         var date = new Date(eventDate);
         if ($scope.date.getMonth() === date.getMonth() && $scope.date.getDate() === date.getDate()) {
             return "Tänään";
-        } else if($scope.date.getDate() + 1 === date.getDate()){
+        } else if ($scope.date.getDate() + 1 === date.getDate()) {
             //ei huomioi kuukauden vaihtumista
             return "Huomenna";
-        }
-        else {
+        } else {
             switch (date.getDay()) {
                 case 0:
                     return "Sunnuntai";
@@ -158,7 +153,6 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
                     return "Lauantai";
             }
         }
-
     }
 
     $scope.newNick = function (nick) {

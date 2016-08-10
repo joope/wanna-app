@@ -21,8 +21,8 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
 
     updateAllEvents = function () {
         for (i = 0; i < $scope.wannaList.length; i++) {
-            eventsToWannas($scope.wannaList[i].id, i);
-            $scope.idToIndex[$scope.wannaList[i].id] = i;
+            eventsToWannas($scope.wannaList[i].name, i);
+            $scope.idToIndex[$scope.wannaList[i].name] = i;
         }
     }
 
@@ -46,18 +46,16 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
         updateAllEvents();
     });
 
-    eventsToWannas = function (wannaID, index) {
-        // console.log(wanna, index);
-
+    eventsToWannas = function (name, index) {
         if ($scope.wannaList[index]) {
-            io.socket.get('/event?where={"wanna": {' + wannaID + '}}', function (events) {
+            Api.getEventsByName(name).success(function (events) {
                 if (events && events.length > 0) {
                     $scope.wannaList[index].events = events;
                 } else {
                     $scope.wannaList[index].events = null;
                 }
                 $scope.wannaList[index].searched = true;
-                $scope.$apply();
+                $scope.$applyAsync();
             });
         }
     }
@@ -132,10 +130,10 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api) {
     $scope.eventClicked = function (event) {
         console.log(event);
         if (!event.clicked) {
-            Api.addUserToEvent($rootScope.userID, event.id);
+            Api.addUserToEvent(event.id);
             event.clicked = true;
         } else {
-            Api.removeUserFromEvent($rootScope.userID, event.id);
+            Api.removeUserFromEvent(event.id);
             event.clicked = false;
         }
     }

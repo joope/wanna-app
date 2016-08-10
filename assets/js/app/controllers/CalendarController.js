@@ -12,12 +12,11 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
 
     Api.getUserEvents($rootScope.userID).success(function (res) {
         $scope.events = res;
-        updateAllEvents();
+//        updateAllEvents();
     });
 
     updateAllEvents = function () {
         for (i = 0; i < $scope.events.length; i++) {
-            eventsToList($scope.events[i].id, i);
             $scope.idToIndex[$scope.events[i].id] = i;
         }
     }
@@ -32,20 +31,6 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
         }
     });
 
-    eventsToList = function (eventID, index) {
-        if ($scope.events[index]) {
-            io.socket.get('/event/' + eventID, function (event) {
-                if (event) {
-                    $scope.events[index] = event;
-                } else {
-
-                }
-                $scope.events[index].searched = true;
-                $scope.$apply();
-            });
-        }
-    }
-
     $scope.getEventUsers = function (event) {
         var list = [];
         for (u in event.users) {
@@ -54,22 +39,33 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
         return list.join();
     }
 
-    $scope.getWannaEvents = function (wanna) {
-        Api.getWannaEvents(wanna).success(function (res) {
-            return res;
-        })
-    }
+    $scope.listUsers = function (event) {
+        var list = [];
+        if (!event.users || event.users.length === 0) {
+            return "ei osallistujia :(";
+        }
+        for (u in event.users) {
+            list.push(event.users[u].username);
+        }
+        return list.join();
+    };
 
     $scope.eventClicked = function (event) {
-        console.log(event);
-        $scope.events.splice($scope.idToIndex[event.id], 1);
-        Api.removeUserFromEvent($rootScope.userID, event.id);
+        if (!event.clicked) {
+            Api.getEvent(event.id).success(function (res) {
+                event.userList = $scope.listUsers(res);
+                if ($scope.checkUsers(res)) {
+                    event.joined = true;
+                    $scope.$applyAsync();
+                }
+            })
+        }
+        event.clicked = !event.clicked;
     }
 
     $scope.checkUsers = function (event) {
         for (w in event.users) {
             if (event.users[w].id === $rootScope.userID) {
-                event.clicked = true;
                 return true;
             }
         }
@@ -83,6 +79,60 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
             return true;
         }
         return false;
+    }
+
+    $scope.dateChanged = function (eventDate) {
+        var date = new Date(eventDate);
+        if (!$scope.prevDate) {
+            $scope.prevDate = date;
+            return true;
+        }
+        if ($scope.prevDate.getDate() !== date.getDate() && $scope.prevDate.getMonth() === date.getMonth()) {
+            $scope.prevDate = date;
+            return true;
+        }
+        return false;
+    }
+
+    $scope.dateToRelative = function (eventDate) {
+        var date = new Date(eventDate);
+        if ($scope.date.getMonth() === date.getMonth() && $scope.date.getDate() === date.getDate()) {
+            return "Tänään";
+        } else if ($scope.date.getDate() + 1 === date.getDate()) {
+            //ei huomioi kuukauden vaihtumista
+            return "Huomenna";
+        } else {
+            switch (date.getDay()) {
+                case 0:
+                    return "Sunnuntai";
+                case 1:
+                    return "Maanantai";
+                case 2:
+                    return "Tiistai";
+                case 3:
+                    return "Keskiviikko";
+                case 4:
+                    return "Torstai";
+                case 5:
+                    return "Perjantai";
+                case 6:
+                    return "Lauantai";
+            }
+        }
+    }
+    
+    $scope.join = function (event) {
+        if (!event.joined) {
+            Api.addUserToEvent(event.id).success(function (res) {
+                event.currentSize = event.currentSize + 1;
+            });
+            event.joined = true;
+        } else {
+            Api.removeUserFromEvent(event.id).success(function (res) {
+                event.currentSize = event.currentSize - 1;
+            });
+            event.joined = false;
+        }
     }
 });
 
