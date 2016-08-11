@@ -7,6 +7,7 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     $scope.date = new Date();
     $scope.prevDate;
     $scope.private = false;
+    $scope.datepicked;
 
     Api.getNewEvents(new Date()).success(function (res) {
         $scope.eventList = res;
@@ -17,6 +18,16 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     Api.getWannas().success(function (res) {
         $scope.wannaList = res;
     })
+
+    $scope.getPreviousDate = function () {
+        var d = new Date();
+        d.setDate(d.getDate() - 1);
+        return d.toString();
+    }
+
+    $scope.searched = function (query) {
+        $scope.prevDate = null;
+    }
 
     $scope.checkUsers = function (event) {
         for (w in event.users) {
@@ -30,16 +41,17 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     $scope.toggleForm = function (event) {
         $scope.what = $scope.search;
         $scope.place = "Esimerkinkatu 333";
-//        $scope.wannaID = wanna.id;
         $scope.minSize = 2;
         $scope.maxSize = 4;
-        $scope.time = new Date();
 
+        $scope.time = new Date();
+        $scope.time.setHours($scope.time.getHours() + 1);
+        $scope.time.setMinutes(0);
         $scope.time.setSeconds(0);
         $scope.time.setMilliseconds(0);
     }
-    
-    $scope.selectWanna = function(wanna){
+
+    $scope.selectWanna = function (wanna) {
         $scope.what = wanna.name;
     }
 
@@ -69,22 +81,34 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     }
 
     $scope.newEvent = function () {
-        var event = {
-            "wanna": $scope.what.toLowerCase(),
-            "name": $scope.what.toLowerCase(),
-            "date": $scope.date,
-            "place": $scope.place,
-            "ready": false,
-            "maxSize": $scope.maxSize,
-            "minSize": $scope.minSize,
-            "info": $scope.info
-        };
-        console.log(event);
-        Api.newEvent(event).success(function () {
-            Api.getNewEvents(new Date()).success(function (res) {
-                $scope.eventList = res;
+        //poor man's hack for getting date from weird date-string-object
+        console.log($scope.datepicked);
+        var dates = $scope.datepicked.split(" ");
+        dates = dates[1];
+        dates = dates.split('.');
+        var newDate = new Date(dates[2], (dates[1] - 1), dates[0]);
+        console.log(newDate);
+        if (newDate) {
+            newDate.setHours($scope.time.getHours());
+            newDate.setMinutes($scope.time.getMinutes());
+
+            var event = {
+                "wanna": $scope.what.toLowerCase(),
+                "name": $scope.what.toLowerCase(),
+                "date": newDate,
+                "place": $scope.place,
+                "ready": false,
+                "maxSize": $scope.maxSize,
+                "minSize": $scope.minSize,
+                "info": $scope.info
+            };
+            console.log(event);
+            Api.newEvent(event).success(function () {
+                Api.getNewEvents(new Date()).success(function (res) {
+                    $scope.eventList = res;
+                })
             })
-        })
+        }
 
     }
 
@@ -172,8 +196,6 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         });
     }
 
-
-
     $scope.wannaClicked = function (wanna) {
         console.log("Klikattiin wannaa: " + wanna.name);
 
@@ -209,6 +231,5 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         }
         //$scope.$apply();
     }
-
 
 })

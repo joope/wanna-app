@@ -1,4 +1,4 @@
-<div class="row lomake borders">
+<div class="row lomake">
     <!-- Select nickname -->
     <div class='animate-show'  ng-hide='userLoggedIn'>
         <h1>Valitse käyttäjätunnus</h1>
@@ -22,11 +22,11 @@
         <div>
             <form name="wannaForm" class="form-group">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model='search' maxlength="25"
+                    <input type="text" class="form-control" ng-model='search' maxlength="25" ng-change="searched(search)"
                            placeholder="esim. sulkapallo, tänään, helsinki" required autofocus>
                     <span class="input-group-btn">
-                        <button class="btn btn-info " ng-click="toggleForm()" data-toggle="modal" data-target="#modal" type="button"
-                                ng-disabled="!wannaForm.$valid"> + 
+                        <button class="btn btn-success " ng-click="toggleForm()" data-toggle="modal" data-target="#modal" type="button"
+                                ng-disabled="!wannaForm.$valid"> uusi 
                         </button>
                     </span>
                 </div>
@@ -35,26 +35,26 @@
             <!--search results-->
             <div id="searchbar" ng-show="search" class="list group">
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:15)">
-                    
+
                     <!--date header bar-->
                     <div ng-show="dateChanged(event.date) || results.length === 1" class="otsikko">
                         {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
                     </div>
-                    
+
                     <!--event name and basic info-->
                     <a href="#/" type="button" class="list-group-item" 
                        ng-click="eventClicked(event)">
                         <h4 class="list-group-item-heading">{{event.name}}
-<!--                            <strong class=pull-right">{{event.date| date:'H:mm'}}</strong>-->
-<!--                            <button type="button" class="btn btn-xs menuikoni">
-                                <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-                            </button>-->
-                            
+                            <!--                            <strong class=pull-right">{{event.date| date:'H:mm'}}</strong>-->
+                            <!--                            <button type="button" class="btn btn-xs menuikoni">
+                                                            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+                                                        </button>-->
+
                             <span class="badge pull-right"
                                   ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                                 {{event.currentSize}}/{{event.minSize}} 
                             </span>
-                            
+
                         </h4>
                         <p class="list-group-item-text">{{event.place}}
                             <span class="pull-right"><strong>{{event.date| date:'H:mm'}}</strong></span>
@@ -77,8 +77,8 @@
                     </div>
                 </div>
                 <button ng-show="results.length == 0" ng-click="toggleForm(wanna)" 
-                        data-toggle="modal" data-target="#modal" type="button" class="list-group-item list-group-item-danger">
-                    Ei löydetty tapahtumia haulla "{{search}}", lisää klikkamalla tästä
+                        data-toggle="modal" data-target="#modal" type="button" class="list-group-item list-group-item-info">
+                    Ei tulevia tapahtumia "{{search}}", lisää klikkamalla tästä
                 </button>
             </div>
         </div>
@@ -93,52 +93,60 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center" id="exampleModalLabel">Uusi tapahtuma</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-sisalto">
                 <form name="eventFrom">
-                    <input type="text" class="form-control" id="modal-what" placeholder="mitä" ng-model="what" maxlength="30" 
+                    <input type="text" class="form-control" id="modal-what" placeholder="tapahtuman aihe" ng-model="what" maxlength="30" 
                            ng-focus="searching = true" ng-blur="searching = false" required>
 
                     <!-- Lista tekemisen kohteista -->
-                    <div class="valikko">
+                    <div class="valikko" ng-show="searching">
                         <button type="button" ng-show="searching" class="list-group-item valikko-item" 
                                 ng-repeat="wanna in wannaList| filter:{name: what} | orderBy:'-popularity' | limitTo:5"
                                 ng-mousedown="selectWanna(wanna)">{{wanna.name}}
                         </button>
                     </div>
-                    <input type="text" class="form-control" id="modal-place" placeholder="missä" ng-model="place" maxlength="30" required>
+                    <input type="text" class="form-control" id="modal-place" placeholder="sijainti" ng-model="place" maxlength="30" required>
                     <div class="row">
-                        <div class="form-group col-xs-5">
-                            <label for="modal-name" class="control-label">Milloin:</label>
-                            <input type="date" class="form-control" ng-model="date" required>
+                        <div class="col-xs-12">
+                            <datepicker date-set="{{date.toString()}}" datepicker-show="true"
+                                        date-min-limit="{{getPreviousDate()}}" date-format="EEEE dd.MM.yyyy" >
+                                <input class="form-control" ng-model="datepicked" type="text" maxlength="30"/>
+                            </datepicker>
+                            <p ng-show="dateError">{{dateError}}</p>
                         </div>
-                        <div class="form-group col-xs-5 col-xs-offset-1">
-                            <label for="modal-name" class="control-label">Klo:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
                             <input type="time" class="form-control" ng-model="time" required>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xs-5">
-                            <label for="modal-min" class="control-label">min-osallistujamäärä:</label>
-                            <input type="number" class="form-control" placeholder="min-osallistujat" 
-                                   min="2" max="50" ng-model="minSize">
+                        <div class="col-xs-8 col-xs-offset-1">
+                            <div>
+                                <input type="number" class="form-control numerovalitsin" placeholder="min-osallistujat" 
+                                       min="2" max="50" ng-model="minSize">
+                            </div>
                         </div>
-                        <div class="form-group col-xs-5 col-xs-offset-1">
-                            <label for="modal-min" class="control-label">max-osallistujamäärä: </label>
-                            <input type="number" class="form-control" placeholder="max-osallistujat" 
-                                   min="2" max="100" ng-model="maxSize">
-                        </div>
-                    </div>
-                    <input type="radio" name="yksityinen" value="true" ng-model="private"> yksityinen <br>
-                    <input type="radio" name="julkinen" value="false" ng-model="private"> julkinen 
+                        <div class="row">
 
-                    <div class="form-group">
-                        <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
-                        <textarea class="form-control" id="modal-information" ng-model="info"></textarea>
-                    </div> 
+                            <!--                        <div class="col-xs-5">
+                                                        <label for="modal-min" class="control-label">max-osallistujat: </label>
+                                                        <input type="number" class="form-control numerovalitsin" placeholder="max-osallistujat" 
+                                                               min="2" max="100" ng-model="maxSize">
+                                                        <button class="btn vahennyspainike inline-block" ng-click="maxSize = maxSize - 1"> - </button>
+                                                        <button class="btn lisayspainike inline-block" ng-click="maxSize = maxSize + 1"> + </button>
+                                                    </div>-->
+                        </div>
+
+                        <!--                    <input type="radio" name="julkinen" ng-value="false" ng-model="private" checked> julkinen <br>
+                                            <input type="radio" name="yksityinen" ng-value="true" ng-model="private"> yksityinen 
+                                            
+                                            <div class="form-group">
+                                                <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
+                                                <textarea class="form-control" id="modal-information" ng-model="info"></textarea>
+                                            </div> -->
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="newEvent()" ng-disabled="minSize > maxSize || !place || !date" data-dismiss="modal">Lisää</button>
+            <div class="modal-pohja">
+                <button type="button" class="btn btn-success btn_join" ng-click="newEvent()" ng-disabled="minSize < 2 || !place || !date" data-dismiss="modal">Lisää</button>
             </div>
         </div>
     </div>

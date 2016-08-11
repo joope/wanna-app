@@ -98,7 +98,7 @@ module.exports = {
                 if (!err) {
                     return res.ok();
                 } else {
-                    return res.error(500);
+                    return res.send(500);
                 }
             });
         })
@@ -110,7 +110,7 @@ module.exports = {
                 return res.json(results);
             })
         } else {
-            return res.error(404);
+            return res.send(404);
         }
     }
 

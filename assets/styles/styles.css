@@ -19,8 +19,8 @@
     width: 100%;
 }
 .valikko-item {
-    /*    position: absolute;
-        display: block;*/
+/*    position: absolute;
+    display: block;*/
     background-color: #ececec;
 }
 
@@ -190,6 +190,40 @@ body{
     min-width: 8em;
 }
 
+.numerovalitsin {
+    width: 4em!important;
+    margin: 0!important;
+    display:inline-block;
+    text-align: center;
+}
+.lisayspainike {
+    background-color: #e2ffd3;
+    color: green;
+    border: 2px solid green;
+}
+.vahennyspainike {
+    background-color: #ffe9e9;
+    color: red;
+    border: 2px solid red;
+}
+
+.navbar-collapse {
+  text-align:center;
+}
+.navbar-nav {
+    display:inline-block;
+    float:none;
+}
+.sivu_otsikko {
+    display:inline-block;
+    float:none;
+    text-align:center;
+}
+
+.navbar-collapse {
+    border: none!important;
+}
+
 .event_wrapper a:hover {
     background-color: #c4ff97!important;
 }
@@ -225,6 +259,26 @@ body{
     border-color: #3ecbf9!important;
 }
 
+.control-label{
+    margin-top: 5px!important;
+    /*margin-bottom: 0px!important;*/
+    text-align: center;
+}
+
 .topmargin {
     margin-top: 50px;
+}
+
+.modal-pohja {
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 0;
+    border-top: 1px solid #e5e5e5;
+}
+
+.modal-sisalto {
+    padding-bottom: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
