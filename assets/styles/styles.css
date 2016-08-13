@@ -12,15 +12,26 @@
     color: #f5f5f5;
 }
 
+.modal-content {
+    color: #ff9a9a;
+    padding-bottom: 10px;
+}
+
 .valikko {
     position: relative;
     display: inline-block;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     width: 100%;
 }
+.valikko-container {
+    display: block;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    padding-right: 20px;
+}
 .valikko-item {
-/*    position: absolute;
-    display: block;*/
+    display: block;
     background-color: #ececec;
 }
 
@@ -56,7 +67,7 @@ form {
 
 .otsikko {
     text-align: center!important;
-    background-color: #63a4f1!important;
+    background-color: #ff7474!important;
     color: white!important;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -71,7 +82,7 @@ form {
 }
 
 .searchHeader {
-    color: #333;
+    color: #212121;
 }
 
 .btn_add{
@@ -88,7 +99,7 @@ form {
 
 .events {
     padding-top: 0px;
-    max-width: 600px;
+    max-width: 650px;
     margin: auto;
 }
 
@@ -145,17 +156,17 @@ form {
 }
 
 body{
-    background-color: #90e3ff;
+    background-color: white;
 }
 #searchbar {
     padding-top: 0px;
-    max-width: 600px;
+    width: 100%;
     text-align: left;
 }
 #results {
     /* background-color: white; */
     margin: auto;
-    max-width: 600px;
+    max-width: 650px;
 }
 #events {
 }
@@ -179,10 +190,11 @@ body{
 }
 
 .lomake {
-    background-color: white;
+    /*    background-color: white;*/
     text-align: center;
     margin: auto;
-    max-width: 600px;
+    max-width: 650px;
+/*    min-height: 700px;*/
     /* margin-top: 100px; */
 }
 
@@ -208,7 +220,7 @@ body{
 }
 
 .navbar-collapse {
-  text-align:center;
+    text-align:center;
 }
 .navbar-nav {
     display:inline-block;
@@ -246,8 +258,8 @@ body{
 
 .sporttimenu {
     color: #fff!important;
-    background-color: #0275D8!important;
-    border: none!important;
+    background-color: #2cd1ff;
+    /*border: 1px solid black;*/
 }
 .sporttimenu a {
     color: #fff!important;

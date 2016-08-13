@@ -3,6 +3,8 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
     $scope.idToIndex = {};
     $scope.events;
     $scope.date = new Date();
+    $scope.prevDate;
+    $scope.c = 0;
 
     $scope.debug = function () {
         console.log($scope.wannaList);
@@ -11,6 +13,7 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
     }
 
     Api.getUserEvents($rootScope.userID).success(function (res) {
+        $scope.prevDate = null;
         $scope.events = res;
 //        updateAllEvents();
     });
@@ -24,20 +27,6 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
     io.socket.get('/event', function (body, response) {
 
     });
-
-    io.socket.on('event', function (update) {
-        if ($scope.idToIndex[update.id] != null) {
-            eventsToList(update.id, $scope.idToIndex[update.id]);
-        }
-    });
-
-    $scope.getEventUsers = function (event) {
-        var list = [];
-        for (u in event.users) {
-            list.push(event.users[u].username);
-        }
-        return list.join();
-    }
 
     $scope.listUsers = function (event) {
         var list = [];
@@ -81,17 +70,17 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
         return false;
     }
 
-    $scope.dateChanged = function (eventDate) {
+    $scope.dateChanged = function (eventDate, index) {
         var date = new Date(eventDate);
-        if (!$scope.prevDate) {
+        if (!$scope.prevDate || index === 0) {
             $scope.prevDate = date;
             return true;
         }
-        if ($scope.prevDate.getDate() !== date.getDate() && $scope.prevDate.getMonth() === date.getMonth()) {
-            $scope.prevDate = date;
-            return true;
+        if ($scope.prevDate.getDate() === date.getDate() && $scope.prevDate.getMonth() === date.getMonth()) {
+            return false;
         }
-        return false;
+        $scope.prevDate = date;
+        return true;
     }
 
     $scope.dateToRelative = function (eventDate) {
@@ -120,7 +109,7 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
             }
         }
     }
-    
+
     $scope.join = function (event) {
         if (!event.joined) {
             Api.addUserToEvent(event.id).success(function (res) {

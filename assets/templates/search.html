@@ -95,19 +95,24 @@
             </div>
             <div class="modal-sisalto">
                 <form name="eventFrom">
-                    <input type="text" class="form-control" id="modal-what" placeholder="tapahtuman aihe" ng-model="what" maxlength="30" 
+                    <label for="modal-name" class="control-label">Tapahtuman aihe:</label>
+                    <input type="text" autocomplete="off" class="form-control valikko" id="modal-what" placeholder="esim lenkkeily, leffan katsominen..." ng-model="what" maxlength="30" 
                            ng-focus="searching = true" ng-blur="searching = false" required>
 
                     <!-- Lista tekemisen kohteista -->
-                    <div class="valikko" ng-show="searching">
+                    <div class="" ng-show="searching">
+                        <div class="valikko-container">
                         <button type="button" ng-show="searching" class="list-group-item valikko-item" 
                                 ng-repeat="wanna in wannaList| filter:{name: what} | orderBy:'-popularity' | limitTo:5"
                                 ng-mousedown="selectWanna(wanna)">{{wanna.name}}
                         </button>
+                        </div>
                     </div>
-                    <input type="text" class="form-control" id="modal-place" placeholder="sijainti" ng-model="place" maxlength="30" required>
+                    <label for="modal-name" class="control-label">Sijainti:</label>
+                    <input type="text" class="form-control" id="modal-place" placeholder="esim Unisport Kumpula" ng-model="place" maxlength="30" required>
                     <div class="row">
                         <div class="col-xs-12">
+                            <label for="modal-name" class="control-label">Päivämäärä:</label>
                             <datepicker date-set="{{date.toString()}}" datepicker-show="true"
                                         date-min-limit="{{getPreviousDate()}}" date-format="EEEE dd.MM.yyyy" >
                                 <input class="form-control" ng-model="datepicked" type="text" maxlength="30"/>
@@ -117,14 +122,19 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
+                            <label for="modal-name" class="control-label">Aika:</label>
                             <input type="time" class="form-control" ng-model="time" required>
                         </div>
                         <div class="col-xs-8 col-xs-offset-1">
+                            <label for="modal-min" class="control-label">Tarvittavat osallistujat:</label>
                             <div>
                                 <input type="number" class="form-control numerovalitsin" placeholder="min-osallistujat" 
                                        min="2" max="50" ng-model="minSize">
+                                <button class="btn btn-default inline-block" ng-click="minSize = minSize - 1"> - </button>
+                                <button class="btn btn-default inline-block" ng-click="minSize = minSize + 1"> + </button>
                             </div>
                         </div>
+                    </div>
                         <div class="row">
 
                             <!--                        <div class="col-xs-5">
@@ -139,10 +149,10 @@
                         <!--                    <input type="radio" name="julkinen" ng-value="false" ng-model="private" checked> julkinen <br>
                                             <input type="radio" name="yksityinen" ng-value="true" ng-model="private"> yksityinen 
                                             
-                                            <div class="form-group">
-                                                <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
-                                                <textarea class="form-control" id="modal-information" ng-model="info"></textarea>
-                                            </div> -->
+                        --><div class="">
+                            <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
+                            <textarea class="form-control" id="modal-information" ng-model="info"></textarea>
+                        </div> 
                 </form>
             </div>
             <div class="modal-pohja">

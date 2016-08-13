@@ -149,6 +149,10 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
             $scope.prevDate = date;
             return true;
         }
+        if ($scope.prevDate.getDate() !== date.getDate() && $scope.prevDate.getMonth() !== date.getMonth()){
+            $scope.prevDate = date;
+            return true;
+        }
         return false;
     }
 

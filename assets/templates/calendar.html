@@ -1,12 +1,12 @@
 <div class='events form'>
 <!--    <h1 class="text-center paaotsikko">Kalenteri</h1>-->
 
-    <!--search results-->
+    <!--list of events user has joined-->
     <div id="searchbar" class="list group">
-        <div class="event_wrapper"  ng-repeat="event in results = (events| orderBy:'date' | limitTo:30)">
+        <div class="event_wrapper"  ng-repeat="event in events | orderBy:'date' | limitTo:30">
 
             <!--date header bar-->
-            <div ng-show="dateChanged(event.date) || results.length === 1" class="otsikko">
+            <div ng-show="dateChanged(event.date, $index)" class="otsikko">
                 {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
             </div>
 
