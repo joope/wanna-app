@@ -37,11 +37,21 @@ module.exports.routes = {
   '/login': 'AuthController.login',
   '/register': 'AuthController.register',
   '/logout' : 'AuthController.logout',
+  
   '/event/join': 'EventController.join',
   '/event/leave': 'EventController.leave',
   '/event/getNew': 'EventController.getNew',
   '/event/createWithWanna': 'EventController.createWithWanna',
-  '/event/getEventsByName': 'EventController.getEventsByName'
+  '/event/getEventsByName': 'EventController.getEventsByName',
+  
+  '/group/:id/join': 'GroupController.join',
+  '/group/:id/leave': 'GroupController.leave',
+  '/group/:id/addEvent': 'GroupController.addEvent',
+  '/group/:id/addMessage': 'GroupController.addMessage',
+  
+  '/user/notifications': 'NotificationController.getNotifications',
+  '/user/checkNotifications': 'NotificationController.checkNotifications'
+  
 
   /***************************************************************************
   *                                                                          *

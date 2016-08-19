@@ -41,6 +41,18 @@ module.exports = {
         collection: "Event",
         via: "users",
         dominant: true
+    },
+    groups: {
+        collection: "Group",
+        via: "users",
+        dominant: true
+    },
+    notifications: {
+        collection: "Notification",
+        via: "user"
+    },
+    lastNotificationCheck: {
+        type: 'date'
     }
   }
 };

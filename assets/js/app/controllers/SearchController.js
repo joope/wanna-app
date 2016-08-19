@@ -1,13 +1,20 @@
-WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
+WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, Api, $routeParams, $location) {
+
+    if (!$rootScope.userID) {
+        $location.path('/login');
+    }
 
     $scope.wannaList = [];
     $scope.eventList = [];
     $scope.userList = [];
+    $scope.notifications = [];
 
     $scope.date = new Date();
     $scope.prevDate;
     $scope.private = false;
     $scope.datepicked;
+
+    var timer;
 
     Api.getNewEvents(new Date()).success(function (res) {
         $scope.eventList = res;
@@ -17,6 +24,24 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
 
     Api.getWannas().success(function (res) {
         $scope.wannaList = res;
+    })
+
+    io.socket.get('/user/notifications', function (res) {
+        console.log(res);
+        $scope.notifications = res.notifications;
+        $scope.userList = res.events;
+        $scope.$applyAsync();
+    });
+
+    io.socket.on('event', function (update) {
+        console.log('List updated!', update);
+        console.log($scope.notifications)
+        $scope.newNotification(update.data, 5000);
+        $scope.$apply();
+    });
+
+    io.socket.on('wanna', function (update) {
+        console.log(update);
     })
 
     $scope.getPreviousDate = function () {
@@ -39,10 +64,14 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     }
 
     $scope.toggleForm = function (event) {
+        $timeout(function () {
+            $scope.formToggled = true;
+        }, 1000);
+
         $scope.what = $scope.search;
         $scope.place = "Esimerkinkatu 333";
         $scope.minSize = 2;
-        $scope.maxSize = 4;
+//        $scope.maxSize = 4;
 
         $scope.time = new Date();
         $scope.time.setHours($scope.time.getHours() + 1);
@@ -54,14 +83,6 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
     $scope.selectWanna = function (wanna) {
         $scope.what = wanna.name;
     }
-
-    io.socket.on('wanna', function listUpdate(update) {
-        console.log('List updated!', update);
-        Api.getWannas().success(function (data) {
-            $scope.wannaList = data;
-            //$scope.$apply();
-        })
-    });
 
     $scope.listUsers = function (event) {
         var list = [];
@@ -82,7 +103,6 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
 
     $scope.newEvent = function () {
         //poor man's hack for getting date from weird date-string-object
-        console.log($scope.datepicked);
         var dates = $scope.datepicked.split(" ");
         dates = dates[1];
         dates = dates.split('.');
@@ -98,12 +118,16 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
                 "date": newDate,
                 "place": $scope.place,
                 "ready": false,
-                "maxSize": $scope.maxSize,
+//                "maxSize": $scope.maxSize,
                 "minSize": $scope.minSize,
                 "info": $scope.info
             };
             console.log(event);
-            Api.newEvent(event).success(function () {
+            Api.newEvent(event).success(function (res) {
+                io.socket.get('/event/' + res.id);
+                $scope.search = "";
+                $scope.formToggled = false;
+                $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000);
                 Api.getNewEvents(new Date()).success(function (res) {
                     $scope.eventList = res;
                 })
@@ -112,10 +136,27 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
 
     }
 
+    $scope.newNotification = function (message, timeout) {
+        var not = {
+            message: message,
+            createdAt: new Date().toJSON(),
+            type: "info"
+        };
+        $scope.notifications.push(not);
+        $scope.notification = message;
+        $timeout.cancel(timer);
+        if (timeout) {
+            timer = $timeout(function () {
+                $scope.notification = '';
+            }, timeout);
+        }
+    }
+
     $scope.eventClicked = function (event) {
         if (!event.clicked) {
             Api.getEvent(event.id).success(function (res) {
                 event.userList = $scope.listUsers(res);
+                event.currentSize = res.currentSize;
                 if ($scope.checkUsers(res)) {
                     event.joined = true;
                     $scope.$applyAsync();
@@ -129,11 +170,15 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
         if (!event.joined) {
             Api.addUserToEvent(event.id).success(function (res) {
                 event.currentSize = event.currentSize + 1;
+                io.socket.get('/event/' + event.id);
+                $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000);
             });
             event.joined = true;
         } else {
             Api.removeUserFromEvent(event.id).success(function (res) {
                 event.currentSize = event.currentSize - 1;
+                io.socket.get('/event/' + event.id);
+                $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000);
             });
             event.joined = false;
         }
@@ -149,7 +194,7 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
             $scope.prevDate = date;
             return true;
         }
-        if ($scope.prevDate.getDate() !== date.getDate() && $scope.prevDate.getMonth() !== date.getMonth()){
+        if ($scope.prevDate.getDate() !== date.getDate() && $scope.prevDate.getMonth() !== date.getMonth()) {
             $scope.prevDate = date;
             return true;
         }
@@ -182,58 +227,4 @@ WannaApp.controller('SearchController', function ($scope, $rootScope, Api) {
             }
         }
     }
-
-    $scope.newNick = function (nick) {
-        console.log("new nick: " + nick);
-
-        Api.register(nick).success(function (res) {
-            console.log(res);
-            if (!res.error) {
-                $scope.error = "";
-                $rootScope.userID = res.id;
-                $rootScope.userLoggedIn = res.username;
-            } else {
-                $scope.error = res.error;
-            }
-        }).error(function (data, status) {
-            console.log("couldn't save nickname");
-        });
-    }
-
-    $scope.wannaClicked = function (wanna) {
-        console.log("Klikattiin wannaa: " + wanna.name);
-
-        if (!wanna.clicked) {
-            wanna.popularity += 1;
-            wanna.clicked = true;
-            $scope.userList.push(wanna);
-
-            Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function (res) {
-                Api.addUserToWanna($rootScope.userID, wanna.id).success(function (res) {
-                    console.log("added user to wanna");
-                }).error(function () {
-                    console.log("couldn't add user to wanna");
-                });
-            });
-
-        } else {
-            wanna.popularity -= 1;
-            wanna.clicked = false;
-            $scope.userList.splice($scope.userList.indexOf(wanna), 1);
-
-            Api.updateWanna(wanna, {popularity: wanna.popularity}).success(function (res) {
-                console.log(res);
-                Api.removeUserFromWanna($rootScope.userID, wanna.id).success(function (res) {
-                    console.log("removed user from wanna" + res);
-                }).error(function () {
-                    console.log("couldn't remove user from wanna");
-                });
-            }).error(function (err) {
-                console.log(err);
-            });
-
-        }
-        //$scope.$apply();
-    }
-
-})
+});

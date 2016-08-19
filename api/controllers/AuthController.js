@@ -35,7 +35,7 @@ module.exports = {
                 if(user){
                     req.session.userID = user.id;
                     return res.json(user);
-                } else{
+                } else {
                     return res.json({error: "virhe luotaessa käyttäjää"});
                 }
             })

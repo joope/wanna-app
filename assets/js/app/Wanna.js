@@ -1,19 +1,34 @@
 var WannaApp = angular.module('WannaApp', ['ngRoute', 'ngAnimate', '720kb.datepicker']);
 
+WannaApp.directive('focusMe', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(attrs.focusMe, function(value) {
+        if(value === true) { 
+          //$timeout(function() {
+            element[0].focus();
+            scope[attrs.focusMe] = false;
+          //});
+        }
+      });
+    }
+  };
+});
+
 WannaApp.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-            controller: 'SearchController',
-            templateUrl: 'templates/search.html',
-            resolve: {
-                userLoggedIn: function ($rootScope, Api) {
-                    return Api.login().success(function (user) {
-                        $rootScope.userLoggedIn = user.username;
-                        $rootScope.userID = user.userID;
-                    });
-                }
-            },
-            title: 'Etusivu'
+        controller: 'SearchController',
+        templateUrl: 'templates/search.html',
+        title: 'Etusivu',
+        resolve: {
+            userLoggedIn: function ($rootScope, Api) {
+                return Api.login().success(function (user) {
+                    $rootScope.userLoggedIn = user.username;
+                    $rootScope.userID = user.userID;
+                });
+            }
+        }
         }).when('/view', {
         controller: 'SearchController',
         templateUrl: 'templates/view.html',
@@ -26,7 +41,7 @@ WannaApp.config(function ($routeProvider) {
                 });
             }
         }
-        
+
 
     }).when('/signup', {
         controller: 'SignupController',
@@ -44,7 +59,7 @@ WannaApp.config(function ($routeProvider) {
                 });
             }
         }
-        
+
     }).when('/calendar', {
         controller: 'CalendarController',
         templateUrl: 'templates/calendar.html',
@@ -57,14 +72,30 @@ WannaApp.config(function ($routeProvider) {
                 });
             }
         }
-        
-    }).otherwise({
+    }).when('/group/:id', {
+        controller: 'SearchController',
+        templateUrl: 'templates/search.html',
+        title: "Ryhmän nimi tänne",
+        resolve: {
+            userLoggedIn: function ($rootScope, Api) {
+                return Api.login().success(function (user) {
+                    $rootScope.userLoggedIn = user.username;
+                    $rootScope.userID = user.userID;
+                });
+            }
+        }
+    }).when('/login', {
+        controller: 'LoginController',
+        templateUrl: 'templates/login.html',
+        title: "kirjautuminen"
+    })
+    .otherwise({
         redirectTo: '/'
     });
 });
 
-WannaApp.run(['$rootScope', function($rootScope) {
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
-    });
-}]);
+WannaApp.run(['$rootScope', function ($rootScope) {
+        $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+            $rootScope.title = current.$$route.title;
+        });
+    }]);

@@ -1,5 +1,5 @@
 /**
- * Wannado.js
+ * Event.js
  *
  * @description :: model for events, includes: all the stuff you need for having events
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -10,6 +10,9 @@ module.exports = {
         wanna: {
             model: "Wanna"
 //            required: true
+        },
+        group: {
+            model: "Group"
         },
         name: {
             type: "string",

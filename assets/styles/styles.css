@@ -12,9 +12,53 @@
     color: #f5f5f5;
 }
 
-.modal-content {
-    color: #ff9a9a;
-    padding-bottom: 10px;
+.notification {
+    z-index: 10000;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    background-color: #ffc044;
+    color: white;
+    font-size: 18px;
+    min-height: 40px;
+    padding: 7px;
+}
+.dropdown-menu {
+    color: #363636 !important;
+    width: 100%;
+    padding: 0;
+    z-index: 999;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0px 27px 28px -12px rgba(94,94,94,1);
+    border: 0;
+}
+@media (max-width: 768px) {
+    .navbar-collapse {
+        box-shadow: 0px 27px 28px -12px rgba(94,94,94,1);
+    }
+    .dropdown-menu {
+        width: 100vw;
+    }
+}
+
+@media (min-width: 768px){
+    .dropdown-menu {
+        width: 300px;
+    }
+}
+
+.ilmoitukset {
+    display: inline-block;
+    border-collapse: collapse;
+    height: calc(60vh);
+    /*  width: calc(100vw - 610px);*/
+    border-width: medium;
+    overflow: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .valikko {
@@ -83,7 +127,9 @@ form {
 
 .searchHeader {
     color: #212121;
+    padding-top: 10px;
 }
+
 
 .btn_add{
     padding-bottom: 5px;
@@ -134,8 +180,12 @@ form {
     opacity: 1;
 }
 
-.animate-show.ng-hide-remove {
+.animate-show.ng-hide-remove{
     transition: all ease-out 0.5s;
+}
+
+.animate-show.ng-hide-add {
+    transition: all linear 0.1s;
 }
 
 .animate-show.ng-hide {
@@ -191,10 +241,12 @@ body{
 
 .lomake {
     /*    background-color: white;*/
+
     text-align: center;
     margin: auto;
     max-width: 650px;
-/*    min-height: 700px;*/
+    display: block;
+    /*    min-height: 700px;*/
     /* margin-top: 100px; */
 }
 
@@ -235,8 +287,23 @@ body{
 .navbar-collapse {
     border: none!important;
 }
+.navbar-toggle {
+    font-size: 24px;
+    padding: 11px 15px 5px 15px!important;
+    border: 0;
+    margin: 0;
+}
+.navbar-toggle:focus {
+    background-color: #2cd1ff;
+}
 
 .event_wrapper a:hover {
+    background-color: #c4ff97!important;
+}
+.event_wrapper a:active {
+    background-color: #98ff68!important;
+}
+.event-clicked {
     background-color: #c4ff97!important;
 }
 .info-wrapper{
@@ -259,10 +326,26 @@ body{
 .sporttimenu {
     color: #fff!important;
     background-color: #2cd1ff;
+    display: inline-block;
     /*border: 1px solid black;*/
 }
+
+.sporttimenu ul li {
+    list-style: none;
+    display:inline;
+    padding-left: 20px;
+}
+.sporttimenu ul {
+    /*    padding-top: 7px;*/
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 15px;
+}
+
 .sporttimenu a {
     color: #fff!important;
+    line-height: 2.5;
+    font-size: 20px;
 }
 .navbar-toggle{
     color: #fff!important;
@@ -281,6 +364,52 @@ body{
     margin-top: 50px;
 }
 
+.remove-btn {
+    color: #363636;
+    border-radius: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #ffffff;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.btn-add {
+    color: white;
+    min-width: 3.5em;
+    background-color: #5ff555;
+    border-color: #a7bba9;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.btn-add:hover {
+    background-color: #adfff6;
+    color: white;
+}
+
+.remove-btn:hover {
+    background-color: #ffc520;
+}
+
+.modal-header {
+    padding-left: 50px!important;
+    padding-bottom: 5px!important;
+    padding-top: 5px!important;
+    padding-right: 0;
+}
+.modal-title {
+    line-height: 1.9;
+}
+.btn-close {
+    color: gray;
+}
+
 .modal-pohja {
     padding: 10px;
     text-align: center;
@@ -293,4 +422,12 @@ body{
     padding-bottom: 10px;
     padding-right: 5px;
     padding-left: 5px;
+}
+.modal-content {
+    color: #ff7474;
+    padding-bottom: 10px;
+}
+.modal-dialog {
+    margin-left: auto;
+    margin-right: auto;
 }

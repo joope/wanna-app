@@ -1,7 +1,18 @@
-<div>
-    <h1>Valitse käyttäjätunnus</h1>
-    <form method="POST" action="/login">
-      <input type="text" name="username">
-      <input type="submit" value="submit">
-    </form>
+<div class="lomake">
+    <!-- Select nickname -->
+    <div class='animate-show'  ng-hide='userLoggedIn'>
+        <h1>Valitse käyttäjätunnus</h1>
+        <form name="userForm" class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
+                       autofocus required ng-minlength='3' maxlength="20">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" ng-click="newNick(nick)" 
+                            ng-disabled="!userForm.$valid">Jatka
+                    </button>
+                </span>
+            </div>
+        </form>
+        <p class="error">{{error}}</p>
+    </div>
 </div>
