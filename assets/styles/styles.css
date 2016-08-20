@@ -330,16 +330,20 @@ body{
     /*border: 1px solid black;*/
 }
 
-.sporttimenu ul li {
+.sporttimenu div a {
     list-style: none;
     display:inline;
     padding-left: 20px;
 }
-.sporttimenu ul {
+.keskiotsikko {
+    text-align: center;
+}
+
+.sporttimenu div {
     /*    padding-top: 7px;*/
     margin-top: 0;
     margin-bottom: 0;
-    padding-right: 15px;
+    padding-right: 10px;
 }
 
 .sporttimenu a {
