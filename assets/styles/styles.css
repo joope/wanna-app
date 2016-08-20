@@ -13,7 +13,7 @@
 }
 
 .notification {
-    z-index: 10000;
+    z-index: 1001;
     position: fixed;
     width: 100%;
     text-align: center;
@@ -334,21 +334,38 @@ body{
     list-style: none;
     display:inline;
     padding-left: 20px;
+    padding-top: 13px;
+    padding-bottom: 10px;
+    padding-right: 20px;
 }
-.keskiotsikko {
+
+.sporttimenu div a:hover {
+    background-color: #0087a7;
+}
+.sporttimenu div a:active {
+    background-color: #0087a7;
+}
+
+.keskiotsikko{
     text-align: center;
+    height: 50px;
+}
+
+.keskiotsikko #teksti{
+    line-height: 50px;
+    padding-bottom: 15px;
 }
 
 .sporttimenu div {
     /*    padding-top: 7px;*/
     margin-top: 0;
     margin-bottom: 0;
-    padding-right: 10px;
+    padding: 0;
 }
 
 .sporttimenu a {
     color: #fff!important;
-    line-height: 2.5;
+    /*line-height: 2.5;*/
     font-size: 20px;
 }
 .navbar-toggle{

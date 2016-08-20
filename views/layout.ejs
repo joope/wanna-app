@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>MitäMissäMilloin</title>
+        <title>¯\_(ツ)_/¯</title>
 
         <!-- Viewport mobile tag for sensible mobile support -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,7 +14,25 @@
         <!--STYLES END-->
     </head>
 
-    <body ng-app="WannaApp" ng-cloak>
+    <body ng-app="WannaApp" ng-controller="MainController" ng-cloak>
+        <nav class="navbar sporttimenu navbar-fixed-top">
+            <div class="keskiotsikko">
+                <a id="teksti" href="#/">{{title}}</a>
+                <div class="dropdown pull-right">
+                    <a href="#/" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
+                    <ul class="dropdown-menu">
+                        <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
+                            {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
+                        </button>
+                    </ul>
+                </div>
+                <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a>
+            </div>
+        </nav>
+        <div class="topmargin"></div>
+        <div class="notification animate-show" ng-show="notification">{{notification}}
+            <button class="close" ng-click="notification = ''">x</button>
+        </div>
         <%- body %>
         <!--SCRIPTS-->
         <script src="/js/dependencies/sails.io.js"></script>
@@ -30,6 +48,7 @@
         <script src="/js/app/controllers/EventsController.js"></script>
         <script src="/js/app/controllers/GroupController.js"></script>
         <script src="/js/app/controllers/LoginController.js"></script>
+        <script src="/js/app/controllers/MainController.js"></script>
         <script src="/js/app/controllers/SearchController.js"></script>
         <script src="/js/app/controllers/SignupController.js"></script>
         <script src="/js/app/controllers/ViewController.js"></script>

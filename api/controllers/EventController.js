@@ -66,7 +66,7 @@ module.exports = {
         });
         
         Event.findOne(eventID).populate('users').exec(function (err, event) {
-
+            var json = event.toJSON();
             if (err)
                 return res.json({error: 'error when leaving event'});
 
@@ -83,7 +83,7 @@ module.exports = {
                     return res.json({error: 'couldnt leave the event'});
                 }
                 Event.message(event.id, name + " lähti tapahtumasta " + event.name);
-                HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
+//                HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
                 return res.ok();
             });
         })

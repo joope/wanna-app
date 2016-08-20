@@ -24,25 +24,18 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
 
     Api.getWannas().success(function (res) {
         $scope.wannaList = res;
-    })
-
-    io.socket.get('/user/notifications', function (res) {
-        console.log(res);
-        $scope.notifications = res.notifications;
-        $scope.userList = res.events;
-        $scope.$applyAsync();
     });
-
-    io.socket.on('event', function (update) {
-        console.log('List updated!', update);
-        console.log($scope.notifications)
-        $scope.newNotification(update.data, 5000);
-        $scope.$apply();
-    });
-
-    io.socket.on('wanna', function (update) {
-        console.log(update);
-    })
+//
+//    io.socket.on('event', function (update) {
+//        console.log('List updated!', update);
+//        console.log($scope.notifications)
+//        $scope.newNotification(update.data, 5000);
+//        $scope.$apply();
+//    });
+//
+//    io.socket.on('wanna', function (update) {
+//        console.log(update);
+//    });
 
     $scope.getPreviousDate = function () {
         var d = new Date();
@@ -134,22 +127,6 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             })
         }
 
-    }
-
-    $scope.newNotification = function (message, timeout) {
-        var not = {
-            message: message,
-            createdAt: new Date().toJSON(),
-            type: "info"
-        };
-        $scope.notifications.push(not);
-        $scope.notification = message;
-        $timeout.cancel(timer);
-        if (timeout) {
-            timer = $timeout(function () {
-                $scope.notification = '';
-            }, timeout);
-        }
     }
 
     $scope.eventClicked = function (event) {

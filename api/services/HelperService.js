@@ -15,7 +15,7 @@ module.exports = {
                     event: object,
                     triggered: triggered
                 }).exec(function(err, notf){
-                    console.log(err, notf);
+                    
                 });
             }
         }
