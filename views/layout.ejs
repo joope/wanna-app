@@ -10,29 +10,12 @@
         <link rel="stylesheet" href="/styles/angular-datepicker.css">
         <link rel="stylesheet" href="/styles/bootstrap.css">
         <link rel="stylesheet" href="/styles/importer.css">
+        <link rel="stylesheet" href="/styles/spinner.css">
         <link rel="stylesheet" href="/styles/styles.css">
         <!--STYLES END-->
     </head>
 
-    <body ng-app="WannaApp" ng-controller="MainController" ng-cloak>
-        <nav class="navbar sporttimenu navbar-fixed-top">
-            <div class="keskiotsikko">
-                <a id="teksti" href="#/">{{title}}</a>
-                <div class="dropdown pull-right">
-                    <a href="#/" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
-                    <ul class="dropdown-menu">
-                        <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
-                            {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
-                        </button>
-                    </ul>
-                </div>
-                <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a>
-            </div>
-        </nav>
-        <div class="topmargin"></div>
-        <div class="notification animate-show" ng-show="notification">{{notification}}
-            <button class="close" ng-click="notification = ''">x</button>
-        </div>
+    <body>
         <%- body %>
         <!--SCRIPTS-->
         <script src="/js/dependencies/sails.io.js"></script>

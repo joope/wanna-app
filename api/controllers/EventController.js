@@ -13,7 +13,7 @@ module.exports = {
         User.findOne(user).exec(function (err, user) {
             name = user.username;
         });
-        
+
         Event.findOne(eventID).populate('users').exec(function (err, event) {
             var json = event.toJSON();
             if (err)
@@ -45,7 +45,7 @@ module.exports = {
                 if (err) {
                     return res.json({error: 'couldnt join the event'});
                 }
-                
+
                 if (event.currentSize === event.minSize) {
                     Event.message(event.id, "Tapahtuma '" + event.name + "' varmistui!");
                     HelperService.notificateUsers(json, event.name + " varmistui!", "success", user);
@@ -53,7 +53,7 @@ module.exports = {
                     Event.message(event.id, name + " osallistui myös tapahtumaan " + event.name);
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
-                return res.ok();
+                return res.json(event);
             });
         });
     },
@@ -64,7 +64,7 @@ module.exports = {
         User.findOne(user).exec(function (err, user) {
             name = user.username;
         });
-        
+
         Event.findOne(eventID).populate('users').exec(function (err, event) {
             var json = event.toJSON();
             if (err)
@@ -84,7 +84,7 @@ module.exports = {
                 }
                 Event.message(event.id, name + " lähti tapahtumasta " + event.name);
 //                HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
-                return res.ok();
+                return res.json(event);
             });
         })
     },
@@ -99,9 +99,17 @@ module.exports = {
         })
     },
     createWithWanna: function (req, res) {
+        var name;
+        User.findOne(req.session.userID).exec(function (err, user) {
+            name = user.username;
+        });
         //should check input here
         Wanna.findOrCreate({name: req.body['name']}, {name: req.body['name']}).exec(function (err, wanna) {
             //add user to wannas user-list
+            if (err) {
+                //probably weird input
+                res.json({error: 'Ei voitu luoda tapahtumaa koska'});
+            }
             wanna.users.add(req.session.userID);
             wanna.save(function (err) {
                 if (err) {
@@ -110,7 +118,7 @@ module.exports = {
             });
             //add user to event's user-list
             req.body['users'] = [req.session.userID];
-            req.body['creator'] = req.session.userID;
+            req.body['creator'] = name;
             Event.create(req.body).exec(function (err, event) {
                 if (!err) {
                     return res.json(event);

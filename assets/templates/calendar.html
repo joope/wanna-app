@@ -1,24 +1,9 @@
-<!--<div class="topmargin"></div>-->
-<!--<nav class="navbar sporttimenu navbar-fixed-top">
-    <div class="keskiotsikko">
-        <a href="#/">Omat tapahtumat</a>
-        <div class="dropdown pull-right">
-            <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
-            <ul class="dropdown-menu">
-                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
-                    {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
-                </button>
-            </ul>
-        </div>
-        <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a></li>
-    </div>
-</nav>-->
-<div class='events form'>
-<!--    <h1 class="text-center paaotsikko">Kalenteri</h1>-->
+<div class='lomake'>
+    <!--    <h1 class="text-center paaotsikko">Kalenteri</h1>-->
 
     <!--list of events user has joined-->
     <div id="searchbar" class="list group">
-        <div class="event_wrapper"  ng-repeat="event in events | orderBy:'date' | limitTo:30">
+        <div class="event_wrapper"  ng-repeat="event in events| orderBy:'date' | limitTo:30">
 
             <!--date header bar-->
             <div ng-show="dateChanged(event.date, $index)" class="otsikko">
@@ -27,8 +12,10 @@
 
             <!--event name and basic info-->
             <a href="#/calendar" type="button" class="list-group-item" 
+               ng-class="{'list-group-item-success': event.ready}"
                ng-click="eventClicked(event)">
-                <h4 class="list-group-item-heading">{{event.name}}                            
+                <h4 class="list-group-item-heading">
+                    {{event.name}} <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>                            
                     <span class="badge pull-right"
                           ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                         {{event.currentSize}}/{{event.minSize}} 
@@ -41,14 +28,15 @@
             <!--info wrapper for event-->
             <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
                 <p class="list-group-item-text">
-                    <strong>Lisätietoja:</strong> {{event.info}}
+                    <strong>Ehdotti:</strong> {{event.creator}}
+                </p>
+                <p class="list-group-item-text">
+                    <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
                 </p>
                 <p class="list-group-item-text">
                     <strong>Osallistujat:</strong> {{event.userList}}
                 </p>
                 <div class="event_info">
-                    <button class="btn btn-success btn_join" type="button" ng-if="!event.joined" ng-click="join(event)" >liity
-                    </button>
                     <button class="btn btn-warning btn_join" ng-disabled="event.ready" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
                     </button>
                 </div>

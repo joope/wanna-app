@@ -1,55 +1,9 @@
-<!--navbar menu-->
-<!--<div class="topmargin"></div>-->
-<!--<nav class="navbar navbar-default sporttimenu navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
-            </button>
-            <a class="navbar-brand" href="#/" ng-bind="title"></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/calendar">Tapahtumat</a></li>
-                <li><a href="#/events">Suositukset</a></li>
-                                <li class="dropdown">
-                    <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ilmoitukset <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <button ng-repeat="ntf in notifications | orderBy:'-createdAt' | limitTo:20" type="button" class="list-group-item list-group-item-{{ntf.type}}">
-                            {{ntf.message}} <span class="pull-right">({{ntf.createdAt | date:'d.M. H:mm'}})</span>
-                        </button>
-                    </ul>
-                </li>
-            </ul>
-        </div>/.nav-collapse 
-    </div>
-</nav>-->
-<!--<nav class="navbar sporttimenu navbar-fixed-top">
-    <div class="keskiotsikko">
-        <a id="teksti" href="#/">Etusivu</a>
-        <div class="dropdown pull-right">
-            <a href="#/" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
-            <ul class="dropdown-menu">
-                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
-                    {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
-                </button>
-            </ul>
-        </div>
-        <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a></li>
-    </div>
-</nav>-->
-<!--notification-box-->
-<!--<div class="notification animate-show" ng-show="notification">{{notification}}
-    <button class="close" ng-click="notification = ''">x</button>
-</div>-->
-<!--the rest-->
 <div class="lomake">
     <div class='animate-show' ng-show='userLoggedIn'>
         <!-- Search bar -->
         <h1 class="searchHeader">Mitä haluaisit tehdä?</h1>
         <div>
-            <form name="wannaForm" class="form-group">
+            <form name="wannaForm" class="">
                 <div class="input-group">
                     <input type="text" class="form-control " ng-model='search' maxlength="25" ng-change="searched(search)"
                            placeholder="esim. sulkapallo, tänään, helsinki" autofocus>
@@ -59,7 +13,7 @@
                                             </button>
                                         </span>-->
                     <span class="input-group-btn">
-                        <button class="btn btn-add" ng-click="toggleForm()" data-toggle="modal" data-target="#modal" type="submit">  +  
+                        <button class="btn-add" ng-click="toggleForm()" data-toggle="modal" data-target="#modal" type="submit">  +  
                         </button>
                     </span>
                 </div>
@@ -70,7 +24,7 @@
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:20)">
 
                     <!--date header bar-->
-                    <div ng-show="dateChanged(event.date) || results.length === 1" class="otsikko">
+                    <div ng-show="dateChanged(event.date, $index) || results.length === 1" class="otsikko">
                         {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
                     </div>
 
@@ -97,15 +51,18 @@
                     <!--info wrapper for event-->
                     <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
                         <p class="list-group-item-text">
-                            <strong>Lisätietoja:</strong> {{event.info}}
+                            <strong>Ehdotti:</strong> {{event.creator}}
+                        </p>
+                        <p class="list-group-item-text">
+                            <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
                         </p>
                         <p class="list-group-item-text">
                             <strong>Osallistujat:</strong> {{event.userList}}
                         </p>
                         <div class="event_info">
-                            <button class="btn btn-success btn_join" type="button" ng-if="!event.joined" ng-click="join(event)" >liity
-                            </button>
-                            <button class="btn btn-warning btn_join" ng-disabled="event.ready || event.currentSize >= event.minSize" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
+                            <button class="btn btn_join" type="button" ng-disabled="event.joined" ng-click="join(event)"
+                                    ng-class="{'btn-info' : event.joined , 'btn-success' : !event.joined}">
+                                <span ng-if="event.joined">Liitytty!</span><span ng-if="!event.joined">Liity</span>
                             </button>
                         </div>
                     </div>

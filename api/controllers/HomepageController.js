@@ -1,4 +1,4 @@
- /**
+/**
  * IndexController
  *
  * @description :: Server-side logic for managing indices
@@ -6,8 +6,12 @@
  */
 
 module.exports = {
-    index: function (request, response) {
-        return response.view('index');
-  }
+    index: function (req, res) {
+        if (req.session.userID) {
+            return res.view('index');
+        } else {
+            return res.view('signup');
+        }
+    }
 };
 
