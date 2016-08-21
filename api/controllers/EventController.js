@@ -47,8 +47,8 @@ module.exports = {
                 }
 
                 if (event.currentSize === event.minSize) {
-                    Event.message(event.id, "Tapahtuma '" + event.name + "' varmistui!");
-                    HelperService.notificateUsers(json, event.name + " varmistui!", "success", user);
+                    Event.message(event.id, "Tapahtuman '" + event.name + "' osallistujia on nyt tarvittava määrä!");
+                    HelperService.notificateUsers(json, "Tapahtuman '" + event.name + " osallistujia on nyt tarvittava määrä!", "success", user);
                 } else {
                     Event.message(event.id, name + " osallistui myös tapahtumaan " + event.name);
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
@@ -66,6 +66,7 @@ module.exports = {
         });
 
         Event.findOne(eventID).populate('users').exec(function (err, event) {
+            var date = new Date();
             var json = event.toJSON();
             if (err)
                 return res.json({error: 'error when leaving event'});
@@ -73,8 +74,8 @@ module.exports = {
             if (!event)
                 return res.json({error: 'no such event'});
 
-            if (event.ready) {
-                return res.json({error: 'cannot leave event that is ready'});
+            if (event.date < date) {
+                return res.json({error: 'cannot leave event that begins in 2 hours'});
             }
             event.users.remove(user);
             event.currentSize = event.currentSize - 1;
@@ -83,14 +84,15 @@ module.exports = {
                     return res.json({error: 'couldnt leave the event'});
                 }
                 Event.message(event.id, name + " lähti tapahtumasta " + event.name);
-//                HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
+                HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
                 return res.json(event);
             });
         })
     },
     getNew: function (req, res) {
-        var date = new Date();
-        date.setHours(date.getHours() - 1);
+        var d = new Date();
+        d = (d.getTime() - 1000*60*60);
+        var date = new Date(d);
         Event.find({date: {'>=': date}}).populate('wanna').exec(function (err, events) {
             if (err) {
                 return res.json({error: 'error when retrieving events'});

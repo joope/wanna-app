@@ -16,7 +16,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         $scope.eventList = res;
     }).error(function () {
         $scope.error = "error when retrieving data";
-    })
+    });
 
     Api.getWannas().success(function (res) {
         $scope.wannaList = res;

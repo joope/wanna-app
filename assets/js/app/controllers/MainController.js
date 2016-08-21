@@ -45,6 +45,15 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         $scope.prevDate = date;
         return true;
     }
+    
+    $scope.difference = function (date){
+        var d = new Date(date);
+        
+        if(d.getTime() < $scope.date.getTime() + (1000 * 60 * 60)){
+            return true;
+        }
+        return false;
+    }
 
     $scope.dateToRelative = function (eventDate) {
         var date = new Date(eventDate);

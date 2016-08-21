@@ -37,7 +37,9 @@
                     <strong>Osallistujat:</strong> {{event.userList}}
                 </p>
                 <div class="event_info">
-                    <button class="btn btn-warning btn_join" ng-disabled="event.ready" type="button" ng-if="event.joined" ng-click="join(event)" >lähde
+                    <button class="btn btn-warning btn_join" ng-disabled="difference(event.date)" type="button" ng-if="event.joined" ng-click="join(event)" >peru osallistuminen
+                    </button>
+                    <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin
                     </button>
                 </div>
             </div>

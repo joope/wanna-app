@@ -58,11 +58,13 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
     $scope.join = function (event) {
         if (!event.joined) {
             Api.joinEvent(event.id).success(function (res) {
+                console.log(res);
                 event.currentSize = event.currentSize + 1;
             });
             event.joined = true;
         } else {
             Api.leaveEvent(event.id).success(function (res) {
+                console.log(res);
                 event.currentSize = event.currentSize - 1;
             });
             event.joined = false;

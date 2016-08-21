@@ -1,40 +1,39 @@
-<div ng-app="WannaApp" ng-controller="MainController" ng-cloak>
-    <!--navbar-->
-    <nav class="navbar sporttimenu navbar-fixed-top">
-        <div class="keskiotsikko">
-            <a id="teksti" href="#/">{{title}}</a>
-            <div class="dropdown pull-right">
+<!--navbar-->
+<nav class="navbar sporttimenu navbar-fixed-top">
+    <div class="keskiotsikko">
+        <a id="teksti" href="#/" ng-bind="title"></a>
+        <div class="dropdown pull-right">
 
-                <!--notifications container-->
-                <a href="javascript:void(0)" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
-                <ul class="dropdown-menu">
-                    <h4 class='text-center'>Ilmoitukset</h4>
-                    <button ng-if="notifications.length === 0" class="list-group-item">
-                        Ei ilmoituksia :-)
-                    </button>
-                    <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
-                        {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
-                    </button>
-                </ul>
-            </div>
-            <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a>
+            <!--notifications container-->
+            <a href="javascript:void(0)" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
+            <ul class="dropdown-menu">
+                <h4 class='text-center'>Ilmoitukset</h4>
+                <button ng-if="notifications.length === 0" class="list-group-item">
+                    Ei ilmoituksia :-)
+                </button>
+                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
+                    {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
+                </button>
+            </ul>
         </div>
-    </nav>
-    <div class="topmargin"></div>
-    <!--notification popup-->
-    <div class="notification animate-show" ng-show="notification">{{notification}}
-        <button class="close" ng-click="notification = ''">x</button>
+        <a class="pull-left" href="#/calendar"><span class="glyphicon glyphicon-calendar"></span></a>
     </div>
-    <!--loading animation-->
-    <div ng-hide="userID" class="loading-container">
-        <div class="cssload-whirlpool"></div>
-    </div>
-    <!--angular view container-->
-    <div class="container-fluid nopadding">
-        <div ng-view></div>
-    </div>
-    
-    <footer ng-show="userID">
-        © 2016 Joope. Some Cool Text Here So It Doesn't Look So Empty
-    </footer>
+</nav>
+<div class="topmargin"></div>
+<!--notification popup-->
+<div class="notification animate-show" ng-show="notification" ng-bind="notification">
+    <button class="close" ng-click="notification = ''">x</button>
+</div>
+<!--loading animation-->
+<div ng-hide="userID" class="loading-container">
+    <div class="cssload-whirlpool"></div>
+</div>
+<!--angular view container-->
+<div class="container-fluid nopadding">
+    <div ng-view></div>
+</div>
+
+<footer ng-show="userID">
+    © 2016 Joope. Some Cool Text Here So It Doesn't Look So Empty
+</footer>
 
