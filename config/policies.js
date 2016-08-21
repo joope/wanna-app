@@ -44,5 +44,8 @@ module.exports.policies = {
     },
     WannadoController: {
         '*': 'isAuthenticated'
+    },
+    EventController: {
+        '*': 'isAuthenticated'
     }
 };
