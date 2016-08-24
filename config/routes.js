@@ -34,13 +34,18 @@ module.exports.routes = {
 
   '/': 'HomepageController.index',
   
-  '/login': 'AuthController.login',
+  'post /login': 'AuthController.login',
   '/register': 'AuthController.register',
   '/logout' : 'AuthController.logout',
+  
+  'get /login': {view: 'signup'},
+  '/auth/google': 'UserController.authenticate',
+  '/auth/google/callback': 'UserController.callback',
   
   '/event/join': 'EventController.join',
   '/event/leave': 'EventController.leave',
   '/event/getNew': 'EventController.getNew',
+  '/event/getUserNew': 'EventController.getUserNew',
   '/event/createWithWanna': 'EventController.createWithWanna',
   '/event/getEventsByName': 'EventController.getEventsByName',
   

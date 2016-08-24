@@ -7,7 +7,7 @@
 
 module.exports = {
     join: function (req, res) {
-        var user = req.session.userID;
+        var user = req.user.id;
         var eventID = req.body['eventID'];
         var name;
         User.findOne(user).exec(function (err, user) {
@@ -58,7 +58,7 @@ module.exports = {
         });
     },
     leave: function (req, res) {
-        var user = req.session.userID;
+        var user = req.user.id;
         var eventID = req.body['eventID'];
         var name;
         User.findOne(user).exec(function (err, user) {
@@ -91,7 +91,7 @@ module.exports = {
     },
     getNew: function (req, res) {
         var d = new Date();
-        d = (d.getTime() - 1000*60*60);
+        d = (d.getTime() - 1000 * 60 * 60);
         var date = new Date(d);
         Event.find({date: {'>=': date}}).populate('wanna').exec(function (err, events) {
             if (err) {
@@ -100,9 +100,21 @@ module.exports = {
             return res.json(events);
         })
     },
+    getUserNew: function (req, res) {
+//        var d = new Date();
+//        d = (d.getTime() - 1000 * 60 * 60);
+//        d = new Date(d);
+        //ei toimi :(
+        User.findOne(req.user.id).populate('events').exec(function (err, user) {
+            if (err) {
+                return res.json({error: 'error when retrieving events'});
+            }
+            return res.json(user.events);
+        })
+    },
     createWithWanna: function (req, res) {
         var name;
-        User.findOne(req.session.userID).exec(function (err, user) {
+        User.findOne(req.user.id).exec(function (err, user) {
             name = user.username;
         });
         //should check input here
@@ -112,14 +124,14 @@ module.exports = {
                 //probably weird input
                 res.json({error: 'Ei voitu luoda tapahtumaa koska'});
             }
-            wanna.users.add(req.session.userID);
+            wanna.users.add(req.user.id);
             wanna.save(function (err) {
                 if (err) {
                     //user already subscribed to wanna
                 }
             });
             //add user to event's user-list
-            req.body['users'] = [req.session.userID];
+            req.body['users'] = [req.user.id];
             req.body['creator'] = name;
             Event.create(req.body).exec(function (err, event) {
                 if (!err) {

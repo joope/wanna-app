@@ -27,6 +27,10 @@ WannaApp.service('Api', function ($http) {
         return $http.get('/user/notifications');
     };
     
+    this.getUserNew = function(){
+        return $http.get('/event/getUserNew');
+    };
+    
     this.getWannas = function () {
         return $http.get('/wanna');
     };
@@ -34,7 +38,7 @@ WannaApp.service('Api', function ($http) {
         return $http.get('/user/' + userID + '/wannas');
     };
     this.getUserEvents = function (userID) {
-        return $http.get('/user/' + userID + '/events');
+        return $http.get('/event/getUserNew');
     };
     this.getNewEvents = function(date){
         return $http.get('/event/getNew', {'date': date});

@@ -7,12 +7,11 @@
 
 module.exports = {
     getNotifications: function (req, res) {
-        var user = req.session.userID;
         if (!req.isSocket) {
             return res.send(403);
         }
         //rajoita notifikaatioiden määrää
-        User.findOne(user).populate('notifications').populate('events').exec(function (err, results) {
+        User.findOne(req.session.userID).populate('notifications').populate('events').exec(function (err, results) {
             if (err) {
                 return res.send(500);
             }
@@ -22,7 +21,7 @@ module.exports = {
         });
     },
     checkNotifications: function (req, res) {
-        var user = req.session.userID;
+        var user = req.user.id;
         User.update({id: user}, {lastNotificationCheck: new Date()});
         res.ok();
     }

@@ -4,7 +4,7 @@
     <div class="lomake">
         <!-- Select nickname -->
         <div class='animate-show'>
-            <h1>Valitse käyttäjätunnus</h1>
+            <h1>Tervetuloa.</h1>
             <form name="userForm" class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
@@ -15,6 +15,9 @@
                         </button>
                     </span>
                 </div>
+                <a href="/auth/google" class="btn btn-block btn-info">
+                    Kirjaudu Googlella
+                </a>
             </form>
             <p class="error" ng-bind="error"></p>
         </div>

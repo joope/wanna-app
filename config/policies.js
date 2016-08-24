@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+//   '*': true,
 
   /***************************************************************************
   *                                                                          *
@@ -36,16 +36,22 @@ module.exports.policies = {
   ***************************************************************************/
     WannaController: {
         '*': 'isAuthenticated',
-        'find': true
+        'find': true,
+        'delete': false
     },
     UserController: {
-        '*': 'isAuthenticated',
-        'create': true
+        '*': false,
+        'authenticate': true,
+        'callback': true,
+        'find': true
     },
-    WannadoController: {
-        '*': 'isAuthenticated'
+    NotificationController: {
+        '*': false,
+        'getNotifications': 'isAuthenticated',
+        'checkNotifications': 'isAuthenticated'
     },
     EventController: {
-        '*': 'isAuthenticated'
+        '*': 'isAuthenticated',
+        'delete': false
     }
 };

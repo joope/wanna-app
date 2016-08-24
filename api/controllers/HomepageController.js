@@ -7,10 +7,10 @@
 
 module.exports = {
     index: function (req, res) {
-        if (req.session.userID) {
+        if (req.user) {
             return res.view('index');
         } else {
-            return res.view('signup');
+            return res.redirect('/login');
         }
     }
 };

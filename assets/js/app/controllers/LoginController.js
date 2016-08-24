@@ -1,7 +1,7 @@
 WannaApp.controller('LoginController', function ($scope, $window, $rootScope, Api, $location) {
-    if ($rootScope.userID) {
-        $location.path('/');
-    }
+//    if ($rootScope.userID) {
+//        $location.path('/');
+//    }
 
     $scope.newNick = function (nick) {
         console.log("new nick: " + nick);

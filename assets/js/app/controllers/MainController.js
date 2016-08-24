@@ -1,4 +1,4 @@
-WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Api, $routeParams, $location) {
+WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Api, $window) {
     $scope.notifications = [];
     $scope.date = new Date();
     var timer;
@@ -11,11 +11,26 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     });
 
     io.socket.on('event', function (update) {
-        console.log('List updated!', update);
-        console.log($scope.notifications)
+        console.log('new notification', update);
         $scope.newNotification(update.data, 5000);
         $scope.$apply();
     });
+
+    $scope.join = function (event) {
+        if (!event.joined) {
+            Api.joinEvent(event.id).success(function (res) {
+                console.log(res);
+                event.currentSize = event.currentSize + 1;
+            });
+            event.joined = true;
+        } else {
+            Api.leaveEvent(event.id).success(function (res) {
+                console.log(res);
+                event.currentSize = event.currentSize - 1;
+            });
+            event.joined = false;
+        }
+    }
 
     $scope.newNotification = function (message, timeout) {
         var not = {
@@ -45,11 +60,11 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         $scope.prevDate = date;
         return true;
     }
-    
-    $scope.difference = function (date){
+
+    $scope.difference = function (date) {
         var d = new Date(date);
-        
-        if(d.getTime() < $scope.date.getTime() + (1000 * 60 * 60)){
+
+        if (d.getTime() < $scope.date.getTime() + (1000 * 60 * 60)) {
             return true;
         }
         return false;
@@ -91,6 +106,34 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         }
         return list.join(", ");
     };
+    $scope.checkUsers = function (event) {
+        for (w in event.users) {
+            if (event.users[w].id === $rootScope.userID) {
+                return true;
+            }
+        }
+        return false;
+    }
+    $scope.oldEvent = function (event) {
+        var e = new Date(event.date);
+        if (e.getTime() < new Date()) {
+            return true;
+        }
+        return false;
+    }
+
+    $scope.eventClicked = function (event) {
+        if (!event.clicked) {
+            Api.getEvent(event.id).success(function (res) {
+                event.userList = $scope.listUsers(res);
+                if ($scope.checkUsers(res)) {
+                    event.joined = true;
+                    $scope.$applyAsync();
+                }
+            })
+        }
+        event.clicked = !event.clicked;
+    }
 
 });
 

@@ -15,7 +15,7 @@
 .loginForm {
     background-color: white;
     padding-top: 20px;
-    
+
 }
 
 .notification {
@@ -353,9 +353,9 @@ body{
 .sporttimenu div a:hover {
     background-color: #0087a7;
 }
-.sporttimenu div a:active {
-    background-color: #0087a7;
-}
+/*.sporttimenu div a:active {
+    background-color: #d6d6d6;
+}*/
 
 .keskiotsikko{
     text-align: center;
@@ -467,6 +467,9 @@ body{
 }
 .list-group-item-success {
     background-color: #e0ffd4;
+}
+.list-group-item {
+    border-color: #e8e8e8;
 }
 .valmis {
     font-size: 12px;

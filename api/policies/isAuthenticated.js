@@ -1,11 +1,20 @@
-module.exports = function(req, res, next) {
-    if(req.session.userID){
-        User.findOne({id: req.session.userID}).then(function(user){
-            if(user){
-                next();
+var passport = require('passport');
+
+module.exports = function (req, res, next) {
+    //is socket
+    if (req.session.userID) {
+        User.findOne(req.session.userID).exec(function (err, user) {
+            if (err || !user) {
+                return res.redirect('/login');
             }
-        });
-    } else{
-        return res.forbidden('You are not permitted to perform this action.');
+            return next();
+        })
+
+    } else {
+        //regular http
+        if (!req.user || !req.isAuthenticated()) {
+            return res.redirect('/login');
+        }
+        return next();
     }
 }

@@ -14,17 +14,24 @@ module.exports = {
         size: "32",
         minLength: 2,
 	maxLength: 30,
-        required: true,
-        unique: true
+        required: true
+//        unique: true
     },
-    password : {
-        type : 'string',
-        //required: true,
-        minLength: 7
+    firstName:{
+        type: 'string'
+    },
+    lastName:{
+        type: 'string'
+    },
+    google_id: {
+        type: 'string'
     },
     toJSON: function() {
         var obj = this.toObject();
-        delete obj.password;
+        delete obj.email;
+        delete obj.google_id;
+        delete obj.firstName;
+        delete obj.lastName;
         return obj;
     },
     email: {

@@ -5,7 +5,7 @@
         <div>
             <form name="wannaForm" class="">
                 <div class="input-group">
-                    <input type="text" class="form-control " ng-model='search' maxlength="25" ng-change="searched(search)"
+                    <input type="text" class="form-control " ng-model='search' maxlength="32" ng-change="searched(search)"
                            placeholder="esim. sulkapallo, tänään, helsinki" autofocus>
                     <!--                    <span class="input-group-btn">
                                             <button class="btn remove-btn " ng-click="search = ''" type="button"> 
@@ -45,7 +45,7 @@
 
                         </h4>
                         <p class="list-group-item-text">{{event.place}}
-                            <span class="pull-right"><strong>{{event.date| date:'H:mm'}}</strong></span>
+                            <span class="pull-right"><strong>{{event.date| date:'HH:mm'}}</strong></span>
                         </p>
                     </a>
                     <!--info wrapper for event-->
@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-sisalto">
                     <label for="modal-name" class="control-label">Tapahtuman aihe:</label>
-                    <input type="text" autocomplete="off" class="form-control valikko" id="modal-what" placeholder="esim lenkkeily, leffan katsominen..." ng-model="what" maxlength="30" 
+                    <input type="text" autocomplete="off" class="form-control valikko" id="modal-what" placeholder="esim lenkkeily, leffan katsominen..." ng-model="what" maxlength="32" 
                            ng-focus="searching = true" ng-blur="searching = false" focus-me="formToggled" required>
 
                     <!-- Lista tekemisen kohteista -->

@@ -9,6 +9,9 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
+var passport = require('passport');
+var strategies = require('./strategies');
+
 module.exports.http = {
 
   /****************************************************************************
@@ -29,24 +32,44 @@ module.exports.http = {
   * router is invoked by the "router" middleware below.)                     *
   *                                                                          *
   ***************************************************************************/
+    passportInit    : passport.initialize(),
+    passportSession : passport.session(),
+    
+    passportStrategies : function(req, res, next){
+        passport.use(strategies.google);
+        
+        passport.serializeUser(function(user, done){
+            done(null, user.id);
+        });
+        passport.deserializeUser(function(id, done){
+           User.findOne(id).exec(function(err, user){
+               done(err, user);
+           })
+        });
+        return next();
+    },
+    
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+     order: [
+       'startRequestTimer',
+       'cookieParser',
+       'session',
+       'passportInit',
+       'passportSession',
+       'passportStrategies',
+       'myRequestLogger',
+       'bodyParser',
+       'handleBodyParserError',
+       'compress',
+       'methodOverride',
+       'poweredBy',
+       '$custom',
+       'router',
+       'www',
+       'favicon',
+       '404',
+       '500'
+     ]
 
   /****************************************************************************
   *                                                                           *
@@ -54,10 +77,10 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+//     myRequestLogger: function (req, res, next) {
+//         console.log("Requested :: ", req.method, req.url);
+//         return next();
+//     }
 
 
   /***************************************************************************
