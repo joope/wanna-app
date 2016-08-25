@@ -5,15 +5,16 @@
         <div class="dropdown pull-right">
 
             <!--notifications container-->
-            <a href="javascript:void(0)" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-globe"></span>
+            <a href="javascript:void(0)" ng-click="checkNotifications()" class="dropdown-toggle pull-right" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-globe"><span class="badge notif-float" ng-if="newNotifs > 0">{{newNotifs}}</span></span>
             </a>
             <ul class="dropdown-menu animate-show">
                 <h4 class='text-center'>Ilmoitukset</h4>
                 <button ng-if="notifications.length === 0" class="list-group-item">
                     Ei ilmoituksia :-)
                 </button>
-                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item list-group-item-{{ntf.type}}">
+                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item"
+                        ng-class="{'list-group-item-info': ntf.unread}">
                     {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
                 </button>
             </ul>

@@ -24,7 +24,7 @@ module.exports = {
             required: true
         },
         place: {
-            type: "string",
+            model: "Place",
             required: true
         },
         creator: {

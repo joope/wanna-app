@@ -12,7 +12,7 @@
 
                 <!--event name and basic info-->
                 <a href="#/calendar" type="button" class="list-group-item" 
-                   ng-class="{'list-group-item-success': event.ready}"
+                   ng-class="{'list-group-item-success': event.ready, 'event-clicked' : event.clicked , '' : !event.clicked}"
                    ng-click="eventClicked(event)">
                     <h4 class="list-group-item-heading">
                         {{event.name}} <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>                            
@@ -36,7 +36,9 @@
                     <p class="list-group-item-text">
                         <strong>Osallistujat:</strong> {{event.userList}}
                     </p>
+                    
                     <div class="event_info">
+                        <p ng-if="difference(event.date)">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
                         <button class="btn btn-warning btn_join" ng-disabled="difference(event.date)" type="button" ng-if="event.joined" ng-click="join(event)" >peru osallistuminen
                         </button>
                         <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin
@@ -45,7 +47,7 @@
             </div>
         </div>
         <button ng-show="events.length === 0" type="button" class="list-group-item list-group-item-danger">
-            Ei löydetty tapahtumia, liity tai lisää tapahtumia etusivulta
+            Ei tulevia tapahtumia, lisää tai liity tapahtumiin etusivulta
         </button>
     </div>
 </div>

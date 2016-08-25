@@ -39,13 +39,13 @@
                                                         </button>-->
 
                             <span class="badge pull-right"
-                                  ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
+                                  ng-class="{'badge-info': event.currentSize >= 1 && !event.ready, 'badge-success': event.ready}">
                                 {{event.currentSize}}/{{event.minSize}} 
                             </span>
 
                         </h4>
-                        <p class="list-group-item-text">{{event.place}}
-                            <span class="pull-right"><strong>{{event.date| date:'HH:mm'}}</strong></span>
+                        <p class="list-group-item-text place">{{event.place}}
+                            <span class="pull-right time"><strong>{{event.date| date:'HH:mm'}}</strong></span>
                         </p>
                     </a>
                     <!--info wrapper for event-->
@@ -88,19 +88,32 @@
                 <div class="modal-sisalto">
                     <label for="modal-name" class="control-label">Tapahtuman aihe:</label>
                     <input type="text" autocomplete="off" class="form-control valikko" id="modal-what" placeholder="esim lenkkeily, leffan katsominen..." ng-model="what" maxlength="32" 
-                           ng-focus="searching = true" ng-blur="searching = false" focus-me="formToggled" required>
+                           ng-focus="searchingName = true" ng-blur="searchingName = false" focus-me="formToggled" required>
 
                     <!-- Lista tekemisen kohteista -->
-                    <div class="" ng-show="searching">
+                    <div class="" ng-show="searchingName">
                         <div class="valikko-container">
-                            <button type="button" ng-show="searching" class="list-group-item valikko-item" 
+                            <button type="button" ng-show="searchingName" class="list-group-item valikko-item" 
                                     ng-repeat="wanna in wannaList| filter:{name: what} | orderBy:'-popularity' | limitTo:5"
                                     ng-mousedown="selectWanna(wanna)">{{wanna.name}}
                             </button>
                         </div>
                     </div>
+
                     <label for="modal-name" class="control-label">Sijainti:</label>
-                    <input type="text" class="form-control" id="modal-place" placeholder="esim Unisport Kumpula" ng-model="place" maxlength="30" required>
+                    <input type="text" autocomplete="off" class="form-control valikko" id="modal-place" placeholder="esim Unisport Kumpula" ng-model="place" maxlength="30" 
+                           ng-focus="searchingPlace = true" ng-blur="searchingPlace = false" focus-me="wannaSelected" required>
+
+                    <!-- Lista tapahtumapaikoista -->
+                    <div class="" ng-show="searchingPlace">
+                        <div class="valikko-container">
+                            <button type="button" ng-show="searchingPlace" class="list-group-item valikko-item" 
+                                    ng-repeat="place in placeList| filter:{name: place} | orderBy:'-popularity' | limitTo:5"
+                                    ng-mousedown="selectPlace(place)">{{place.name}}
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xs-12">
                             <label for="modal-name" class="control-label">Päivämäärä:</label>

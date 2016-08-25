@@ -1,44 +1,50 @@
 WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Api, $window) {
     $scope.notifications = [];
+    $scope.lastCheck;
+    $scope.newNotifs = 0;
     $scope.date = new Date();
     var timer;
 
     io.socket.get('/user/notifications', function (res) {
         console.log(res);
-        $scope.notifications = res.notifications;
+        $scope.lastCheck = new Date(res.lastNotificationCheck);
+        $scope.notifications = parseNotifications(res.notifications);
+
         $scope.userList = res.events;
         $scope.$applyAsync();
     });
 
     io.socket.on('event', function (update) {
         console.log('new notification', update);
-        $scope.newNotification(update.data, 5000);
+        $scope.newNotification(update.data, 5000, true);
+        $scope.newNotifs++;
         $scope.$apply();
     });
 
-    $scope.join = function (event) {
-        if (!event.joined) {
-            Api.joinEvent(event.id).success(function (res) {
-                console.log(res);
-                event.currentSize = event.currentSize + 1;
-            });
-            event.joined = true;
+    parseNotifications = function (list) {
+        if (!$scope.lastCheck) {
+            $scope.newNotifs = list.length;
         } else {
-            Api.leaveEvent(event.id).success(function (res) {
-                console.log(res);
-                event.currentSize = event.currentSize - 1;
-            });
-            event.joined = false;
+            for (n in list) {
+                if ($scope.lastCheck < new Date(list[n].createdAt)) {
+                    $scope.newNotifs++;
+                    list[n].unread = true;
+                }
+            }
         }
+        return list;
     }
 
-    $scope.newNotification = function (message, timeout) {
-        var not = {
-            message: message,
-            createdAt: new Date().toJSON(),
-            type: "info"
-        };
-        $scope.notifications.push(not);
+    $scope.newNotification = function (message, timeout, save) {
+        if (save) {
+            var not = {
+                message: message,
+                createdAt: new Date().toJSON(),
+                type: "info",
+                unread: true
+            };
+            $scope.notifications.push(not);
+        }
         $scope.notification = message;
         $timeout.cancel(timer);
         if (timeout) {
@@ -116,7 +122,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
     $scope.oldEvent = function (event) {
         var e = new Date(event.date);
-        if (e.getTime() < new Date()) {
+        if (e.getTime() - 1000 * 60 * 60 < new Date().getTime()) {
             return true;
         }
         return false;
@@ -124,15 +130,44 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
 
     $scope.eventClicked = function (event) {
         if (!event.clicked) {
-            Api.getEvent(event.id).success(function (res) {
-                event.userList = $scope.listUsers(res);
-                if ($scope.checkUsers(res)) {
-                    event.joined = true;
-                    $scope.$applyAsync();
-                }
-            })
+            $scope.refreshEvent(event);
         }
         event.clicked = !event.clicked;
+    }
+
+    $scope.refreshEvent = function (event) {
+        Api.getEvent(event.id).success(function (res) {
+            event.userList = $scope.listUsers(res);
+            event.popularity = res.popularity;
+            if ($scope.checkUsers(res)) {
+                event.joined = true;
+            }
+            $scope.$applyAsync();
+        })
+    }
+
+    $scope.join = function (event) {
+        if (!event.joined) {
+            Api.joinEvent(event.id).success(function (res) {
+                $scope.refreshEvent(event);
+                io.socket.get('/event/' + event.id);
+                $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000, false);
+            });
+            event.joined = true;
+        } else {
+            Api.leaveEvent(event.id).success(function (res) {
+                $scope.refreshEvent(event);
+                io.socket.get('/event/' + event.id);
+                $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000, false);
+            });
+            event.joined = false;
+        }
+    }
+
+    $scope.checkNotifications = function () {
+        Api.checkNotifications();
+        $scope.lastCheck = new Date();
+        $scope.newNotifs = 0;
     }
 
 });

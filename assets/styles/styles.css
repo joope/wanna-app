@@ -15,7 +15,12 @@
 .loginForm {
     background-color: white;
     padding-top: 20px;
-
+}
+.place {
+    color: #6490a0;
+}
+.time {
+    color: #555;
 }
 
 .notification {
@@ -490,4 +495,11 @@ footer {
     background-color: rgb(221, 235, 239);
     background-size: 1500px 600px;
     background-repeat: no-repeat;
+}
+
+.notif-float{
+    position: absolute;
+    left: 10px;
+    bottom: 9px;
+    background-color: #ff7474;
 }

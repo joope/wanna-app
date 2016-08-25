@@ -26,6 +26,9 @@ WannaApp.service('Api', function ($http) {
     this.getUserNotifications = function(){
         return $http.get('/user/notifications');
     };
+    this.checkNotifications = function(){
+        return $http.get('/user/checkNotifications');
+    };
     
     this.getUserNew = function(){
         return $http.get('/event/getUserNew');
@@ -33,6 +36,9 @@ WannaApp.service('Api', function ($http) {
     
     this.getWannas = function () {
         return $http.get('/wanna');
+    };
+    this.getPlaces = function (){
+        return $http.get('/place');
     };
     this.getUserWannas = function (userID) {
         return $http.get('/user/' + userID + '/wannas');

@@ -5,6 +5,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     }
 
     $scope.wannaList = [];
+    $scope.placeList = [];
     $scope.eventList = [];
     $scope.userList = [];
 
@@ -21,17 +22,10 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     Api.getWannas().success(function (res) {
         $scope.wannaList = res;
     });
-//
-//    io.socket.on('event', function (update) {
-//        console.log('List updated!', update);
-//        console.log($scope.notifications)
-//        $scope.newNotification(update.data, 5000);
-//        $scope.$apply();
-//    });
-//
-//    io.socket.on('wanna', function (update) {
-//        console.log(update);
-//    });
+
+    Api.getPlaces().success(function (res) {
+        $scope.placeList = res;
+    });
 
     $scope.getPreviousDate = function () {
         var d = new Date();
@@ -58,7 +52,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         }, 1000);
 
         $scope.what = $scope.search;
-        $scope.place = "Esimerkinkatu 333";
+        $scope.place = '';
         $scope.minSize = 2;
 //        $scope.maxSize = 4;
 
@@ -71,18 +65,14 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
 
     $scope.selectWanna = function (wanna) {
         $scope.what = wanna.name;
+        $timeout(function () {
+            $scope.wannaSelected = true;
+        }, 100);
+        
     }
-
-//    $scope.listUsers = function (event) {
-//        var list = [];
-//        if (!event.users || event.users.length === 0) {
-//            return "ei osallistujia :(";
-//        }
-//        for (u in event.users) {
-//            list.push(event.users[u].username);
-//        }
-//        return list.join();
-//    };
+    $scope.selectPlace = function (place) {
+        $scope.place = place.name;
+    }
 
     $scope.debug = function () {
         console.log($scope.wannaList);
@@ -137,23 +127,5 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             })
         }
         event.clicked = !event.clicked;
-    }
-
-    $scope.join = function (event) {
-        if (!event.joined) {
-            Api.joinEvent(event.id).success(function (res) {
-                event.currentSize = event.currentSize + 1;
-                io.socket.get('/event/' + event.id);
-                $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000);
-            });
-            event.joined = true;
-        } else {
-            Api.leaveEvent(event.id).success(function (res) {
-                event.currentSize = event.currentSize - 1;
-                io.socket.get('/event/' + event.id);
-                $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000);
-            });
-            event.joined = false;
-        }
     }
 });

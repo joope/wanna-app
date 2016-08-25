@@ -15,15 +15,23 @@ module.exports = {
             if (err) {
                 return res.send(500);
             }
+            //subscribe socket to all events it has joined
             Event.subscribe(req, _.pluck(results['events'], 'id'));
             Wanna.subscribe(req, _.pluck(results['wannas'], 'id'));
             res.json(results);
         });
     },
     checkNotifications: function (req, res) {
+        console.log("checking notifs: " + req.user.id);
         var user = req.user.id;
-        User.update({id: user}, {lastNotificationCheck: new Date()});
-        res.ok();
+        User.update({id: user}, {lastNotificationCheck: new Date()}).exec(function(err, lol){
+            if(!err){
+                console.log("success");
+            }
+            console.log(err, lol);
+            res.ok();
+        });
+        
     }
 };
 

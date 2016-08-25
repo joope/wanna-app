@@ -16,11 +16,12 @@ module.exports = {
 
         Event.findOne(eventID).populate('users').exec(function (err, event) {
             var json = event.toJSON();
-            if (err)
+            if (err) {
                 return res.json({error: 'error when joining event'});
-
-            if (!event)
+            }
+            if (!event) {
                 return res.json({error: 'no such event'});
+            }
 
             Wanna.findOne({name: event.name}).exec(function (err, wanna) {
                 //add wanna of event to users collection
@@ -39,8 +40,8 @@ module.exports = {
             if (event.currentSize + 1 >= event.minSize) {
                 event.ready = true;
             }
-            event.currentSize = event.currentSize + 1;
             event.users.add(user);
+            event.currentSize = event.currentSize + 1;
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt join the event'});
@@ -67,7 +68,6 @@ module.exports = {
 
         Event.findOne(eventID).populate('users').exec(function (err, event) {
             var date = new Date();
-            var json = event.toJSON();
             if (err)
                 return res.json({error: 'error when leaving event'});
 
@@ -79,6 +79,7 @@ module.exports = {
             }
             event.users.remove(user);
             event.currentSize = event.currentSize - 1;
+            var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt leave the event'});
@@ -124,6 +125,10 @@ module.exports = {
                 //probably weird input
                 res.json({error: 'Ei voitu luoda tapahtumaa koska'});
             }
+            Place.findOrCreate({name: req.body['place']}, {name: req.body['place']}).exec(function (err, place) {
+                place.popularity = place.popularity + 1;
+            })
+            wanna.popularity = wanna.popularity + 1;
             wanna.users.add(req.user.id);
             wanna.save(function (err) {
                 if (err) {
