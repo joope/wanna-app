@@ -1,21 +1,12 @@
 <!--signup page-->
-
 <div ng-app="WannaApp" ng-controller="LoginController" class="container-fluid">
-    <div class="lomake">
+    <div class="loginForm">
         <!-- Select nickname -->
         <div class='animate-show'>
-            <h1>Tervetuloa.</h1>
+            <h1>Tervetuloa!</h1>
+            <p>Tää on tämmönen hieno nettisivu ja tässä on tän mainospuhe</p>
             <form name="userForm" class="form-group">
-                <div class="input-group">
-                    <input type="text" class="form-control" ng-model='nick' placeholder='nimi tai nick'
-                           autofocus required ng-minlength='3' maxlength="20">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" ng-click="newNick(nick)" 
-                                ng-disabled="!userForm.$valid">Jatka
-                        </button>
-                    </span>
-                </div>
-                <a href="/auth/google" class="btn btn-block btn-info">
+                <a href="/auth/google" class="btn btn-info">
                     Kirjaudu Googlella
                 </a>
             </form>
