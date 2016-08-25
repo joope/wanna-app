@@ -20,6 +20,10 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         $scope.newNotification(update.data, 5000, true);
         $scope.$apply();
     });
+    
+    io.socket.on('wanna', function(update){
+        console.log(update);
+    })
 
     parseNotifications = function (list) {
         if (!$scope.lastCheck) {
@@ -139,7 +143,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     $scope.refreshEvent = function (event) {
         Api.getEvent(event.id).success(function (res) {
             event.userList = $scope.listUsers(res);
-            event.popularity = res.popularity;
+            event.currentSize = res.currentSize;
             if ($scope.checkUsers(res)) {
                 event.joined = true;
             }

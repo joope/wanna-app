@@ -15,7 +15,6 @@ module.exports = {
         });
 
         Event.findOne(eventID).populate('users').exec(function (err, event) {
-            var json = event.toJSON();
             if (err) {
                 return res.json({error: 'error when joining event'});
             }
@@ -42,6 +41,7 @@ module.exports = {
             }
             event.users.add(user);
             event.currentSize = event.currentSize + 1;
+            var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt join the event'});

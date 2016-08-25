@@ -39,7 +39,7 @@
                                                         </button>-->
 
                             <span class="badge pull-right"
-                                  ng-class="{'badge-info': event.currentSize >= 1 && !event.ready, 'badge-success': event.ready}">
+                                  ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                                 {{event.currentSize}}/{{event.minSize}} 
                             </span>
 
@@ -137,6 +137,7 @@
                                 <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize - 1"> - </button>
                                 <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize + 1"> + </button>
                             </div>
+                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>
                         </div>
                     </div>
                     <div class="row">

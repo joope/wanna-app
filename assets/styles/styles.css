@@ -17,14 +17,14 @@
     padding-top: 20px;
 }
 .place {
-    color: #6490a0;
+    color: #036184;
 }
 .time {
     color: #555;
 }
 
 .notification {
-    z-index: 1001;
+    z-index: 999;
     position: fixed;
     width: 100%;
     text-align: center;
@@ -38,7 +38,7 @@
     color: #363636 !important;
     width: 100%;
     padding: 0;
-    z-index: 999;
+    z-index: 1001;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -339,35 +339,39 @@ body{
 }
 
 .sporttimenu {
-    color: #fff!important;
+    
     background-color: #2cd1ff;
     display: inline-block;
     /*border: 1px solid black;*/
 }
 
 .sporttimenu div a {
+    color: rgb(248, 248, 248)!important;
     list-style: none;
     display:inline;
     text-decoration: none;
     padding-left: 20px;
     padding-top: 12px;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     padding-right: 20px;
 }
 
 .sporttimenu div a:hover {
+    color: #fff!important;
+}
+.sporttimenu div a:active {
     background-color: #0087a7;
 }
-/*.sporttimenu div a:active {
-    background-color: #d6d6d6;
-}*/
 
 .keskiotsikko{
     text-align: center;
     height: 50px;
+    max-width: 772px;
+    margin: auto;
 }
 
 .keskiotsikko #teksti{
+    color: #fff!important;
     line-height: 50px;
     padding-bottom: 15px;
 }
@@ -502,4 +506,8 @@ footer {
     left: 10px;
     bottom: 9px;
     background-color: #ff7474;
+}
+
+.form-info {
+    font-size: 12px;
 }
