@@ -37,15 +37,6 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         $scope.prevDate = null;
     }
 
-    $scope.checkUsers = function (event) {
-        for (w in event.users) {
-            if (event.users[w].id === $rootScope.userID) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     $scope.toggleForm = function (event) {
         $timeout(function () {
             $scope.formToggled = true;
@@ -106,7 +97,8 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
                 io.socket.get('/event/' + res.id);
                 $scope.search = "";
                 $scope.formToggled = false;
-                $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000);
+                $scope.addNewEvent();
+                $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000, false);
                 Api.getNewEvents(new Date()).success(function (res) {
                     $scope.eventList = res;
                 })

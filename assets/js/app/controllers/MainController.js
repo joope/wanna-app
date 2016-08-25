@@ -2,6 +2,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     $scope.notifications = [];
     $scope.lastCheck;
     $scope.newNotifs = 0;
+    $scope.newEvents = 0;
     $scope.date = new Date();
     var timer;
 
@@ -17,7 +18,6 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     io.socket.on('event', function (update) {
         console.log('new notification', update);
         $scope.newNotification(update.data, 5000, true);
-        $scope.newNotifs++;
         $scope.$apply();
     });
 
@@ -43,6 +43,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
                 type: "info",
                 unread: true
             };
+            $scope.newNotifs++;
             $scope.notifications.push(not);
         }
         $scope.notification = message;
@@ -122,7 +123,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
     $scope.oldEvent = function (event) {
         var e = new Date(event.date);
-        if (e.getTime() - 1000 * 60 * 60 < new Date().getTime()) {
+        if (e.getTime() + 1000 * 60 * 60 < new Date().getTime()) {
             return true;
         }
         return false;
@@ -149,6 +150,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     $scope.join = function (event) {
         if (!event.joined) {
             Api.joinEvent(event.id).success(function (res) {
+                $scope.newEvents++;
                 $scope.refreshEvent(event);
                 io.socket.get('/event/' + event.id);
                 $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000, false);
@@ -168,6 +170,14 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         Api.checkNotifications();
         $scope.lastCheck = new Date();
         $scope.newNotifs = 0;
+    }
+    
+    $scope.checkCalendar = function(){
+        $scope.newEvents = 0;
+    }
+    
+    $scope.addNewEvent = function(){
+        $scope.newEvents++;
     }
 
 });

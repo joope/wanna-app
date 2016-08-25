@@ -22,14 +22,12 @@ module.exports = {
         });
     },
     checkNotifications: function (req, res) {
-        console.log("checking notifs: " + req.user.id);
         var user = req.user.id;
         User.update({id: user}, {lastNotificationCheck: new Date()}).exec(function(err, lol){
             if(!err){
-                console.log("success");
+                res.ok();
             }
-            console.log(err, lol);
-            res.ok();
+            res.send(404);
         });
         
     }
