@@ -491,6 +491,9 @@ body{
 .valmis {
     font-size: 12px;
 }
+.btn-login {
+    margin: 10px;
+}
 footer {
     position: relative;
     color: #d6d6d6;
@@ -498,7 +501,7 @@ footer {
     bottom: 0;
     left: 0;
     padding: 1rem;
-    background-color: #063642;
+    background-color: #1c3238;
     text-align: center;
 }
 

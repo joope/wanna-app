@@ -27,7 +27,7 @@ WannaApp.service('Api', function ($http) {
         return $http.get('/user/notifications');
     };
     this.checkNotifications = function(){
-        return $http.get('/user/checkNotifications');
+        return $http.post('/user/checkNotifications');
     };
     
     this.getUserNew = function(){
