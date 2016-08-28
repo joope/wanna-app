@@ -10,7 +10,7 @@ Wanna-app is an node/angular application that's meant to help people to organize
 
 **Your Experience May Change During Online Usage*
 
-[Link to demo](https://www.aurinkokuu.me:1337)
+[Link to demo](http://www.aurinkokuu.me:1337)
 
 # Tuntipäiväkirja:
 * 25.7 5h sails-opettelua
