@@ -54,6 +54,7 @@ module.exports = {
                     Event.message(event.id, name + " osallistui myös tapahtumaan " + event.name);
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
+                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event});
                 return res.json(event);
             });
         });
@@ -84,8 +85,10 @@ module.exports = {
                 if (err) {
                     return res.json({error: 'couldnt leave the event'});
                 }
+                //should unsubscribe socket from event here
                 Event.message(event.id, name + " lähti tapahtumasta " + event.name);
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
+                sails.sockets.broadcast('EventListener', {verb: 'left', event: event});
                 return res.json(event);
             });
         })
@@ -115,6 +118,7 @@ module.exports = {
     },
     createWithWanna: function (req, res) {
         var name;
+        var user = req.user.id
         User.findOne(req.user.id).exec(function (err, user) {
             name = user.username;
         });
@@ -129,6 +133,7 @@ module.exports = {
                 place.popularity = place.popularity + 1;
             })
             wanna.popularity = wanna.popularity + 1;
+            var json = wanna.toJSON();
             wanna.users.add(req.user.id);
             wanna.save(function (err) {
                 if (err) {
@@ -140,6 +145,9 @@ module.exports = {
             req.body['creator'] = name;
             Event.create(req.body).exec(function (err, event) {
                 if (!err) {
+                    Wanna.message(wanna.name, name + " ehdotti tapahtumaa " + event.name);
+                    HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
+                    sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
                     return res.json(event);
                 } else {
                     return res.send(500);

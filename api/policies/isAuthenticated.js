@@ -1,7 +1,6 @@
-var passport = require('passport');
 
 module.exports = function (req, res, next) {
-    //is socket
+    //is socket or registered user
     if (req.session.userID) {
         User.findOne(req.session.userID).exec(function (err, user) {
             if (err || !user) {

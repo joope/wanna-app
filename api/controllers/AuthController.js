@@ -13,6 +13,7 @@ module.exports = {
         rest: false
     },
     login: function (req, res) {
+        //passport authenticated
         if (req.user) {
             req.session.userID = req.user.id;
             return res.json({
@@ -31,6 +32,7 @@ module.exports = {
             User.create({username: req.body.username}).exec(function (err, user) {
                 if (user) {
                     req.session.userID = user.id;
+                    req.session.passport.user = user.id;
                     return res.json(user);
                 } else {
                     return res.json({error: "virhe luotaessa käyttäjää"});

@@ -3,7 +3,7 @@
         <!-- Search bar -->
         <h1 class="searchHeader">Mitä haluaisit tehdä?</h1>
         <div>
-            <form name="wannaForm" class="">
+            <form name="wannaForm" class="searchForm">
                 <div class="input-group">
                     <input type="text" class="form-control " ng-model='search' maxlength="32" ng-change="searched(search)"
                            placeholder="esim. sulkapallo, tänään, helsinki" autofocus>
@@ -18,7 +18,10 @@
                     </span>
                 </div>
             </form>
-
+<!--            <div>
+                <button>Näytä kaikki</button>
+                <button>Näytä ehdotukset</button>
+            </div>-->
             <!--search results-->
             <div id="searchbar" class="list group">
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:20)">
@@ -130,14 +133,14 @@
                             <input type="time" class="form-control" ng-model="time" required>
                         </div>
                         <div class="col-xs-8 col-xs-offset-1">
-                            <label for="modal-min" class="control-label">Tarvittavat osallistujat:</label>
+                            <label for="modal-min" class="control-label">Min- ja max-osallistujat</label>
                             <div>
                                 <input type="number" class="form-control numerovalitsin" placeholder="min-osallistujat" 
                                        min="2" max="50" ng-model="minSize">
                                 <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize - 1"> - </button>
                                 <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize + 1"> + </button>
                             </div>
-                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>
+<!--                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>-->
                         </div>
                     </div>
                     <div class="row">

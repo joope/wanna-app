@@ -11,13 +11,15 @@ module.exports = {
             return res.send(403);
         }
         //rajoita notifikaatioiden määrää
-        User.findOne(req.session.userID).populate('notifications').populate('events').exec(function (err, results) {
+        User.findOne(req.session.userID).populate('notifications').populate('events').populate('wannas').exec(function (err, results) {
             if (err) {
                 return res.send(500);
             }
-            //subscribe socket to all events it has joined
+            //subscribe user to all events/wannas it's connected
             Event.subscribe(req, _.pluck(results['events'], 'id'));
             Wanna.subscribe(req, _.pluck(results['wannas'], 'id'));
+//            sails.sockets.join(req, 'EventListener');
+
             res.json(results);
         });
     },
@@ -25,9 +27,10 @@ module.exports = {
         var user = req.user.id;
         User.update({id: user}, {lastNotificationCheck: new Date()}).exec(function(err, lol){
             if(!err){
-                res.ok();
+                res.send(200);
+            } else {
+                res.send(404);
             }
-            res.send(404);
         });
         
     }

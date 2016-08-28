@@ -1,7 +1,4 @@
 WannaApp.controller('LoginController', function ($scope, $window, $rootScope, Api, $location) {
-//    if ($rootScope.userID) {
-//        $location.path('/');
-//    }
 
     $scope.newNick = function (nick) {
         console.log("new nick: " + nick);
@@ -10,8 +7,8 @@ WannaApp.controller('LoginController', function ($scope, $window, $rootScope, Ap
             console.log(res);
             if (!res.error) {
                 $scope.error = "";
-                $rootScope.userID = res.id;
-                $rootScope.userLoggedIn = res.username;
+//                $rootScope.userID = res.id;
+//                $rootScope.userLoggedIn = res.username;
                 $window.location.href = '/';
             } else {
                 $scope.error = res.error;

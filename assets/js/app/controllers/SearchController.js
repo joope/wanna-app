@@ -8,6 +8,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     $scope.placeList = [];
     $scope.eventList = [];
     $scope.userList = [];
+    $scope.idToIndex = {};
 
     $scope.prevDate;
     $scope.private = false;
@@ -15,6 +16,10 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
 
     Api.getNewEvents(new Date()).success(function (res) {
         $scope.eventList = res;
+        //map event id to list index
+        for (i = 0; i < res.length; i++) {
+            $scope.idToIndex[res[i].id] = i;
+        }
     }).error(function () {
         $scope.error = "error when retrieving data";
     });
@@ -26,6 +31,22 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     Api.getPlaces().success(function (res) {
         $scope.placeList = res;
     });
+    
+//    io.socket.on('message', function(data){
+//        console.log(data);
+//        switch(data.verb){
+//            case 'created':
+//                $scope.eventList.push(data.event);
+//                break;
+//            case 'joined':
+//                //increment usercount of that event
+//                break;
+//            case 'left':
+//                //decrement usercount of that event
+//                break;
+//        }
+//        $scope.$applyAsync();
+//    });
 
     $scope.getPreviousDate = function () {
         var d = new Date();
@@ -97,7 +118,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
                 io.socket.get('/event/' + res.id);
                 $scope.search = "";
                 $scope.formToggled = false;
-                $scope.addNewEvent();
+                $scope.incrementEvents(); 
                 $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000, false);
                 Api.getNewEvents(new Date()).success(function (res) {
                     $scope.eventList = res;

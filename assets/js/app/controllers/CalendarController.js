@@ -6,12 +6,6 @@ WannaApp.controller('CalendarController', function ($scope, $rootScope, Api) {
     $scope.prevDate;
     $scope.c = 0;
 
-    $scope.debug = function () {
-        console.log($scope.wannaList);
-        console.log($scope.events);
-        console.log($scope.idToIndex);
-    }
-
     Api.getUserEvents().success(function (res) {
         for(r in res){
             if($scope.oldEvent(res[r])){

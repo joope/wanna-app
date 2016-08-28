@@ -8,21 +8,27 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
 
     io.socket.get('/user/notifications', function (res) {
         console.log(res);
+        $scope.userList = res.events;
         $scope.lastCheck = new Date(res.lastNotificationCheck);
         $scope.notifications = parseNotifications(res.notifications);
 
-        $scope.userList = res.events;
+        
         $scope.$applyAsync();
     });
 
     io.socket.on('event', function (update) {
-        console.log('new notification', update);
-        $scope.newNotification(update.data, 5000, true);
+        console.log(update);
+        switch (update.verb) {
+            case 'messaged':
+                $scope.newNotification(update.data, 5000, true);
+                break;
+        }
         $scope.$apply();
     });
-    
-    io.socket.on('wanna', function(update){
-        console.log(update);
+
+    io.socket.on('wanna', function (update) {
+        console.log("wanna: " + update.data);
+        $scope.newNotification(update.data, 5000, true);
     })
 
     parseNotifications = function (list) {
@@ -163,7 +169,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         } else {
             Api.leaveEvent(event.id).success(function (res) {
                 $scope.refreshEvent(event);
-                io.socket.get('/event/' + event.id);
+//                io.socket.get('/event/' + event.id);
                 $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000, false);
             });
             event.joined = false;
@@ -175,12 +181,12 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         $scope.lastCheck = new Date();
         $scope.newNotifs = 0;
     }
-    
-    $scope.checkCalendar = function(){
+
+    $scope.checkCalendar = function () {
         $scope.newEvents = 0;
     }
-    
-    $scope.addNewEvent = function(){
+
+    $scope.incrementEvents = function () {
         $scope.newEvents++;
     }
 

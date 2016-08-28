@@ -147,6 +147,7 @@ form {
 .searchHeader {
     color: #212121;
     margin-top: 0px;
+    margin-bottom: 0px;
     padding-top: 10px;
 }
 
@@ -229,9 +230,12 @@ body{
     background-color: white;
 }
 #searchbar {
-    padding-top: 15px;
+    padding-top: 10px;
     width: 100%;
     text-align: left;
+}
+.searchForm {
+    margin-top: 10px;
 }
 #results {
     /* background-color: white; */
