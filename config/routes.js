@@ -48,6 +48,7 @@ module.exports.routes = {
   '/event/getUserNew': 'EventController.getUserNew',
   '/event/createWithWanna': 'EventController.createWithWanna',
   '/event/getEventsByName': 'EventController.getEventsByName',
+//  '/event/:id': 'EventController.getEvent',
   
   '/group/:id/join': 'GroupController.join',
   '/group/:id/leave': 'GroupController.leave',

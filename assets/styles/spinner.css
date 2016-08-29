@@ -1,6 +1,7 @@
 .loading-container {
     height: 50vh;
     position: relative;
+    float: top;
     /*padding-top: 50px;*/
 }
 

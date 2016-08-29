@@ -1,9 +1,20 @@
 <div class='lomake'>
-    <h1 class="text-center searchHeader" ng-bind="event.name"></h1>
-    <div class="list-group-item animate-show info-wrapper">
-        <p class="list-group-item-text">
-            <strong>Ehdotti:</strong> {{event.creator}}
+    <div id="searchbar" class="list-group-item animate-show info-wrapper">
+        <h2 class="eventHeader">{{event.name}}</h2>
+
+        <p class="text-center">{{dateToRelative(event.date)}} {{event.date| date:'d.M, klo HH:mm'}}</p>
+        <p class="eventHeader">
+            <span class="badge" ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
+                {{event.currentSize}}/{{event.minSize}} 
+            </span>
         </p>
+        <p class="list-group-item-heading" >
+            <strong>Missä:</strong> {{event.place.name}}
+        </p>
+        <!--        <p class="list-group-item-text">
+                    <strong>Ehdotti:</strong> {{event.creator}}
+                </p>-->
+
         <p class="list-group-item-text">
             <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
         </p>

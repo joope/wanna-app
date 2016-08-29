@@ -172,6 +172,14 @@ module.exports = {
             return res.send(404);
         }
     }
+//    getEvent: function(req, res){
+//        Event.find(req.param['event']).populate('users').exec(function(err, event){
+//            if(err){
+//                return res.send(404);
+//            }
+//            res.json(event);
+//        })
+//    }
 
 };
 

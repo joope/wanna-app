@@ -15,7 +15,9 @@
                     Ei ilmoituksia :-)
                 </button>
                 <a ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="listnotification list-group-item"
-                    {{ntf.message}} <span class="pull-right ">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
+                        ng-class="{'list-group-item-info': ntf.unread}" ng-href="#/event/{{ntf.event}}">
+                    {{ntf.message}} 
+                    <p class="nomargin"><em>({{ntf.createdAt| date:'d.M. H:mm'}})</em></p>
                 </a>
             </ul>
         </div>

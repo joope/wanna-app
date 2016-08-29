@@ -27,7 +27,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         console.log(data);
         switch(data.verb){
             case 'created':
-                $scope.eventsCreated++;
+                $scope.eventsCreated = $scope.eventsCreated + 1;
                 break;
             case 'joined':
 //                $scope.idToIndex[data.event];
@@ -48,13 +48,14 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     $scope.refreshEvents = function(){
         Api.getNewEvents(new Date()).success(function (res) {
             $scope.newEvents = 0;
+            $scope.eventsCreated = 0;
             $scope.eventList = res;
         //map event id to list index
 //            for (i = 0; i < res.length; i++) {
 //                $scope.idToIndex[res[i].id] = i;
 //            }
         }).error(function () {
-                $scope.error = "error when retrieving data";
+            $scope.error = "error when retrieving data";
         });
     }
     
