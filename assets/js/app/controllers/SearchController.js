@@ -4,55 +4,61 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         $location.path('/login');
     }
 
-    $scope.wannaList = [];
-    $scope.placeList = [];
+    $scope.formWannas = [];
+    $scope.formPlaces = [];
     $scope.eventList = [];
-    $scope.userList = [];
+    $scope.eventsCreated = 0;
     $scope.idToIndex = {};
 
     $scope.prevDate;
     $scope.private = false;
     $scope.datepicked;
 
-    Api.getNewEvents(new Date()).success(function (res) {
-        $scope.eventList = res;
-        //map event id to list index
-        for (i = 0; i < res.length; i++) {
-            $scope.idToIndex[res[i].id] = i;
-        }
-    }).error(function () {
-        $scope.error = "error when retrieving data";
-    });
 
     Api.getWannas().success(function (res) {
-        $scope.wannaList = res;
+        $scope.formWannas = res;
     });
 
     Api.getPlaces().success(function (res) {
-        $scope.placeList = res;
+        $scope.formPlaces = res;
     });
     
-//    io.socket.on('message', function(data){
-//        console.log(data);
-//        switch(data.verb){
-//            case 'created':
-//                $scope.eventList.push(data.event);
-//                break;
-//            case 'joined':
-//                //increment usercount of that event
-//                break;
-//            case 'left':
-//                //decrement usercount of that event
-//                break;
-//        }
+    io.socket.on('message', function(data){
+        console.log(data);
+        switch(data.verb){
+            case 'created':
+                $scope.eventsCreated++;
+                break;
+            case 'joined':
+//                $scope.idToIndex[data.event];
+                break;
+            case 'left':
+                //decrement usercount of that event
+                break;
+        }
 //        $scope.$applyAsync();
-//    });
+    });
 
     $scope.getPreviousDate = function () {
         var d = new Date();
         d.setDate(d.getDate() - 1);
         return d.toString();
     }
+    
+    $scope.refreshEvents = function(){
+        Api.getNewEvents(new Date()).success(function (res) {
+            $scope.newEvents = 0;
+            $scope.eventList = res;
+        //map event id to list index
+//            for (i = 0; i < res.length; i++) {
+//                $scope.idToIndex[res[i].id] = i;
+//            }
+        }).error(function () {
+                $scope.error = "error when retrieving data";
+        });
+    }
+    
+    $scope.refreshEvents();
 
     $scope.searched = function (query) {
         $scope.prevDate = null;
@@ -116,29 +122,28 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             console.log(event);
             Api.newEvent(event).success(function (res) {
                 io.socket.get('/event/' + res.id);
+                io.socket.get('/wanna/' + $scope.what.toLowerCase());
                 $scope.search = "";
                 $scope.formToggled = false;
-                $scope.incrementEvents(); 
+                $scope.incrementEventIcon(); 
                 $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000, false);
-                Api.getNewEvents(new Date()).success(function (res) {
-                    $scope.eventList = res;
-                })
+                $scope.refreshEvents();
             })
         }
 
     }
 
-    $scope.eventClicked = function (event) {
-        if (!event.clicked) {
-            Api.getEvent(event.id).success(function (res) {
-                event.userList = $scope.listUsers(res);
-                event.currentSize = res.currentSize;
-                if ($scope.checkUsers(res)) {
-                    event.joined = true;
-                    $scope.$applyAsync();
-                }
-            })
-        }
-        event.clicked = !event.clicked;
-    }
+//    $scope.eventClicked = function (event) {
+//        if (!event.clicked) {
+//            Api.getEvent(event.id).success(function (res) {
+//                event.userList = $scope.listUsers(res);
+//                event.currentSize = res.currentSize;
+//                if ($scope.checkUsers(res)) {
+//                    event.joined = true;
+//                    $scope.$applyAsync();
+//                }
+//            })
+//        }
+//        event.clicked = !event.clicked;
+//    }
 });

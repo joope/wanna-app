@@ -2,7 +2,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     $scope.notifications = [];
     $scope.lastCheck;
     $scope.newNotifs = 0;
-    $scope.newEvents = 0;
+    $scope.iconEvents = 0;
     $scope.date = new Date();
     var timer;
 
@@ -12,7 +12,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         $scope.lastCheck = new Date(res.lastNotificationCheck);
         $scope.notifications = parseNotifications(res.notifications);
 
-        
+
         $scope.$applyAsync();
     });
 
@@ -23,12 +23,12 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
                 $scope.newNotification(update.data, 5000, true);
                 break;
         }
-        $scope.$apply();
     });
 
     io.socket.on('wanna', function (update) {
-        console.log("wanna: " + update.data);
-        $scope.newNotification(update.data, 5000, true);
+        if ($rootScope.userID !== update.data.triggered)
+            console.log("wanna: " + update.data);
+        $scope.newNotification(update.data.content, 5000, true);
     })
 
     parseNotifications = function (list) {
@@ -63,6 +63,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
                 $scope.notification = '';
             }, timeout);
         }
+        $scope.$applyAsync();
     }
 
     $scope.dateChanged = function (eventDate, index) {
@@ -177,17 +178,21 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
 
     $scope.checkNotifications = function () {
-        Api.checkNotifications();
-        $scope.lastCheck = new Date();
-        $scope.newNotifs = 0;
+        if (!$scope.notificationsToggled) {
+            Api.checkNotifications();
+            $scope.lastCheck = new Date();
+            $scope.newNotifs = 0;
+        }
+        $scope.notificationsToggled = !$scope.notificationsToggled;
+
     }
 
     $scope.checkCalendar = function () {
         $scope.newEvents = 0;
     }
 
-    $scope.incrementEvents = function () {
-        $scope.newEvents++;
+    $scope.incrementEventIcon = function () {
+        $scope.iconEvents++;
     }
 
 });

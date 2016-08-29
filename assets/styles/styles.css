@@ -47,6 +47,7 @@
     width: 100%;
     padding: 0;
     z-index: 1001;
+    display: block;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -371,7 +372,7 @@ body{
 .sporttimenu div a:hover {
     color: #fff!important;
 }
-.sporttimenu div a:active {
+.active {
     background-color: #0087a7;
 }
 

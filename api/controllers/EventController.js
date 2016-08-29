@@ -54,7 +54,7 @@ module.exports = {
                     Event.message(event.id, name + " osallistui myös tapahtumaan " + event.name);
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
-                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event});
+                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
                 return res.json(event);
             });
         });
@@ -88,7 +88,7 @@ module.exports = {
                 //should unsubscribe socket from event here
                 Event.message(event.id, name + " lähti tapahtumasta " + event.name);
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
-                sails.sockets.broadcast('EventListener', {verb: 'left', event: event});
+                sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
                 return res.json(event);
             });
         })
@@ -145,7 +145,10 @@ module.exports = {
             req.body['creator'] = name;
             Event.create(req.body).exec(function (err, event) {
                 if (!err) {
-                    Wanna.message(wanna.name, name + " ehdotti tapahtumaa " + event.name);
+                    Wanna.message(wanna.id, {
+                        content: name + " ehdotti tapahtumaa " + event.name,
+                        triggered: req.user.id
+                    });
                     HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
                     sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
                     return res.json(event);

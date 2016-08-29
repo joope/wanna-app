@@ -12,7 +12,7 @@
                 <p>tai</p>
                 <input type="text" class="" ng-model="nick" placeholder="nimimerkki" minlength="3" required>
                 <br>
-                <button class="btn btn-login btn-info" type="submit" ng-click="newNick(nick)" ng-disabled="userForm.valid">Kirjaudu nimimerkillä</button>
+                <button class="btn btn-login btn-info" type="submit" ng-click="newNick(nick)" ng-disabled="!userForm.$valid">Kirjaudu nimimerkillä</button>
                 
             </form>
             <p class="error" ng-bind="error"></p>

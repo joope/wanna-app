@@ -18,10 +18,12 @@
                     </span>
                 </div>
             </form>
-<!--            <div>
-                <button>Näytä kaikki</button>
-                <button>Näytä ehdotukset</button>
-            </div>-->
+            <!--notification if new events are created-->
+            <div ng-show="eventsCreated > 0">
+                <button class="list-group-item list-group-item-warning" ng-click="refreshEvents">
+                    {{eventsCreated}} uutta tapahtumaa!
+                </button>
+            </div>
             <!--search results-->
             <div id="searchbar" class="list group">
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:20)">
@@ -97,7 +99,7 @@
                     <div class="" ng-show="searchingName">
                         <div class="valikko-container">
                             <button type="button" ng-show="searchingName" class="list-group-item valikko-item" 
-                                    ng-repeat="wanna in wannaList| filter:{name: what} | orderBy:'-popularity' | limitTo:5"
+                                    ng-repeat="wanna in formWannas| filter:{name: what} | orderBy:'-popularity' | limitTo:5"
                                     ng-mousedown="selectWanna(wanna)">{{wanna.name}}
                             </button>
                         </div>
@@ -111,7 +113,7 @@
                     <div class="" ng-show="searchingPlace">
                         <div class="valikko-container">
                             <button type="button" ng-show="searchingPlace" class="list-group-item valikko-item" 
-                                    ng-repeat="place in placeList| filter:{name: place} | orderBy:'-popularity' | limitTo:5"
+                                    ng-repeat="place in formPlaces| filter:{name: place} | orderBy:'-popularity' | limitTo:5"
                                     ng-mousedown="selectPlace(place)">{{place.name}}
                             </button>
                         </div>

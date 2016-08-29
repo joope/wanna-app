@@ -1,8 +1,8 @@
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var google = new GoogleStrategy({
-    clientID: '',
-    clientSecret: '',
-    callbackURL: ""
+    clientID: '857777387430-r5foods4u21uvaqulbv2ccbjh6lkvqk3.apps.googleusercontent.com',
+    clientSecret: 'Z9Kd4vOyvOETfubDctenUE3o',
+    callbackURL: "http://aurinkokuu.me:1337/auth/google/callback"
     },
     function (accessToken, refreshToken, profile, cb){
         console.log(profile.displayName + " logged in");
