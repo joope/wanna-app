@@ -9,7 +9,7 @@
             <a href="javascript:void(0)" ng-class="{'active': notificationsToggled}" class="dropdown-toggle pull-right" ng-mousedown="checkNotifications()" role="button" aria-haspopup="true" aria-expanded="false">
                 <span class="glyphicon glyphicon-globe"><span class="badge notif-float" ng-if="newNotifs > 0">{{newNotifs}}</span></span>
             </a>
-            <ul ng-show="notificationsToggled" class="dropdown-menu animate-show">
+            <ul ng-show="notificationsToggled" class="dropdown-menu animate-show" ng-click="notificationsToggled = false">
                 <h4 class='text-center'>Ilmoitukset</h4>
                 <button ng-if="notifications.length === 0" class="list-group-item">
                     Ei ilmoituksia :-)
