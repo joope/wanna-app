@@ -5,7 +5,7 @@
         <p class="text-center">{{dateToRelative(event.date)}} {{event.date| date:'d.M, klo HH:mm'}}</p>
         <p class="eventHeader">
             <span class="badge" ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
-                {{event.currentSize}}/{{event.minSize}} 
+                {{event.currentSize}}/{{event.maxSize}} 
             </span>
         </p>
         <p class="list-group-item-heading" >

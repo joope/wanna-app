@@ -20,7 +20,7 @@
             </form>
             <!--notification if new events are created-->
             <div ng-show="eventsCreated > 0">
-                <button class="list-group-item list-group-item-warning" ng-click="refreshEvents">
+                <button class="list-group-item list-group-item-warning" ng-click="refreshEvents(); eventsCreated = 0;">
                     {{eventsCreated}} uutta tapahtumaa!
                 </button>
             </div>
@@ -38,14 +38,9 @@
                        ng-class="{'event-clicked' : event.clicked , '' : !event.clicked}"
                        ng-click="eventClicked(event)">
                         <h4 class="list-group-item-heading">{{event.name}}
-                            <!--                            <strong class=pull-right">{{event.date| date:'H:mm'}}</strong>-->
-                            <!--                            <button type="button" class="btn btn-xs menuikoni">
-                                                            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-                                                        </button>-->
-
                             <span class="badge pull-right"
                                   ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
-                                {{event.currentSize}}/{{event.minSize}} 
+                                {{event.currentSize}}/{{event.maxSize}} 
                             </span>
 
                         </h4>
@@ -134,26 +129,29 @@
                             <label for="modal-name" class="control-label">Aika:</label>
                             <input type="time" class="form-control" ng-model="time" required>
                         </div>
-                        <div class="col-xs-8 col-xs-offset-1">
-                            <label for="modal-min" class="control-label">Min- ja max-osallistujat</label>
+                        <div class="col-xs-4 col-xs-offset-1">
+                            <label for="modal-min" class="control-label">Osallistujat:</label>
                             <div>
                                 <input type="number" class="form-control numerovalitsin" placeholder="min-osallistujat" 
                                        min="2" max="50" ng-model="minSize">
-                                <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize - 1"> - </button>
-                                <button type="button" class="btn btn-default inline-block" ng-click="minSize = minSize + 1"> + </button>
+                                <button type="button" class="btn btn-default inline-block" ng-click="incrementMin(false)"> - </button>
+                                <button type="button" class="btn btn-default inline-block" ng-click="incrementMin(true)"> + </button>
                             </div>
-<!--                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>-->
+                            <!--                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>-->
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="modal-max" class="control-label">Min/Max</label>
+                            <div>
+                                <input type="number" class="form-control numerovalitsin" placeholder="max-osallistujat" 
+                                       min="2" max="100" ng-model="maxSize">
+                                <button class="btn btn-default inline-block" ng-click="incrementMax(false)"> - </button>
+                                <button class="btn btn-default inline-block" ng-click="incrementMax(true)"> + </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
 
-                        <!--                        <div class="col-xs-5">
-                                                    <label for="modal-min" class="control-label">max-osallistujat: </label>
-                                                    <input type="number" class="form-control numerovalitsin" placeholder="max-osallistujat" 
-                                                           min="2" max="100" ng-model="maxSize">
-                                                    <button class="btn vahennyspainike inline-block" ng-click="maxSize = maxSize - 1"> - </button>
-                                                    <button class="btn lisayspainike inline-block" ng-click="maxSize = maxSize + 1"> + </button>
-                                                </div>-->
+
                     </div>
 
                     <!--                    <input type="radio" name="julkinen" ng-value="false" ng-model="private" checked> julkinen <br>

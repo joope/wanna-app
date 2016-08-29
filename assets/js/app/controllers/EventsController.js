@@ -1,6 +1,7 @@
 WannaApp.controller('EventsController', function ($scope, $rootScope, Api, $routeParams) {
     $scope.event;
-
+    $scope.notificationsToggled = false;
+    
     Api.getEvent($routeParams.id).success(function (res) {
         $scope.event = res;
         $scope.event.joined = true;

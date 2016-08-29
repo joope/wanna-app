@@ -1,5 +1,6 @@
 WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Api, $window) {
     $scope.notifications = [];
+    $scope.notificationsToggled = false;
     $scope.lastCheck;
     $scope.newNotifs = 0;
     $scope.iconEvents = 0;
@@ -166,7 +167,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     $scope.join = function (event) {
         if (!event.joined) {
             Api.joinEvent(event.id).success(function (res) {
-                $scope.newEvents++;
+                $scope.iconEvents++;
                 $scope.refreshEvent(event);
                 io.socket.get('/event/' + event.id);
                 $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000, false);
@@ -175,7 +176,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         } else {
             Api.leaveEvent(event.id).success(function (res) {
                 $scope.refreshEvent(event);
-//                io.socket.get('/event/' + event.id);
+                io.socket.get('/user/unsubscribe/' + event.id);
                 $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000, false);
             });
             event.joined = false;
@@ -192,7 +193,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
 
     $scope.checkCalendar = function () {
-        $scope.newEvents = 0;
+        $scope.iconEvents = 0;
     }
 
     $scope.incrementEventIcon = function () {

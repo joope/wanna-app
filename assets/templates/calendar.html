@@ -18,7 +18,7 @@
                         {{event.name}} <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>                            
                         <span class="badge pull-right"
                               ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
-                            {{event.currentSize}}/{{event.minSize}} 
+                            {{event.currentSize}}/{{event.maxSize}} 
                         </span>
                     </h4>
                     <p class="list-group-item-text">{{event.place}}

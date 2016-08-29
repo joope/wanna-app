@@ -27,7 +27,8 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         console.log(data);
         switch(data.verb){
             case 'created':
-                $scope.eventsCreated = $scope.eventsCreated + 1;
+//                $scope.eventsCreated = $scope.eventsCreated + 1;
+                $scope.refreshEvents();
                 break;
             case 'joined':
 //                $scope.idToIndex[data.event];
@@ -36,7 +37,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
                 //decrement usercount of that event
                 break;
         }
-//        $scope.$applyAsync();
+        $scope.$applyAsync();
     });
 
     $scope.getPreviousDate = function () {
@@ -48,7 +49,6 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     $scope.refreshEvents = function(){
         Api.getNewEvents(new Date()).success(function (res) {
             $scope.newEvents = 0;
-            $scope.eventsCreated = 0;
             $scope.eventList = res;
         //map event id to list index
 //            for (i = 0; i < res.length; i++) {
@@ -73,7 +73,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         $scope.what = $scope.search;
         $scope.place = '';
         $scope.minSize = 2;
-//        $scope.maxSize = 4;
+        $scope.maxSize = 8;
 
         $scope.time = new Date();
         $scope.time.setHours($scope.time.getHours() + 1);
@@ -116,7 +116,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
                 "date": newDate,
                 "place": $scope.place,
                 "ready": false,
-//                "maxSize": $scope.maxSize,
+                "maxSize": $scope.maxSize,
                 "minSize": $scope.minSize,
                 "info": $scope.info
             };
@@ -131,6 +131,27 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             })
         }
 
+    }
+    
+    $scope.incrementMin = function(plus){
+        if(plus){
+            $scope.minSize++;
+        } else {
+            $scope.minSize--;
+        }
+        if($scope.maxSize < $scope.minSize){
+            $scope.maxSize = $scope.minSize;
+        }
+    }
+    $scope.incrementMax = function(plus){
+        if(plus){
+            $scope.maxSize++;
+        } else {
+            $scope.maxSize--;
+        }
+        if($scope.maxSize < $scope.minSize){
+            $scope.maxSize = $scope.minSize;
+        }
     }
 
 //    $scope.eventClicked = function (event) {

@@ -56,7 +56,8 @@ module.exports.routes = {
   '/group/:id/addMessage': 'GroupController.addMessage',
   
   '/user/notifications': 'NotificationController.getNotifications',
-  '/user/checkNotifications': 'NotificationController.checkNotifications'
+  '/user/checkNotifications': 'NotificationController.checkNotifications',
+  '/user/unsubscribe/:id': 'NotifictaionController.unsubscribe'
   
 
   /***************************************************************************

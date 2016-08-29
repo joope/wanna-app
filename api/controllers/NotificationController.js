@@ -25,14 +25,21 @@ module.exports = {
     },
     checkNotifications: function (req, res) {
         var user = req.user.id;
-        User.update({id: user}, {lastNotificationCheck: new Date()}).exec(function(err, lol){
-            if(!err){
+        User.update({id: user}, {lastNotificationCheck: new Date()}).exec(function (err, lol) {
+            if (!err) {
                 res.send(200);
             } else {
                 res.send(404);
             }
         });
-        
+    },
+    unsubscribe: function (req, res) {
+        if (!req.isSocket) {
+            return res.send(403);
+        }
+        Wanna.unsubscribe(req, [req.params.id]);
+        Event.unsubscribe(req, [req.params.id]);
+        return res.ok();
     }
 };
 
