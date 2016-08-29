@@ -26,9 +26,10 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     });
 
     io.socket.on('wanna', function (update) {
-        if ($rootScope.userID !== update.data.triggered)
-            console.log("wanna: " + update.data);
-        $scope.newNotification(update.data.content, 5000, true);
+        console.log("wanna: " + update.data);
+        if ($rootScope.userID !== update.data.triggered) {
+            $scope.newNotification(update.data.content, 5000, true);
+        }
     })
 
     parseNotifications = function (list) {
@@ -90,7 +91,7 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
 
     $scope.dateToRelative = function (eventDate) {
         var date = new Date(eventDate);
-        if ($scope.date.getMonth() === date.getMonth() && $scope.date.getDate() === date.getDate()) {
+        if ($scope.date.getMonth() === date.getMonth() && $scope.date.getDate() === date.getDate() && $scope.date.getYear() === date.getYear()) {
             return "Tänään";
         } else if ($scope.date.getDate() + 1 === date.getDate()) {
             //ei huomioi kuukauden vaihtumista
@@ -178,13 +179,12 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
 
     $scope.checkNotifications = function () {
-        if (!$scope.notificationsToggled) {
+        $scope.notificationsToggled = !$scope.notificationsToggled;
+        if ($scope.notificationsToggled) {
             Api.checkNotifications();
             $scope.lastCheck = new Date();
             $scope.newNotifs = 0;
         }
-        $scope.notificationsToggled = !$scope.notificationsToggled;
-
     }
 
     $scope.checkCalendar = function () {

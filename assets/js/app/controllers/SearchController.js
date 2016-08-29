@@ -122,7 +122,6 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             console.log(event);
             Api.newEvent(event).success(function (res) {
                 io.socket.get('/event/' + res.id);
-                io.socket.get('/wanna/' + $scope.what.toLowerCase());
                 $scope.search = "";
                 $scope.formToggled = false;
                 $scope.incrementEventIcon(); 

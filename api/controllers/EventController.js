@@ -133,28 +133,31 @@ module.exports = {
                 place.popularity = place.popularity + 1;
             })
             wanna.popularity = wanna.popularity + 1;
-            var json = wanna.toJSON();
             wanna.users.add(req.user.id);
             wanna.save(function (err) {
                 if (err) {
                     //user already subscribed to wanna
                 }
             });
-            //add user to event's user-list
-            req.body['users'] = [req.user.id];
-            req.body['creator'] = name;
-            Event.create(req.body).exec(function (err, event) {
-                if (!err) {
-                    Wanna.message(wanna.id, {
-                        content: name + " ehdotti tapahtumaa " + event.name,
-                        triggered: req.user.id
-                    });
-                    HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
-                    sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
-                    return res.json(event);
-                } else {
-                    return res.send(500);
-                }
+            //get users of wanna to notificate :/
+            Wanna.findOne({name: req.body['name']}).populate('users').exec(function (err, result) {
+                var json = result.toJSON();
+                //add user to event's user-list
+                req.body['users'] = [req.user.id];
+                req.body['creator'] = name;
+                Event.create(req.body).exec(function (err, event) {
+                    if (!err) {
+                        Wanna.message(wanna.id, {
+                            content: name + " ehdotti tapahtumaa " + event.name,
+                            triggered: req.user.id
+                        });
+                        HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
+                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
+                        return res.json(event);
+                    } else {
+                        return res.send(500);
+                    }
+                });
             });
         })
     },
