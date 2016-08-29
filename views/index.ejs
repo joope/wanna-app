@@ -14,10 +14,9 @@
                 <button ng-if="notifications.length === 0" class="list-group-item">
                     Ei ilmoituksia :-)
                 </button>
-                <button ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="list-group-item"
-                        ng-class="{'list-group-item-info': ntf.unread}">
-                    {{ntf.message}} <span class="pull-right">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
-                </button>
+                <a ng-repeat="ntf in notifications| orderBy:'-createdAt' | limitTo:10" type="button" class="listnotification list-group-item"
+                    {{ntf.message}} <span class="pull-right ">({{ntf.createdAt| date:'d.M. H:mm'}})</span>
+                </a>
             </ul>
         </div>
         <a class="pull-left" href="#/calendar" ng-click="checkCalendar()">

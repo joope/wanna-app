@@ -1,12 +1,20 @@
-<div id="results" class='borders'>
-    <h1 class="text-center paaotsikko">Suosituimmat</h1>
-    <ul class="list-group">
-        <button type="button" class="list-group-item" 
-                ng-repeat="wanna in wannaList | orderBy:'-popularity' | limitTo:50" 
-                ng-click="wannaClicked(wanna)"
-                ng-class="checkUsers(wanna) ? 'list-group-item-info' : ''"
-                title='{{getWannaUsers(wanna)}}'>
-            {{wanna.name}} <span class="badge">{{wanna.popularity}}</span>
-        </button>
-    </ul>
+<div class='lomake'>
+    <h1 class="text-center searchHeader" ng-bind="event.name"></h1>
+    <div class="list-group-item animate-show info-wrapper">
+        <p class="list-group-item-text">
+            <strong>Ehdotti:</strong> {{event.creator}}
+        </p>
+        <p class="list-group-item-text">
+            <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
+        </p>
+        <p class="list-group-item-text">
+            <strong>Osallistujat:</strong> {{event.userList}}
+        </p>
+        <div class="event_info">
+            <button class="btn btn_join" type="button" ng-disabled="event.joined" ng-click="join(event)"
+                    ng-class="{'btn-info' : event.joined , 'btn-success' : !event.joined}">
+                <span ng-if="event.joined">Liitytty!</span><span ng-if="!event.joined">Liity</span>
+            </button>
+        </div>
+    </div>
 </div>

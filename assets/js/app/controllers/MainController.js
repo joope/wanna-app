@@ -20,15 +20,15 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         console.log(update);
         switch (update.verb) {
             case 'messaged':
-                $scope.newNotification(update.data, 5000, true);
+                $scope.newNotification(update, 5000, true);
                 break;
         }
     });
 
     io.socket.on('wanna', function (update) {
-        console.log("wanna: " + update.data);
+        console.log(update);
         if ($rootScope.userID !== update.data.triggered) {
-            $scope.newNotification(update.data.content, 5000, true);
+            $scope.newNotification(update, 5000, true);
         }
     })
 
@@ -46,18 +46,22 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
         return list;
     }
 
-    $scope.newNotification = function (message, timeout, save) {
+    $scope.newNotification = function (notif, timeout, save) {
         if (save) {
             var not = {
-                message: message,
+                message: notif.data.content,
                 createdAt: new Date().toJSON(),
                 type: "info",
-                unread: true
+                unread: true,
+                event: notif.id
             };
             $scope.newNotifs++;
             $scope.notifications.push(not);
+            $scope.notification = notif.data.content;
+        } else {
+            $scope.notification = notif;
         }
-        $scope.notification = message;
+        
         $timeout.cancel(timer);
         if (timeout) {
             timer = $timeout(function () {

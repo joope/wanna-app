@@ -48,10 +48,10 @@ module.exports = {
                 }
 
                 if (event.currentSize === event.minSize) {
-                    Event.message(event.id, "Tapahtuman '" + event.name + "' osallistujia on nyt tarvittava määrä!");
+                    Event.message(event.id, {content: "Tapahtuman '" + event.name + "' osallistujia on nyt tarvittava määrä!"});
                     HelperService.notificateUsers(json, "Tapahtuman '" + event.name + " osallistujia on nyt tarvittava määrä!", "success", user);
                 } else {
-                    Event.message(event.id, name + " osallistui myös tapahtumaan " + event.name);
+                    Event.message(event.id, {content: name + " osallistui myös tapahtumaan " + event.name});
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
                 sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
@@ -86,7 +86,7 @@ module.exports = {
                     return res.json({error: 'couldnt leave the event'});
                 }
                 //should unsubscribe socket from event here
-                Event.message(event.id, name + " lähti tapahtumasta " + event.name);
+                Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
                 sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
                 return res.json(event);
@@ -147,6 +147,7 @@ module.exports = {
                 req.body['creator'] = name;
                 Event.create(req.body).exec(function (err, event) {
                     if (!err) {
+                        json.id = event.id;
                         Wanna.message(wanna.id, {
                             content: name + " ehdotti tapahtumaa " + event.name,
                             triggered: req.user.id

@@ -14,7 +14,6 @@ module.exports = {
                         user: object.users[u].id,
                         message: message,
                         type: type,
-                        event: object,
                         triggered: triggered
                     }).exec(function (err, notf) {
 

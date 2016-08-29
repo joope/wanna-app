@@ -10,7 +10,7 @@ module.exports = {
         if (!req.isSocket) {
             return res.send(403);
         }
-        //rajoita notifikaatioiden määrää
+        //pitäisi rajoita notifikaatioiden määrää
         User.findOne(req.session.userID).populate('notifications').populate('events').populate('wannas').exec(function (err, results) {
             if (err) {
                 return res.send(500);

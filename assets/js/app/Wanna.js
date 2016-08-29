@@ -29,8 +29,8 @@ WannaApp.config(function ($routeProvider) {
                 });
             }
         }
-        }).when('/view', {
-        controller: 'SearchController',
+        }).when('/event/:id', {
+        controller: 'EventsController',
         templateUrl: 'templates/view.html',
         title: "Selaa",
         resolve: {
