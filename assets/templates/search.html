@@ -60,7 +60,7 @@
                             <strong>Osallistujat:</strong> {{event.userList}}
                         </p>
                         <div class="event_info">
-                            <button class="btn btn_join" type="button" ng-disabled="event.joined" ng-click="join(event)"
+                            <button class="btn btn_join" type="button" ng-disabled="event.joined || event.currentSize === event.maxSize" ng-click="join(event)"
                                     ng-class="{'btn-info' : event.joined , 'btn-success' : !event.joined}">
                                 <span ng-if="event.joined">Liitytty!</span><span ng-if="!event.joined">Liity</span>
                             </button>
