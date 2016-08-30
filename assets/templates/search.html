@@ -163,7 +163,7 @@
                     </div> 
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success btn_join" ng-click="newEvent()" ng-disabled="minSize < 2 || !place || !date || !what" data-dismiss="modal">Lisää</button>
+                    <button type="submit" class="btn btn-success btn_join" ng-click="newEvent()" ng-disabled="minSize < 2 || minSize > maxSize || !place || !date || !what" data-dismiss="modal">Lisää</button>
                 </div>
             </form>
         </div>
