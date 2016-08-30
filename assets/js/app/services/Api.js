@@ -89,7 +89,7 @@ WannaApp.service('Api', function ($http) {
     };
 
     this.joinEvent = function (eventID) {
-        return $http.post('/event/join', {'eventID': eventID});
+        return $http.post('/event/' + eventID + '/join');
     };
 
     this.removeUserFromWanna = function (userID, wannaID) {
@@ -97,7 +97,7 @@ WannaApp.service('Api', function ($http) {
     };
 
     this.leaveEvent = function (eventID) {
-        return $http.post('/event/leave', {'eventID': eventID});
+        return $http.post('/event/' + eventID + '/leave');
     };
 
 });

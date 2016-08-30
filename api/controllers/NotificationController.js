@@ -18,7 +18,7 @@ module.exports = {
             //subscribe user to all events/wannas it's connected
             Event.subscribe(req, _.pluck(results['events'], 'id'));
             Wanna.subscribe(req, _.pluck(results['wannas'], 'id'));
-            sails.sockets.join(req, 'EventListener');
+//            sails.sockets.join(req, 'EventListener');
 
             res.json(results);
         });

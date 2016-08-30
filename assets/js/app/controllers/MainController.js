@@ -166,17 +166,15 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
 
     $scope.join = function (event) {
         if (!event.joined) {
-            Api.joinEvent(event.id).success(function (res) {
+            io.socket.post('/event/' + event.id + '/join', function (res) {
                 $scope.iconEvents++;
                 $scope.refreshEvent(event);
-                io.socket.get('/event/' + event.id);
                 $scope.newNotification("Liityttiin tapahtumaan " + event.name + "!", 5000, false);
             });
             event.joined = true;
         } else {
-            Api.leaveEvent(event.id).success(function (res) {
+            io.socket.post('/event/' + event.id + '/leave', function (res) {
                 $scope.refreshEvent(event);
-                io.socket.get('/user/unsubscribe/' + event.id);
                 $scope.newNotification("Lähdettiin tapahtumasta " + event.name + ".", 5000, false);
             });
             event.joined = false;

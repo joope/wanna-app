@@ -42,8 +42,8 @@ module.exports.routes = {
   '/auth/google': 'UserController.authenticate',
   '/auth/google/callback': 'UserController.callback',
   
-  '/event/join': 'EventController.join',
-  '/event/leave': 'EventController.leave',
+  '/event/:id/join': 'EventController.join',
+  '/event/:id/leave': 'EventController.leave',
   '/event/getNew': 'EventController.getNew',
   '/event/getUserNew': 'EventController.getUserNew',
   '/event/createWithWanna': 'EventController.createWithWanna',

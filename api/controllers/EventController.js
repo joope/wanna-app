@@ -5,10 +5,15 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+
+
 module.exports = {
     join: function (req, res) {
-        var user = req.user.id;
-        var eventID = req.body['eventID'];
+        if (!req.isSocket) {
+            return res.send(403);
+        }
+        var user = req.session.userID;
+        var eventID = req.params.id;
         var name;
         User.findOne(user).exec(function (err, user) {
             name = user.username;
@@ -54,14 +59,18 @@ module.exports = {
                     Event.message(event.id, {content: name + " osallistui myös tapahtumaan " + event.name});
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
-                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
+                Event.subscribe(req, event.id);
+//                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
                 return res.json(event);
             });
         });
     },
     leave: function (req, res) {
-        var user = req.user.id;
-        var eventID = req.body['eventID'];
+        if (!req.isSocket) {
+            return res.send(403);
+        }
+        var user = req.session.userID;
+        var eventID = req.params.id;
         var name;
         User.findOne(user).exec(function (err, user) {
             name = user.username;
@@ -85,10 +94,11 @@ module.exports = {
                 if (err) {
                     return res.json({error: 'couldnt leave the event'});
                 }
-                //should unsubscribe socket from event here
+                Event.unsubscribe(req, event.id);
+                
                 Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
-                sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
+//                sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
                 return res.json(event);
             });
         })
@@ -153,7 +163,7 @@ module.exports = {
                             triggered: req.user.id
                         });
                         HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
-                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
+//                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
                         return res.json(event);
                     } else {
                         return res.send(500);
