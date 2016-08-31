@@ -163,7 +163,7 @@ module.exports = {
                             triggered: req.user.id
                         });
                         HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
-                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
+                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event.id});
                         return res.json(event);
                     } else {
                         return res.send(500);

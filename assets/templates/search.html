@@ -41,6 +41,7 @@
                        ng-class="{'event-clicked' : event.clicked , '' : !event.clicked}"
                        ng-click="eventClicked(event)">
                         <h4 class="list-group-item-heading">{{event.name}}
+                            <em ng-if="getDifference(event.createdAt) < 30" class="sini">uusi!</em>
                             <span class="badge pull-right"
                                   ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                                 {{event.currentSize}}/{{event.maxSize}} 
