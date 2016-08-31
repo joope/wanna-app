@@ -95,7 +95,7 @@ module.exports = {
                     return res.json({error: 'couldnt leave the event'});
                 }
                 Event.unsubscribe(req, event.id);
-                
+
                 Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
                 sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
@@ -107,7 +107,7 @@ module.exports = {
         var d = new Date();
         d = (d.getTime() - 1000 * 60 * 60);
         var date = new Date(d);
-        Event.find({date: {'>=': date}}).populate('wanna').exec(function (err, events) {
+        Event.find({date: {'>=': date}, private: false}).exec(function (err, events) {
             if (err) {
                 return res.json({error: 'error when retrieving events'});
             }
@@ -158,12 +158,14 @@ module.exports = {
                 Event.create(req.body).exec(function (err, event) {
                     if (!err) {
                         json.id = event.id;
-                        Wanna.message(wanna.id, {
-                            content: name + " ehdotti tapahtumaa " + event.name,
-                            triggered: req.user.id
-                        });
-                        HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
-                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event.id});
+                        if (!event.private) {
+                            Wanna.message(wanna.id, {
+                                content: name + " ehdotti tapahtumaa " + event.name,
+                                triggered: req.user.id
+                            });
+                            HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
+                            sails.sockets.broadcast('EventListener', {verb: 'created', event: event.id});
+                        }
                         return res.json(event);
                     } else {
                         return res.send(500);

@@ -393,7 +393,7 @@ body{
 
 .sporttimenu {
 
-    background-color: #2cd1ff;
+    background-color: #2cc7ff;
     display: inline-block;
     /*border: 1px solid black;*/
 }
@@ -505,7 +505,7 @@ body{
 }
 
 .modal-header {
-    padding-left: 50px!important;
+    padding-left: 30px!important;
     padding-bottom: 5px!important;
     padding-top: 5px!important;
     padding-right: 0;

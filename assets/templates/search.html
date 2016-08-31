@@ -20,10 +20,10 @@
             </form>
             <!--notification if new events are created-->
             <button ng-show="eventsCreated > 0" class="list-group-item newEvents" ng-click="refreshEvents()">
-                
+
                 <ng-pluralize count="eventsCreated" when="{'0': 'Ei uusia tapahtumia. (tämän ei pitäisi näkyä =)',
-                    '1': 'Yksi uusi tapahtuma!',
-                    'other': '{} uutta tapahtumaa!'}">
+                              '1': 'Yksi uusi tapahtuma!',
+                              'other': '{} uutta tapahtumaa!'}">
                 </ng-pluralize>
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
@@ -87,11 +87,11 @@
         <div class="modal-content">
             <form name="eventFrom">
                 <div class="modal-header">
-                    <button type="button" class="pull-right btn btn-default btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">sulje</span></button>
+                    <button type="button" class="pull-right btn btn-default btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                     <h4 class="modal-title text-center" id="exampleModalLabel">Uusi tapahtuma</h4>
                 </div>
                 <div class="modal-sisalto">
-                    <label for="modal-name" class="control-label">Tapahtuman aihe:</label>
+                    <label class="control-label">Tapahtuman aihe:</label>
                     <input type="text" autocomplete="off" class="form-control valikko" id="modal-what" placeholder="esim lenkkeily, leffan katsominen..." ng-model="what" maxlength="32" 
                            ng-focus="searchingName = true" ng-blur="searchingName = false" focus-me="formToggled" required>
 
@@ -105,7 +105,7 @@
                         </div>
                     </div>
 
-                    <label for="modal-name" class="control-label">Sijainti:</label>
+                    <label class="control-label">Sijainti:</label>
                     <input type="text" autocomplete="off" class="form-control valikko" id="modal-place" placeholder="esim Unisport Kumpula" ng-model="place" maxlength="30" 
                            ng-focus="searchingPlace = true" ng-blur="searchingPlace = false" focus-me="wannaSelected" required>
 
@@ -121,7 +121,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <label for="modal-name" class="control-label">Päivämäärä:</label>
+                            <label class="control-label">Päivämäärä:</label>
                             <datepicker date-set="{{date.toString()}}" datepicker-show="true"
                                         date-min-limit="{{getPreviousDate()}}" date-format="EEEE dd.MM.yyyy" >
                                 <input class="form-control" ng-model="datepicked" type="text" maxlength="30"/>
@@ -131,12 +131,15 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
-                            <label for="modal-name" class="control-label">Aika:</label>
+                            <label class="control-label">Aika:</label>
                             <input type="time" class="form-control" ng-model="time" required>
                         </div>
                         <div class="col-xs-4 col-xs-offset-1">
-                            <label for="modal-min" class="control-label">Osallistujat:</label>
+                            <label class="control-label">Osallistujat:</label>
                             <div>
+<!--                                <select class="form-control" ng-model="minSize" ng-init="i = 2">
+                                    <option ng-repeat="i in range(5) track by $index" value="i">{{i}}</option>
+                                </select>-->
                                 <input type="number" class="form-control numerovalitsin" placeholder="min-osallistujat" 
                                        min="2" max="50" ng-model="minSize">
                                 <button type="button" class="btn btn-default inline-block" ng-click="incrementMin(false)"> - </button>
@@ -145,7 +148,7 @@
                             <!--                            <span class="form-info">(rajan tultua täyteen osallistujille lähetetään ilmoitus)</span>-->
                         </div>
                         <div class="col-xs-4">
-                            <label for="modal-max" class="control-label">Min/Max</label>
+                            <label class="control-label">Min/Max</label>
                             <div>
                                 <input type="number" class="form-control numerovalitsin" placeholder="max-osallistujat" 
                                        min="2" max="100" ng-model="maxSize">
@@ -153,16 +156,14 @@
                                 <button class="btn btn-default inline-block" ng-click="incrementMax(true)"> + </button>
                             </div>
                         </div>
+                        <div class="col-xs-10">
+                            <label class="control-label">Yksityinen: 
+                            </label>
+                            <input type="checkbox" name="yksityinen" ng-value="true" ng-model="private">
+                            (ei näy etusivulla)
+                        </div>
                     </div>
-                    <div class="row">
-
-
-                    </div>
-
-                    <!--                    <input type="radio" name="julkinen" ng-value="false" ng-model="private" checked> julkinen <br>
-                                        <input type="radio" name="yksityinen" ng-value="true" ng-model="private"> yksityinen 
-                                        
-                    --><div class="">
+                    <div class="">
                         <label for="modal-information" class="control-label">Lisätietoja (valinnainen):</label>
                         <textarea class="form-control" id="modal-information" maxLength="128" ng-model="info"></textarea>
                     </div> 

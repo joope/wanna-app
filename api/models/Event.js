@@ -30,6 +30,10 @@ module.exports = {
         creator: {
             model: "User"
         },
+        private: {
+            type: "boolean",
+            defaultsTo: false
+        },
         users: {
             collection: "User",
             via: "events"

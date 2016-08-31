@@ -3,51 +3,54 @@
 
     <!--list of events user has joined-->
     <div id="searchbar" class="list group">
-        <div class="event_wrapper" ng-repeat="event in events | orderBy:'date' | limitTo:30">
+        <div class="event_wrapper" ng-repeat="event in events| orderBy:'date' | limitTo:30">
 
-                <!--date header bar-->
-                <div ng-show="dateChanged(event.date, $index)" class="otsikko">
-                    {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
+            <!--date header bar-->
+            <div ng-show="dateChanged(event.date, $index)" class="otsikko">
+                {{dateToRelative(event.date)}} {{event.date| date:'d.M'}}
+            </div>
+
+            <!--event name and basic info-->
+            <a href="#/calendar" type="button" class="list-group-item" 
+               ng-class="{'list-group-item-success': event.ready, 'event-clicked' : event.clicked , '' : !event.clicked}"
+               ng-click="eventClicked(event)">
+                <h4 class="list-group-item-heading">
+                    {{event.name}} 
+                    <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>
+                    <em ng-if="event.private" class="sini">(yksityinen)</em>
+                    <span class="badge pull-right"
+                          ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
+                        {{event.currentSize}}/{{event.maxSize}} 
+                    </span>
+                </h4>
+                <p class="list-group-item-text">{{event.place}}
+                    <span class="pull-right"><strong>{{event.date| date:'HH:mm'}}</strong></span>
+                </p>
+            </a>
+            <!--info wrapper for event-->
+            <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
+                <p class="list-group-item-text">
+                    <strong>Ehdotti:</strong> {{event.creator}}
+                </p>
+                <p class="list-group-item-text">
+                    <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
+                </p>
+                <p class="list-group-item-text">
+                    <strong>Osallistujat:</strong> {{event.userList}}
+                </p>
+
+                <div class="event_info">
+                    <p ng-if="difference(event.date)">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
+                    <a class="btn btn-info" ng-href="#/event/{{event.id}}">Tarkastele</a>
+                    <button class="btn btn-warning btn_join" ng-if="!difference(event.date) && event.joined" type="button" ng-click="join(event)" >peru osallistuminen
+                    </button>
+                    <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin
+                    </button>
                 </div>
-
-                <!--event name and basic info-->
-                <a href="#/calendar" type="button" class="list-group-item" 
-                   ng-class="{'list-group-item-success': event.ready, 'event-clicked' : event.clicked , '' : !event.clicked}"
-                   ng-click="eventClicked(event)">
-                    <h4 class="list-group-item-heading">
-                        {{event.name}} <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>                            
-                        <span class="badge pull-right"
-                              ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
-                            {{event.currentSize}}/{{event.maxSize}} 
-                        </span>
-                    </h4>
-                    <p class="list-group-item-text">{{event.place}}
-                        <span class="pull-right"><strong>{{event.date| date:'HH:mm'}}</strong></span>
-                    </p>
-                </a>
-                <!--info wrapper for event-->
-                <div ng-show="event.clicked" class="list-group-item animate-show info-wrapper">
-                    <p class="list-group-item-text">
-                        <strong>Ehdotti:</strong> {{event.creator}}
-                    </p>
-                    <p class="list-group-item-text">
-                        <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
-                    </p>
-                    <p class="list-group-item-text">
-                        <strong>Osallistujat:</strong> {{event.userList}}
-                    </p>
-                    
-                    <div class="event_info">
-                        <p ng-if="difference(event.date)">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
-                        <button class="btn btn-warning btn_join" ng-disabled="difference(event.date)" type="button" ng-if="event.joined" ng-click="join(event)" >peru osallistuminen
-                        </button>
-                        <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin
-                        </button>
-                    </div>
             </div>
         </div>
-        <button ng-show="events.length === 0" type="button" class="list-group-item list-group-item-danger">
+        <a href="#/" ng-show="events.length === 0" type="button" class="list-group-item list-group-item-danger">
             Ei tulevia tapahtumia, lisää tai liity tapahtumiin etusivulta
-        </button>
+        </a>
     </div>
 </div>
