@@ -19,11 +19,14 @@
                 </div>
             </form>
             <!--notification if new events are created-->
-            <div ng-show="eventsCreated > 0">
-                <button class="list-group-item list-group-item-warning" ng-click="refreshEvents(); eventsCreated = 0;">
-                    {{eventsCreated}} uutta tapahtumaa!
-                </button>
-            </div>
+            <button ng-show="eventsCreated > 0" class="list-group-item newEvents" ng-click="refreshEvents()">
+                
+                <ng-pluralize count="eventsCreated" when="{'0': 'Ei uusia tapahtumia. (tämän ei pitäisi näkyä =)',
+                    '1': 'Yksi uusi tapahtuma!',
+                    'other': '{} uutta tapahtumaa!'}">
+                </ng-pluralize>
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
             <!--search results-->
             <div id="searchbar" class="list group">
                 <div class="event_wrapper"  ng-repeat="event in results = (eventList| filter: search | orderBy:'date' | limitTo:20)">
@@ -67,9 +70,10 @@
                         </div>
                     </div>
                 </div>
+                <!--notification if no events found-->
                 <button ng-show="results.length == 0" ng-click="toggleForm(wanna)" 
                         data-toggle="modal" data-target="#modal" type="button" class="list-group-item list-group-item-info">
-                    Ei tulevia tapahtumia "{{search}}", lisää klikkamalla tästä
+                    Ei tulevia tapahtumia '{{search}}', lisää klikkamalla tästä
                 </button>
             </div>
         </div>

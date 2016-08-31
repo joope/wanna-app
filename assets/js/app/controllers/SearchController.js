@@ -8,7 +8,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     $scope.formPlaces = [];
     $scope.eventList = [];
     $scope.eventsCreated = 0;
-    $scope.idToIndex = {};
+    idToIndex = {};
 
     $scope.prevDate;
     $scope.private = false;
@@ -25,26 +25,21 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     });
 
     io.socket.on('message', function (data) {
-        console.log(data);
-        var now = new Date();
-        now = now.getTime();
-        if (lastMessage + 1000 < now) {
-            switch (data.verb) {
-                case 'created':
-
-//                $scope.eventsCreated = $scope.eventsCreated + 1;
-                    console.log("fetched new events");
-                    $scope.refreshEvents();
-                    break;
-                case 'joined':
-//                $scope.idToIndex[data.event];
-                    break;
-                case 'left':
-                    //decrement usercount of that event
-                    break;
-            }
-            $scope.$applyAsync();
+        switch (data.verb) {
+            case 'created':
+                console.log('!');
+                $scope.eventsCreated = $scope.eventsCreated + 1;
+//                console.log("fetched new events");
+//                $scope.refreshEvents();
+                break;
+            case 'joined':
+                $scope.eventList[idToIndex[data.event]].currentSize = $scope.eventList[idToIndex[data.event]].currentSize + 1;
+                break;
+            case 'left':
+                $scope.eventList[idToIndex[data.event]].currentSize = $scope.eventList[idToIndex[data.event]].currentSize - 1;
+                break;
         }
+        $scope.$applyAsync();
     });
 
     $scope.getPreviousDate = function () {
@@ -56,11 +51,13 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     $scope.refreshEvents = function () {
         Api.getNewEvents(new Date()).success(function (res) {
             $scope.newEvents = 0;
+            $scope.eventsCreated = 0;
             $scope.eventList = res;
             //map event id to list index
-//            for (i = 0; i < res.length; i++) {
-//                $scope.idToIndex[res[i].id] = i;
-//            }
+            for (i = 0; i < res.length; i++) {
+                idToIndex[res[i].id] = i;
+            }
+            console.log('got new events');
         }).error(function () {
             $scope.error = "error when retrieving data";
         });
@@ -98,12 +95,6 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
     }
     $scope.selectPlace = function (place) {
         $scope.place = place.name;
-    }
-
-    $scope.debug = function () {
-        console.log($scope.wannaList);
-        console.log($scope.eventList);
-        console.log($scope.userID);
     }
 
     $scope.newEvent = function () {
@@ -160,18 +151,4 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
             $scope.maxSize = $scope.minSize;
         }
     }
-
-//    $scope.eventClicked = function (event) {
-//        if (!event.clicked) {
-//            Api.getEvent(event.id).success(function (res) {
-//                event.userList = $scope.listUsers(res);
-//                event.currentSize = res.currentSize;
-//                if ($scope.checkUsers(res)) {
-//                    event.joined = true;
-//                    $scope.$applyAsync();
-//                }
-//            })
-//        }
-//        event.clicked = !event.clicked;
-//    }
 });

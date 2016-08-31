@@ -60,7 +60,7 @@ module.exports = {
                     HelperService.notificateUsers(json, name + " osallistui myös tapahtumaan " + event.name, "default", user);
                 }
                 Event.subscribe(req, event.id);
-//                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
+                sails.sockets.broadcast('EventListener', {verb: 'joined', event: event.id});
                 return res.json(event);
             });
         });
@@ -98,7 +98,7 @@ module.exports = {
                 
                 Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
-//                sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
+                sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
                 return res.json(event);
             });
         })
@@ -163,7 +163,7 @@ module.exports = {
                             triggered: req.user.id
                         });
                         HelperService.notificateUsers(json, name + " ehdotti tapahtumaa " + event.name, "info", user);
-//                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
+                        sails.sockets.broadcast('EventListener', {verb: 'created', event: event});
                         return res.json(event);
                     } else {
                         return res.send(500);

@@ -30,12 +30,5 @@ WannaApp.controller('EventsController', function ($scope, $rootScope, Api, $rout
             update();
         }
     })
-
-//    io.socket.on('message', function (data) {
-//        console.log(data);
-//        if (data.event === $routeParams.id) {
-//            $scope.refreshEvent($scope.event);
-//        }
-//    });
 });
 
