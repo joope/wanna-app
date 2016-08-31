@@ -7,7 +7,7 @@
             <strong>Missä:</strong> <span class="harmaa">{{event.place.name}}</span>
         </p>
         <p class="list-group-item-heading">
-            <strong ng-if="event.info" >Lisätietoja:</strong> 
+            <strong ng-if="event.info" >Lisätietoja: </strong> 
             <span class="harmaa">{{event.info}}</span>
         </p>
         <!--        <p class="list-group-item-heading" >
@@ -15,16 +15,16 @@
         
                 </p>-->
         <p class="list-group-item-heading">
-            <strong >Osallistujat:</strong> 
+            <strong >Osallistujat ({{event.currentSize}}/{{event.maxSize}}):</strong> 
             <span class="harmaa">{{event.userList}}</span>
         </p>
-        <p class="list-group-item-heading">
-            <strong >Määrä:</strong> 
-            <span class="badge" ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
-                {{event.currentSize}}/{{event.maxSize}} 
-            </span>
-            <span ng-if="event.ready && event.currentSize < event.maxSize" class="green"> tarpeeksi osallistujia!</span>
-            <span ng-if="event.ready && event.currentSize === event.maxSize" class="harmaa"> tapahtuma on täynnä.</span>
+        <p class="list-group-item-text">
+            <strong>Status: 
+            <span ng-if="event.ready && event.currentSize < event.maxSize" class="green">tarpeeksi osallistujia!</span>
+            <span ng-if="event.ready && event.currentSize === event.maxSize" class="harmaa">tapahtuma on täynnä.</span>
+            </strong>
+            <span ng-if="event.currentSize < event.minSize" class="harmaa">ei tarpeeksi osallistujia.</span>
+            
         </p>
         <div class="event_info">
             <button class="btn btn_join" type="button" ng-disabled="event.joined" ng-click="join(event)"

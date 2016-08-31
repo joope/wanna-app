@@ -77,7 +77,7 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         $scope.what = $scope.search;
         $scope.place = '';
         $scope.minSize = 2;
-        $scope.maxSize = 8;
+        $scope.maxSize = 10;
 
         $scope.time = new Date();
         $scope.time.setHours($scope.time.getHours() + 1);
@@ -107,6 +107,9 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
         if (newDate) {
             newDate.setHours($scope.time.getHours());
             newDate.setMinutes($scope.time.getMinutes());
+            if($scope.maxSize === 0){
+                $scope.maxSize = 50;
+            }
 
             var event = {
                 "wanna": $scope.what.toLowerCase(),

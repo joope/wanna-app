@@ -160,7 +160,8 @@
                             <label class="control-label">Yksityinen: 
                             </label>
                             <input type="checkbox" name="yksityinen" ng-value="true" ng-model="private">
-                            (ei näy etusivulla)
+                            <span ng-if='!private'>(ei näy etusivulla)</span>
+                            <span ng-show='private' class='animate-show'>jakolinkin löydät kalenterista</span>
                         </div>
                     </div>
                     <div class="">

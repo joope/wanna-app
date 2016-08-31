@@ -16,8 +16,9 @@
                ng-click="eventClicked(event)">
                 <h4 class="list-group-item-heading">
                     {{event.name}} 
-                    <span ng-if="event.ready" class="valmis glyphicon glyphicon-ok"></span>
-                    <em ng-if="event.private" class="sini">(yksityinen)</em>
+                    <span ng-if="event.ready" class="sini valmis glyphicon glyphicon-ok" title="tapahtumassa tarpeeksi osallistujia"></span>
+                    <span ng-if="event.private" class="sini valmis glyphicon glyphicon-exclamation-sign" title="tapahtuma on yksityinen"></span>
+<!--                    <em ng-if="event.private" class="sini">(yksityinen)</em>-->
                     <span class="badge pull-right"
                           ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                         {{event.currentSize}}/{{event.maxSize}} 
@@ -38,11 +39,12 @@
                 <p class="list-group-item-text">
                     <strong>Osallistujat:</strong> {{event.userList}}
                 </p>
+ 
 
                 <div class="event_info">
-                    <p ng-if="difference(event.date)">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
-                    <a class="btn btn-info" ng-href="#/event/{{event.id}}">Tarkastele</a>
-                    <button class="btn btn-warning btn_join" ng-if="!difference(event.date) && event.joined" type="button" ng-click="join(event)" >peru osallistuminen
+                    <p ng-if="difference(event.date)" class="pink">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
+                    <a class="btn btn-info" ng-href="#/event/{{event.id}}">Jakolinkki</a>
+                    <button class="btn btn-warning btn_join" ng-if="!difference(event.date) && event.joined" type="button" ng-click="join(event)" >Peru osallistuminen
                     </button>
                     <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin
                     </button>

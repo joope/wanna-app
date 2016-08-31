@@ -43,6 +43,9 @@
 .sini {
     color: #3ecbf9;
 }
+.puna {
+    color: #ff851b;
+}
 
 .loginForm {
     text-align: center;
@@ -365,10 +368,10 @@ body{
     background-color: #2cd1ff;
 }
 
-.event_wrapper a:hover {
+.event_wrapper > a:hover {
     background-color: #c4ff97!important;
 }
-.event_wrapper a:active {
+.event_wrapper > a:active {
     background-color: #98ff68!important;
 }
 .event-clicked {
@@ -492,7 +495,9 @@ body{
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;
-    font-weight: normal;
+}
+.btn-add:focus {
+    outline:0;
 }
 
 .btn-add:hover {
@@ -545,7 +550,7 @@ body{
     border-color: #e8e8e8;
 }
 .valmis {
-    font-size: 12px;
+    font-size: 14px;
 }
 .btn-login {
     margin: 10px;
@@ -558,7 +563,7 @@ footer {
     left: 0;
     padding: 1rem;
     background-color: #1c3238;
-/*    text-align: center;*/
+    /*    text-align: center;*/
 }
 
 .container-fluid {
