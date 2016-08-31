@@ -95,11 +95,8 @@ WannaApp.controller('MainController', function ($timeout, $scope, $rootScope, Ap
     }
     $scope.getDifference = function(date){
         var d = new Date(date);
-        console.log(d);
         //get difference in minutes to present moment
-        var res = Math.abs((d.getTime() - $scope.date.getTime())/1000/60);
-        console.log(res);
-        return res;
+        return Math.abs((d.getTime() - $scope.date.getTime())/1000/60);;
     }
 
     $scope.dateToRelative = function (eventDate) {
