@@ -24,6 +24,22 @@
 .newEvents button:hover {
     color: #0087a7;
 }
+#eventContainer {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid #d4d4d4;
+    border-radius: 10px;
+    background-color: white;
+}
+.pink {
+    color: #ff7474;
+}
+.green {
+    color: #4bd842;
+}
+.harmaa {
+    color: #5a5a5a;
+}
 
 .loginForm {
     text-align: center;
@@ -167,7 +183,6 @@ form {
     color: #212121;
     margin-top: 0px;
     margin-bottom: 10px;
-    padding-top: 10px;
 }
 .eventHeader {
     margin-top: 0px;
@@ -288,6 +303,7 @@ body{
 .lomake {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
+    padding-top: 10px;
     padding-right: 10px;
     padding-left: 10px;
     margin: auto;

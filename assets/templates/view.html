@@ -1,25 +1,26 @@
 <div class='lomake'>
-    <div id="searchbar" class="list-group-item animate-show info-wrapper">
-        <h2 class="eventHeader">{{event.name}}</h2>
+    <div id="eventContainer" class="animate-show">
+        <h2 class="eventHeader pink">{{event.name}}</h2>
 
         <p class="text-center">{{dateToRelative(event.date)}} {{event.date| date:'d.M, klo HH:mm'}}</p>
-        <p class="eventHeader">
+        <p class="list-group-item-heading" >
+            <strong>Missä:</strong> <span class="harmaa">{{event.place.name}}</span>
+        </p>
+        <p class="list-group-item-heading">
+            <strong ng-if="event.info" >Lisätietoja:</strong> 
+            <span class="harmaa">{{event.info}}</span>
+        </p>
+        <p class="list-group-item-heading" >
+            <strong >Osallistujia: </strong>
             <span class="badge" ng-class="{'badge-info': event.currentSize > 1 && !event.ready, 'badge-success': event.ready}">
                 {{event.currentSize}}/{{event.maxSize}} 
             </span>
+            <span ng-if="event.ready && event.currentSize < event.maxSize" class="green"> osallistujia tarvittava määrä!</span>
+            <span ng-if="event.ready && event.currentSize === event.maxSize" class="green"> tapahtuma on täynnä!</span>
         </p>
-        <p class="list-group-item-heading" >
-            <strong>Missä:</strong> {{event.place.name}}
-        </p>
-        <!--        <p class="list-group-item-text">
-                    <strong>Ehdotti:</strong> {{event.creator}}
-                </p>-->
-
-        <p class="list-group-item-text">
-            <strong ng-if="event.info">Lisätietoja:</strong> {{event.info}}
-        </p>
-        <p class="list-group-item-text">
-            <strong>Osallistujat:</strong> {{event.userList}}
+        <p class="list-group-item-heading">
+            <strong >Osallistujat:</strong> 
+            <span class="harmaa">{{event.userList}}</span>
         </p>
         <div class="event_info">
             <button class="btn btn_join" type="button" ng-disabled="event.joined" ng-click="join(event)"
