@@ -42,17 +42,17 @@ module.exports = {
             }
 
             if (event.currentSize + 1 >= event.minSize) {
-                event.ready = true;
+
             }
             event.users.add(user);
-            event.currentSize = event.currentSize + 1;
             var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt join the event'});
                 }
-
+                event.currentSize = event.currentSize + 1;
                 if (event.currentSize === event.minSize) {
+                    event.ready = true;
                     Event.message(event.id, {content: "Tapahtuman '" + event.name + "' osallistujia on nyt tarvittava määrä!"});
                     HelperService.notificateUsers(json, "Tapahtuman '" + event.name + " osallistujia on nyt tarvittava määrä!", "success", user);
                 } else {
@@ -88,12 +88,12 @@ module.exports = {
                 return res.json({error: 'cannot leave event that begins in 2 hours'});
             }
             event.users.remove(user);
-            event.currentSize = event.currentSize - 1;
             var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt leave the event'});
                 }
+                event.currentSize = event.currentSize - 1;
                 Event.unsubscribe(req, event.id);
 
                 Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
