@@ -15,11 +15,17 @@ module.exports = {
         var user = req.session.userID;
         var eventID = req.params.id;
         var name;
-        User.findOne(user).exec(function (err, user) {
+        User.findOne(user).populate('events').exec(function (err, user) {
             name = user.username;
+//            check if user already joined the event
+            for (e in user.events) {
+                if (user.events[e].id === eventID) {
+                    return res.json({error: 'already joined the event'});
+                }
+            }
         });
 
-        Event.findOne(eventID).populate('users').exec(function (err, event) {
+        Event.findOne(eventID).exec(function (err, event) {
             if (err) {
                 return res.json({error: 'error when joining event'});
             }
@@ -42,17 +48,17 @@ module.exports = {
             }
 
             if (event.currentSize + 1 >= event.minSize) {
-
+                event.ready = true;
             }
             event.users.add(user);
+            event.currentSize = event.currentSize + 1;
             var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt join the event'});
                 }
-                event.currentSize = event.currentSize + 1;
                 if (event.currentSize === event.minSize) {
-                    event.ready = true;
+
                     Event.message(event.id, {content: "Tapahtuman '" + event.name + "' osallistujia on nyt tarvittava määrä!"});
                     HelperService.notificateUsers(json, "Tapahtuman '" + event.name + " osallistujia on nyt tarvittava määrä!", "success", user);
                 } else {
@@ -72,11 +78,20 @@ module.exports = {
         var user = req.session.userID;
         var eventID = req.params.id;
         var name;
-        User.findOne(user).exec(function (err, user) {
+        User.findOne(user).populate('events').exec(function (err, user) {
             name = user.username;
+            var found = false;
+            for (e in user.events) {
+                if (user.events[e].id === eventID) {
+                    found = true;
+                }
+            }
+            if(!found){
+                return res.json({error: "can't leave event you haven't joined"});
+            }
         });
 
-        Event.findOne(eventID).populate('users').exec(function (err, event) {
+        Event.findOne(eventID).exec(function (err, event) {
             var date = new Date();
             if (err)
                 return res.json({error: 'error when leaving event'});
@@ -88,14 +103,14 @@ module.exports = {
                 return res.json({error: 'cannot leave event that begins in 2 hours'});
             }
             event.users.remove(user);
+            event.currentSize = event.currentSize - 1;
             var json = event.toJSON();
             event.save(function (err) {
                 if (err) {
                     return res.json({error: 'couldnt leave the event'});
                 }
-                event.currentSize = event.currentSize - 1;
+                
                 Event.unsubscribe(req, event.id);
-
                 Event.message(event.id, {content: name + " lähti tapahtumasta " + event.name});
                 HelperService.notificateUsers(json, name + " lähti tapahtumasta " + event.name, "warning", user);
                 sails.sockets.broadcast('EventListener', {verb: 'left', event: event.id});
@@ -184,14 +199,6 @@ module.exports = {
             return res.send(404);
         }
     }
-//    getEvent: function(req, res){
-//        Event.find(req.param['event']).populate('users').exec(function(err, event){
-//            if(err){
-//                return res.send(404);
-//            }
-//            res.json(event);
-//        })
-//    }
 
 };
 

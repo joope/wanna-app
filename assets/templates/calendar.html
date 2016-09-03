@@ -43,7 +43,7 @@
 
                 <div class="event_info">
                     <p ng-if="difference(event.date)" class="pink">Tapahtuman ilmoittautumisaika on mennyt umpeen.</p>
-                    <a class="btn btn-info" ng-href="#/event/{{event.id}}">Jakolinkki</a>
+                    <a class="btn btn-info" ng-href="#/event/{{event.id}}">Näytä</a>
                     <button class="btn btn-warning btn_join" ng-if="!difference(event.date) && event.joined" type="button" ng-click="join(event)" >Peru osallistuminen
                     </button>
                     <button class="btn btn-info btn_join" ng-disabled="true" type="button" ng-if="!event.joined">osallistuminen peruttiin

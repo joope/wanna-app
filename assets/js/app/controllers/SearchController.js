@@ -127,9 +127,9 @@ WannaApp.controller('SearchController', function ($timeout, $scope, $rootScope, 
                 io.socket.get('/event/' + res.id);
                 $scope.search = "";
                 $scope.formToggled = false;
+                $scope.refreshEvents();
                 $scope.incrementEventIcon();
                 $scope.newNotification("Luotiin tapahtuma: " + $scope.what, 5000, false);
-                $scope.refreshEvents();
             })
         }
 
