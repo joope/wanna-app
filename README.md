@@ -1,4 +1,4 @@
-# Wanna-App - Easiest way to find activities and friends!*
+# Wanna-App - Easiest way to find new activities and friends!
 
 Wanna-app is an node/angular application that's meant to help people to organize and join activities. It's developed using sails framework.
 
@@ -7,10 +7,6 @@ Wanna-app is an node/angular application that's meant to help people to organize
 * Create and join in events in real-time
 * Facebook-like notifications when someone joins/leaves/creates relevant event
 * Easy to use and looks nice!
-
-**Your Experience May Change During Online Usage*
-
-[Link to demo](http://www.aurinkokuu.me:1337)
 
 # Tuntipäiväkirja:
 * 25.7 5h sails-opettelua
